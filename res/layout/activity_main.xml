@@ -1,7 +1,7 @@
 <LinearLayout android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:weightSum="3">
     
-    
+<ScrollView >
 <TableLayout 
     android:layout_width="0dip" 
     android:layout_height="wrap_content" 
@@ -99,6 +99,7 @@
                 android:background="@drawable/ic_launcher" />
     </TableRow>
 </TableLayout>
+</ScrollView>
 <LinearLayout
     android:layout_weight="1"
         android:id="@+id/rightPaneLayoutID"
