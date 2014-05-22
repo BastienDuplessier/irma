@@ -70,28 +70,37 @@
 	<ScrollView android:layout_height="wrap_content"
 		android:layout_weight="1" android:layout_width="0dip">
 	<LinearLayout
-		android:id="@+id/rightPaneLayoutID" android:layout_width="fill_parent"
-		android:layout_height="fill_parent" android:orientation="vertical">
+		android:id="@+id/rightPaneLayoutID" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		android:orientation="vertical">
 
 		<com.neopixl.pixlui.components.textview.TextView
 			android:id="@+id/textView1" 
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" 
-			android:gravity="center"
 			android:text="Irma" 
 			android:textColor="#33b6ea" 
 			android:textSize="80sp"
+			android:gravity="center" 
 			pixlui:typeface="bello.ttf" />
 		<TextView 
 		    android:layout_width="match_parent" 
 		    android:layout_height="wrap_content" 
 		    android:text="@string/lorem" 
-		    android:textSize="25sp" 
-		    android:padding="20px"/>
+		    android:textSize="25sp"
+		    android:gravity="center" 
+		    android:paddingLeft="5dp"
+		    android:paddingRight="5dp"
+			android:layout_marginBottom="10dp"/>
 		<EditText android:id="@+id/criterias"
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:hint="Filtrez les critères" 
+			android:background="#EEE9E9"
+			android:paddingTop="5dp"
+			android:paddingBottom="5dp"
+			android:gravity="center" 
 			android:inputType="text" />
 	</LinearLayout>
 	</ScrollView>
