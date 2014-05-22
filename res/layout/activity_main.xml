@@ -1,123 +1,89 @@
-<LinearLayout android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent" android:weightSum="3">
-    
-<ScrollView
-        android:layout_height="wrap_content"
-	android:layout_weight="2"
-    android:layout_width="0dip" >
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+	android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" android:layout_height="match_parent"
+	android:weightSum="3">
 
-<TableLayout 
-    android:layout_height="wrap_content" 
-    android:layout_width="wrap_content"
-    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#ffffff">
-    <!-- Row 1 with single column -->
-    <TableRow 
-	 android:id="@+id/tableRow1" 
-        android:layout_height="wrap_content" 
-        android:layout_width="match_parent" 
-        android:gravity="center_horizontal"> 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette"
-				android:onClick="startGraphActivity"/>
+	<ScrollView android:layout_height="wrap_content"
+		android:layout_weight="2" android:layout_width="0dip">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+		<TableLayout 
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:shrinkColumns="*" android:stretchColumns="*"
+			android:background="#ffffff">
+			<!-- Row 1 with single column -->
+			<TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content"
+				android:layout_width="match_parent" android:gravity="center_horizontal">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" android:onClick="startGraphActivity" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
-    </TableRow> 
-     
-    <!-- Row 2 with 3 columns -->
-    <TableRow 
-        android:id="@+id/tableRow2" 
-        android:layout_height="wrap_content" 
-        android:layout_width="match_parent"> 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+			</TableRow>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+			<!-- Row 2 with 3 columns -->
+			<TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
-    </TableRow>
-     <TableRow 
-        android:id="@+id/tableRow3" 
-        android:layout_height="wrap_content" 
-        android:layout_width="match_parent"> 
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+			</TableRow>
+			<TableRow android:id="@+id/tableRow3" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/courgette" />
-    </TableRow>
-</TableLayout>
-</ScrollView>
-<LinearLayout
-    android:layout_weight="1"
-        android:id="@+id/rightPaneLayoutID"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent" android:orientation="vertical">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Test"
-            android:textSize="30sp"
-            android:typeface="monospace" />
-    </LinearLayout>
-    
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+			</TableRow>
+		</TableLayout>
+	</ScrollView>
+	<ScrollView android:layout_height="wrap_content"
+		android:layout_weight="1" android:layout_width="0dip">
+	<LinearLayout
+		android:id="@+id/rightPaneLayoutID" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical">
+
+		<com.neopixl.pixlui.components.textview.TextView
+			android:id="@+id/textView1" android:layout_width="match_parent"
+			android:layout_height="wrap_content" android:gravity="center"
+			android:text="Irma" android:textColor="#33b6ea" android:textSize="100sp"
+			pixlui:typeface="bello.ttf" />
+		<TextView 
+		    android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/lorem" android:textSize="30sp" />
+		<EditText android:id="@+id/criterias"
+			android:layout_width="match_parent" android:layout_height="wrap_content"
+			android:hint="Filtrez les critéres" android:inputType="text"  />
+	</LinearLayout>
+	</ScrollView>
+
 </LinearLayout>
