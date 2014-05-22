@@ -82,7 +82,7 @@
 		    android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/lorem" android:textSize="30sp" />
 		<EditText android:id="@+id/criterias"
 			android:layout_width="match_parent" android:layout_height="wrap_content"
-			android:hint="Filtrez les critéres" android:inputType="text"  />
+			android:hint="Filtrez les critères" android:inputType="text" />
 	</LinearLayout>
 	</ScrollView>
 
