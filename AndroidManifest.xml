@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="fr.utc.irma.GraphActivity"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName="fr.utc.irma.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="fr.utc.irma.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
