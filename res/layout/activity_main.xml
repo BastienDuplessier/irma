@@ -20,14 +20,7 @@
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+			
 			</TableRow>
 
 			<!-- Row 2 with 3 columns -->
@@ -39,14 +32,7 @@
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+			
 			</TableRow>
 			<TableRow android:id="@+id/tableRow3" android:layout_height="wrap_content"
 				android:layout_width="match_parent">
@@ -56,14 +42,45 @@
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
+				
+			</TableRow>
+						<TableRow android:id="@+id/tableRow4" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
 
+			</TableRow>
+						<TableRow android:id="@+id/tableRow5" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+			</TableRow>
+						<TableRow android:id="@+id/tableRow6" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+			
+			</TableRow>
+						<TableRow android:id="@+id/tableRow7" android:layout_height="wrap_content"
+				android:layout_width="match_parent">
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+				<Button android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:background="@drawable/courgette" />
+
+				
 			</TableRow>
 		</TableLayout>
 	</ScrollView>
@@ -76,24 +93,24 @@
 		android:orientation="vertical">
 
 		<com.neopixl.pixlui.components.textview.TextView
-			android:id="@+id/textView1" 
+			android:id="@+id/titleTextView" 
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" 
 			android:text="Irma" 
 			android:textColor="#33b6ea" 
-			android:textSize="80sp"
+			android:textSize="40sp"
 			android:gravity="center" 
 			pixlui:typeface="bello.ttf" />
 		<TextView 
 		    android:layout_width="match_parent" 
 		    android:layout_height="wrap_content" 
-		    android:text="@string/lorem" 
-		    android:textSize="25sp"
+		    android:text="@string/instructionRechercheTexte" 
+		    android:textSize="5sp"
 		    android:gravity="center" 
 		    android:paddingLeft="5dp"
 		    android:paddingRight="5dp"
 			android:layout_marginBottom="10dp"/>
-		<EditText android:id="@+id/criterias"
+		<EditText android:id="@+id/criteriasEditText"
 			android:layout_width="match_parent" 
 			android:layout_height="wrap_content"
 			android:hint="Filtrez les critères" 

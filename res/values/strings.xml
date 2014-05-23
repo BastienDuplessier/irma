@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Irma</string>
@@ -6,4 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_graph">GraphActivity</string>
 	<string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at scelerisque felis, quis faucibus felis. Mauris at mauris ac nisl porta porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis in dui scelerisque tincidunt. Vivamus vehicula libero eget imperdiet aliquam. Praesent ut justo est. Suspendisse purus massa, mattis posuere dui sed, cursus ultrices sem. Sed mollis lectus sit amet nisl suscipit, et luctus sapien adipiscing. Donec consequat viverra sem, eget consectetur nunc adipiscing in. Nullam sodales arcu dolor, vitae laoreet dolor consectetur pretium.</string>
+	<string name="instructionRechercheTexte">Double clicker sur une icône à gauche ou utilisez le moteur de recherche</string>
+	<string name="critere1">Critere 1</string>
+	<string name="critere2">Critere 2</string>
+	<string name="critere3">Critere 3</string>
 </resources>
