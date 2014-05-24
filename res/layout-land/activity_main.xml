@@ -256,12 +256,12 @@
             android:orientation="vertical" >
 
             <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/textView1"
+                android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="80dp"
                 android:gravity="center"
-                android:text="Irma"
+                android:text="@string/irmaTitle"
                 android:textColor="#33b6ea"
                 android:textSize="80sp"
                 pixlui:typeface="bello.ttf" />
@@ -292,46 +292,84 @@
                 android:id="@+id/addCriterionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/plus_sign"
-                android:layout_gravity="right" />
+                android:layout_gravity="right"
+                android:background="@drawable/plus_sign" />
 
-            <LinearLayout
-                android:id="@+id/selectedCriterionLayout"
+            <!-- Cette partie là sera ajoué dynamiquement lorsque l'utilisateur ajoutera un critere -->
+
+            <RelativeLayout
+                android:id="@+id/criterionLayout"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" >
+                android:layout_height="fill_parent" >
 
                 <TextView
+                    android:id="@+id/critere1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/critere1"
                     android:textSize="30sp" />
 
-                <TextView
+                <Button
+                    android:id="@+id/supprCritere1Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_alignBaseline="@id/critere1"
+                    android:layout_toRightOf="@id/critere1"
+                    android:background="@drawable/moins_sign" />
+
+                <TextView
+                    android:id="@+id/critere2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/critere1"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/critere2"
                     android:textSize="30sp" />
 
-                <TextView
+                <Button
+                    android:id="@+id/supprCritere2Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_alignBaseline="@id/critere2"
+                    android:layout_toRightOf="@id/critere2"
+                    android:background="@drawable/moins_sign" />
+
+                <TextView
+                    android:id="@+id/critere3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/critere2"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:text="@string/critere3"
                     android:textSize="30sp" />
-            </LinearLayout>
+
+                <Button
+                    android:id="@+id/supprCritere3Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/critere3"
+                    android:layout_toRightOf="@id/critere3"
+                    android:background="@drawable/moins_sign" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/beginSearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="70dp"
+                android:background="@drawable/next_arrow" />
         </LinearLayout>
     </ScrollView>
 
