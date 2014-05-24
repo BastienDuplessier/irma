@@ -18,4 +18,14 @@ public class MainActivity extends Activity {
 		//i.putExtra("id_oeuvre", clicked.id);
 		this.startActivity(i);
     }
+    
+    // TODO: REMOVE - TESTS
+    public void runBullshitQuery() {
+    	// Collect underpants
+    	
+    	// ...
+    	
+    	// Profit
+    	
+    }
 }
