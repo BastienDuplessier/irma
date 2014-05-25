@@ -20,12 +20,12 @@ public class MainActivity extends Activity {
     }
     
     // TODO: REMOVE - TESTS
-    public void runBullshitQuery() {
+    public void runBullshitQuery(View buttonClicked) {
     	// Collect underpants
     	
     	// ...
     	
     	// Profit
-    	
+    	System.out.println("PROFIT");
     }
 }
