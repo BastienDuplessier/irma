@@ -1,5 +1,6 @@
 package fr.utc.irma;
 
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +26,8 @@ public class MainActivity extends Activity {
     	
     	// ...
     	
-    	// Profit
-    	System.out.println("PROFIT");
+    	// Profit    	
+    	OntologyQueryInterfaceConnector bite = new OntologyQueryInterfaceConnector(getAssets());
+    	bite.executeSparql();
     }
 }
