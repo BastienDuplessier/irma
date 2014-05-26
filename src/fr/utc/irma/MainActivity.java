@@ -1,12 +1,15 @@
 package fr.utc.irma;
 
 import java.io.IOException;
+import java.util.Iterator;
 
-import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.IngredientsManager;
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 
 public class MainActivity extends Activity {
 
@@ -29,11 +32,14 @@ public class MainActivity extends Activity {
     	// ...
     	
     	// Profit    	
-    	OntologyQueryInterfaceConnector bite;
 		try {
-			bite = new OntologyQueryInterfaceConnector(getAssets());
-	    	bite.executeSparql("PREFIX irma: <http://www.w3.org/2014/06/irma#> "
-					+ "SELECT ?recipe WHERE { ?recipe irma:linked_to irma:chorizo . }");
+	    	OntologyQueryInterfaceConnector bite = new OntologyQueryInterfaceConnector(getAssets());
+			IngredientsManager sac = new IngredientsManager(bite);
+			Iterator<Ingredient> souche = sac.getAll().iterator();
+			
+			// Here comes the pain!!
+			while(souche.hasNext())
+				System.out.println(souche.next().getName());
 		} catch (IOException e) {
 			System.out.println("Haha, nobody cares");
 		}
