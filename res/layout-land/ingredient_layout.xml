@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="3" >
+
+    <ImageView
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="2"
+        android:background="@drawable/zone_de_recherche" />
+
+    <LinearLayout
+        android:id="@+id/ingredientLayout"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/bananeExampleTitle"
+            android:textColor="#F400A1"
+            android:textSize="40sp"
+             />
+        <ImageView 
+            android:id="@+id/ingredientImageView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/banane_image_example"
+            android:layout_marginBottom="10sp"/>
+        <TextView 
+            android:id="@+id/texteIngredientTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/texteBananeExemple"
+            android:textSize="10sp"
+            android:padding="5dp"/>
+    </LinearLayout>
+
+</LinearLayout>
