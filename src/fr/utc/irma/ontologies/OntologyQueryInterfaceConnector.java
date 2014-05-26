@@ -24,19 +24,12 @@ public class OntologyQueryInterfaceConnector {
 
 	private Model model = ModelFactory.createDefaultModel();
 
-	public OntologyQueryInterfaceConnector(AssetManager assetManager) {
-		try {
-			model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_GENERIC), null, "TURTLE");
-			model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_SPECIFIC), null, "TURTLE");
-			model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		/*
-		*/
+	public OntologyQueryInterfaceConnector(AssetManager assetManager) throws IOException {
+		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_GENERIC), null, "TURTLE");
+		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_SPECIFIC), null, "TURTLE");
+		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
 	}
-	
+
 	public void executeSparql() {
 		Query query = QueryFactory.create("PREFIX irma: <http://www.w3.org/2014/06/irma#> "
 				+ "SELECT ?recipe WHERE { ?recipe irma:linked_to irma:chorizo . }");

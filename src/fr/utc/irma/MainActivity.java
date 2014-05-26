@@ -1,5 +1,7 @@
 package fr.utc.irma;
 
+import java.io.IOException;
+
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +29,12 @@ public class MainActivity extends Activity {
     	// ...
     	
     	// Profit    	
-    	OntologyQueryInterfaceConnector bite = new OntologyQueryInterfaceConnector(getAssets());
-    	bite.executeSparql();
+    	OntologyQueryInterfaceConnector bite;
+		try {
+			bite = new OntologyQueryInterfaceConnector(getAssets());
+	    	bite.executeSparql();
+		} catch (IOException e) {
+			System.out.println("Haha, nobody cares");
+		}
     }
 }
