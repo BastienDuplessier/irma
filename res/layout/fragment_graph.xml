@@ -13,7 +13,7 @@
     android:orientation="horizontal" 
     android:layout_width="match_parent" 
     android:layout_height="match_parent">
-    <fr.utc.irma.GraphDrawer
+    <fr.utc.irma.GraphView
 		android:layout_weight="0.75"
         android:layout_width="0dip"
         android:layout_height="match_parent" />
