@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.os.Build;
 
 public class GraphActivity extends Activity {
@@ -16,6 +17,8 @@ public class GraphActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		getActionBar().hide();
 		setContentView(R.layout.activity_graph);
 
 		if (savedInstanceState == null) {

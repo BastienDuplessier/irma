@@ -1,13 +1,12 @@
 package fr.utc.irma;
 
-import android.R.string;
 
 public class Recipe {
-	public string url;
-	public string imageUrl;
-	public string name;
-	public Recipe() {
-		
+	public String url;
+	public String imageUrl;
+	public String name;
+	public Recipe(String url) {
+		this.url=url;
 	}
 
 }

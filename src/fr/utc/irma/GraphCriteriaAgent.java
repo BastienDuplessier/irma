@@ -16,5 +16,9 @@ public class GraphCriteriaAgent extends GraphAgent {
 		displayRadius=40f;
 	}
 	
+	public boolean matchAgainstRecipe(GraphRecipeAgent RA){
+		return this.criteria.matchAgainstRecipe(RA.recipe);
+	}
+	
 
 }

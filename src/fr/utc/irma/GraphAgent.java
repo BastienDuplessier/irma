@@ -63,8 +63,8 @@ public class GraphAgent {
 		double ux=dx/d;
 		double uy=dy/d;
 		Force F=new Force();
-		F.Fx=0.000001*dOffset*ux; 
-		F.Fy=0.000001*dOffset*uy;
+		F.Fx=0.000005*dOffset*ux; 
+		F.Fy=0.000005*dOffset*uy;
 		return F;
 	}
 	

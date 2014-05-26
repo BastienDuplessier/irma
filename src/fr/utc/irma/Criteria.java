@@ -9,7 +9,7 @@ public class Criteria {
 		this.propertyValue=propertyValue;
 	}
 	public boolean matchAgainstRecipe(Recipe r){
-		return true; // TODO : Actualy compare values
+		return propertyValue.equals(r.url); 
 	}
 
 }

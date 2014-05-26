@@ -12,10 +12,10 @@ public class GraphContainer {
 	
 	public GraphContainer() {
 		for(int i=0; i<40; i++){
-			addRecipe(new Recipe());
+			addRecipe(new Recipe(Math.random()>0.5?"recettePoulet":"recetteChocolat"));
 		}
-		for(int i=0; i<3; i++){
-			addCriteria(new Criteria(null, null));
+		for(int i=0; i<2; i++){
+			addCriteria(new Criteria("ingredient", i==0?"recettePoulet":"recetteChocolat"));
 		}
 		updateCriteriaPosition();
 	}
@@ -53,25 +53,32 @@ public class GraphContainer {
 	}
 	
 	public void draw(Canvas canvas){
+		// TODO : Prepare background display (compute dists)
+		
+		
+		// TODO :  Draw backgrounds around criterias to show matchnign items
+		
+		
+		// Draw foreground
 		for(GraphCriteriaAgent c : criterias)
 			c.draw(canvas);
 		for(GraphRecipeAgent c : recipes){
 			c.draw(canvas);
 		}
-		// TODO : Draw global criterias
 		
 	}
 	public void tick(){
 		// TODO : Criteria vs recipes
 		for(GraphCriteriaAgent CA:criterias){
 			for(GraphRecipeAgent RA : recipes){
-				Force Fe = CA.elasticForce(RA, 0.01);
-				RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
+				// Attract if there is a match
+				if(CA.matchAgainstRecipe(RA)){
+					Force Fe = CA.elasticForce(RA, 0.01);
+					RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
+				}
+				// Avoid collision
 				Force Fg = CA.gravitationalForce(RA);
 				RA.accelerate(-3*Fg.Fx,-3*Fg.Fy);
-				
-				
-
 			}
 		}
 		
