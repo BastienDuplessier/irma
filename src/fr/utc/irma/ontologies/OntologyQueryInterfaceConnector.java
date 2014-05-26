@@ -9,7 +9,6 @@ import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
@@ -30,13 +29,9 @@ public class OntologyQueryInterfaceConnector {
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
 	}
 
-	public void executeSparql() {
-		Query query = QueryFactory.create("PREFIX irma: <http://www.w3.org/2014/06/irma#> "
-				+ "SELECT ?recipe WHERE { ?recipe irma:linked_to irma:chorizo . }");
+	public ResultSet executeSparql(String stringQuery) {
+		Query query = QueryFactory.create(stringQuery);
 		QueryExecution queryExecution = QueryExecutionFactory.create(query, model);
-		ResultSet rawResults = queryExecution.execSelect();
-		String cleanResults = ResultSetFormatter.asText(rawResults);
-		queryExecution.close();
-		System.out.println(cleanResults);
+		return queryExecution.execSelect();
 	}
 }

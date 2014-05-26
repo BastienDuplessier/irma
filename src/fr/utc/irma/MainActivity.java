@@ -32,7 +32,8 @@ public class MainActivity extends Activity {
     	OntologyQueryInterfaceConnector bite;
 		try {
 			bite = new OntologyQueryInterfaceConnector(getAssets());
-	    	bite.executeSparql();
+	    	bite.executeSparql("PREFIX irma: <http://www.w3.org/2014/06/irma#> "
+					+ "SELECT ?recipe WHERE { ?recipe irma:linked_to irma:chorizo . }");
 		} catch (IOException e) {
 			System.out.println("Haha, nobody cares");
 		}
