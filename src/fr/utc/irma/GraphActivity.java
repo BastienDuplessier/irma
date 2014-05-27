@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 import android.os.Build;
 
 public class GraphActivity extends Activity {
@@ -60,6 +63,11 @@ public class GraphActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_graph,
 					container, false);
+			
+			TextView textView = (TextView)rootView.findViewById(R.id.textToJustifyFrag);
+			//justify texte
+	        MiseEnPage.justifyText(textView);
+	        
 			return rootView;
 		}
 	}
