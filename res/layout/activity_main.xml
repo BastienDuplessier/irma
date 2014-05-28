@@ -15,7 +15,7 @@
 			<TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content"
 				android:layout_width="match_parent" android:gravity="center_horizontal">
 				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" android:onClick="onCreate" />
+					android:layout_height="wrap_content" android:background="@drawable/courgette" android:onClick="startGraphActivity" />
 
 				<Button android:layout_width="wrap_content"
 					android:layout_height="wrap_content" android:background="@drawable/courgette" />
