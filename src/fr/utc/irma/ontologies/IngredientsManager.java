@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
-import com.hp.hpl.jena.sparql.resultset.ResultsFormat;
 
 public class IngredientsManager {
 
 
+	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
 	public IngredientsManager(OntologyQueryInterfaceConnector connector) {
@@ -17,7 +16,7 @@ public class IngredientsManager {
 	}
 
 	public ArrayList<Ingredient> getAll() {
-		return this.fromSPARQL("PREFIX irma: <http://www.w3.org/2014/06/irma#> "
+		return this.fromSPARQL(PREFIX + " "
 				+ "SELECT ?id ?name ?url ?imageUrl WHERE { "
 				+ "?id a irma:Ingredient . "
 				+ "?id irma:name ?name . "
