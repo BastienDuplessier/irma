@@ -1,0 +1,34 @@
+# This file represents a generic structure of nodes used by IRMA
+# IRMA uses two nodes. An information node and a criteria node.
+
+## Prefixes
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix irma:    <http://www.w3.org/2014/06/irma#> .
+
+## Classes
+irma:Node a owl:Class, rdfs:Class .
+
+irma:Information a owl:Class, rdfs:Class ;
+		 rdfs:subClassOf irma:Node .
+	
+irma:Criteria a owl:Class, rdfs:Class ;
+	      rdfs:subClassOf irma:Node .
+
+
+## Node properties
+irma:name a rdf:Property, owl:ObjectProperty ;
+	  rdfs:domain irma:Node ;
+	  rdfs:range rdfs:Literal .
+irma:image_url a rdf:Property, owl:ObjectProperty ;
+	       rdfs:domain irma:Node ;
+	       rdfs:range rdfs:Literal .
+irma:url a rdf:Property, owl:ObjectProperty ;
+	 rdfs:domain irma:Node ;
+	 rdfs:range rdfs:Literal .
+
+## Link
+irma:linked_to a rdf:Property, owl:ObjectProperty ;
+	       rdfs:domain irma:Information ;
+	       rdfs:range rdfs:Criteria .
