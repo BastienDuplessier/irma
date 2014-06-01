@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
+import fr.utc.irma.ExecutableTask;
+
 public class RecipesManager {
 
 
@@ -48,5 +50,11 @@ public class RecipesManager {
 		}
 
 		return recipes;
+	}
+
+	public void asyncDo(ExecutableTask executableTask) {
+		ArrayList<Recipe> recipes = null;
+		// Load recipes
+		//executableTask.execute(recipes);
 	}
 }
