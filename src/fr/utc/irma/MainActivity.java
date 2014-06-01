@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         try {
             connector = new OntologyQueryInterfaceConnector(getAssets());
             RecipesManager manager = new RecipesManager(connector);
-            manager.asyncDo(new ExecutableTask() {
+            manager.asyncLoadAll(new ExecutableTask() {
                 @Override
                 public void execute(ArrayList<Recipe> recipes) {
                     Iterator<Recipe> recipesIterator = recipes.iterator();
