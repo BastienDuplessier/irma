@@ -1,5 +1,12 @@
 package fr.utc.irma;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
+import fr.utc.irma.ontologies.RecipesManager;
+import fr.utc.irma.ontologies.Recipe;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,5 +42,20 @@ public class MainActivity extends Activity {
 
     public void datAsyncAction(View buttonClicked) {
         // Here we test some async work
+        OntologyQueryInterfaceConnector connector = null;
+        try {
+            connector = new OntologyQueryInterfaceConnector(getAssets());
+            RecipesManager manager = new RecipesManager(connector);
+            manager.asyncDo(new ExecutableTask() {
+                @Override
+                public void execute(ArrayList<Recipe> recipes) {
+                    Iterator<Recipe> recipesIterator = recipes.iterator();
+                    while(recipesIterator.hasNext())
+                        System.out.println(recipesIterator.next().toString());                    
+                }
+            });
+        } catch (IOException e) {
+            System.out.println("Scoubidoubidouuuuuu !!");
+        }
     }
 }
