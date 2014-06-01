@@ -18,19 +18,7 @@ public class RecipesManager {
 	}
 
 	public ArrayList<Recipe> getAll() {
-		return this.fromSPARQL(PREFIX + " "
-				+ "SELECT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
-				+ "?difficulty ?textIngredients ?textRecipe WHERE { "
-				+ "?id a irma:Recipe . "
-				+ "?id irma:name ?name . "
-				+ "?id irma:url ?url . "
-				+ "?id irma:image_url ?imageUrl . "
-				+ "?id irma:how_many ?howMany . "
-				+ "?id irma:preparation_time ?preparationTime . "
-				+ "?id irma:cook_time ?cookTime . "
-				+ "?id irma:difficulty ?difficulty . "
-				+ "?id irma:text_ingredients ?textIngredients . "
-				+ "?id irma:text_recipe ?textRecipe } ");
+		return this.fromSPARQL(getAllQuery());
 
 	}
 
@@ -52,9 +40,25 @@ public class RecipesManager {
 		return recipes;
 	}
 
-	public void asyncDo(ExecutableTask executableTask) {
-		ArrayList<Recipe> recipes = null;
-		// Load recipes
+	public void asyncLoad(ExecutableTask executableTask) {
+	    ArrayList<Recipe> recipes = null;
+        // Load recipes
 		//executableTask.execute(recipes);
 	}
+
+    private String getAllQuery() {
+        return PREFIX + " "
+                + "SELECT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
+                + "?difficulty ?textIngredients ?textRecipe WHERE { "
+                + "?id a irma:Recipe . "
+                + "?id irma:name ?name . "
+                + "?id irma:url ?url . "
+                + "?id irma:image_url ?imageUrl . "
+                + "?id irma:how_many ?howMany . "
+                + "?id irma:preparation_time ?preparationTime . "
+                + "?id irma:cook_time ?cookTime . "
+                + "?id irma:difficulty ?difficulty . "
+                + "?id irma:text_ingredients ?textIngredients . "
+                + "?id irma:text_recipe ?textRecipe } ";
+    }
 }
