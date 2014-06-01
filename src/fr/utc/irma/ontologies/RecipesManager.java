@@ -2,6 +2,8 @@ package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
 
+import android.os.AsyncTask;
+
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
@@ -40,11 +42,31 @@ public class RecipesManager {
 		return recipes;
 	}
 
-	public void asyncLoad(ExecutableTask executableTask) {
-	    ArrayList<Recipe> recipes = null;
+	public void asyncLoad(ExecutableTask executableTask, String sparqlQuery) {
+		new AsyncTask<Void, Integer, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                // Test
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("Ma bite, son histoire.");
+                return null;
+            }
+		    
+		}.execute();
+
         // Load recipes
 		//executableTask.execute(recipes);
 	}
+
+    public void asyncLoadAll(ExecutableTask executableTask) {
+        asyncLoad(executableTask, getAllQuery());
+    }
 
     private String getAllQuery() {
         return PREFIX + " "
