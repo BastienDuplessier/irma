@@ -32,4 +32,8 @@ public class MainActivity extends Activity {
 		//i.putExtra("id_oeuvre", clicked.id);
 		this.startActivity(i);
     }
+    
+    public void datAsyncAction(View buttonClicked) {
+    	// Here we test some async work
+    }
 }
