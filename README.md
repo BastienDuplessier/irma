@@ -24,4 +24,24 @@ try {
 ```
 
 #Comment récupérer toutes les recettes ?
-C'est super simple. C'est pareil qu'au dessus sauf qu'on utilise un `RecipesManager` et la methode `getAll()` renvoie un `ArrayList<Recipe>`  
+C'est super simple. C'est pareil qu'au dessus sauf qu'on utilise un `RecipesManager` et la methode `getAll()` renvoie un `ArrayList<Recipe>`   
+
+#Et comment charger des recettes en asynchrone ?
+Il suffit d'utiliser la méthode `RecipesManager.asyncLoad(executableTask, sparqlQuery)`. Il existe aussi une méthode `asyncLoadAll(executableTask)` qui gère tout seul la requête SPARQL.  
+```
+OntologyQueryInterfaceConnector connector = null;
+try {
+    connector = new OntologyQueryInterfaceConnector(getAssets());
+    RecipesManager manager = new RecipesManager(connector);
+    manager.asyncLoadAll(new ExecutableTask() {
+        @Override
+        public void execute(ArrayList<Recipe> recipes) {
+            Iterator<Recipe> recipesIterator = recipes.iterator();
+            while(recipesIterator.hasNext())
+                System.out.println(recipesIterator.next().toString());                    
+        }
+    });
+} catch (IOException e) {
+    System.out.println("Scoubidoubidouuuuuu !!");
+}
+```
