@@ -42,26 +42,15 @@ public class RecipesManager {
 		return recipes;
 	}
 
-	public void asyncLoad(ExecutableTask executableTask, String sparqlQuery) {
+	public void asyncLoad(final ExecutableTask executableTask, final String sparqlQuery) {
 		new AsyncTask<Void, Integer, Void>() {
-
             @Override
             protected Void doInBackground(Void... params) {
-                // Test
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                System.out.println("Ma bite, son histoire.");
+                ArrayList<Recipe> recipes = fromSPARQL(sparqlQuery);
+                executableTask.execute(recipes);
                 return null;
             }
-		    
 		}.execute();
-
-        // Load recipes
-		//executableTask.execute(recipes);
 	}
 
     public void asyncLoadAll(ExecutableTask executableTask) {
