@@ -1,6 +1,7 @@
 package fr.utc.irma;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import fr.utc.irma.ontologies.Filter;
@@ -43,18 +44,16 @@ public class MainActivity extends Activity {
     public void loadRecipesStuff(View buttonClicked) {
         // LALALALA
         try {
-            System.out.println("Ma bite");
             Filter filter = new Filter();
             filter.addWith("chorizo");
 
             OntologyQueryInterfaceConnector connector = new OntologyQueryInterfaceConnector(getAssets());
             RecipesManager manager = new RecipesManager(connector);
-            Iterator<Recipe> iterator = manager.getFiltered(filter).iterator();
-            System.out.println(manager.getFiltered(filter).size());
-            while(iterator.hasNext()) {
-                //System.out.println(iterator.next());
-                iterator.next();
-            }
+            ArrayList<Recipe> filtered = manager.getFiltered(filter);
+            Iterator<Recipe> iterator = filtered.iterator();
+            System.out.println(filtered.size());
+            while(iterator.hasNext())
+                System.out.println(iterator.next());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
