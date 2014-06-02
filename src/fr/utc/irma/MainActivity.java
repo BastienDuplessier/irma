@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         Display display = this.getWindowManager().getDefaultDisplay();            
 		DisplayMetrics dm = new DisplayMetrics();            
 		display.getMetrics(dm);            
-		double widthTier = dm.widthPixels/2.8;                      
+		double widthTier = dm.widthPixels/2.8;
 		//ajuster la taille du texte selon la taille d ecran
 		textView.setLineSpacing(0.5f, 1.3f);
 		textView.setTextSize(8*(float)widthTier/320f);
@@ -31,5 +31,10 @@ public class MainActivity extends Activity {
     	Intent i = new Intent(this, GraphActivity.class);
 		//i.putExtra("id_oeuvre", clicked.id);
 		this.startActivity(i);
+    }
+    
+    public void loadRecipesStuff(View buttonClicked) {
+        // LALALALA
+        System.out.println("Ma bite");
     }
 }
