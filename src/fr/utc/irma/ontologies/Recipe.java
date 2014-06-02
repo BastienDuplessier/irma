@@ -32,7 +32,7 @@ public class Recipe {
 	}
 	
 	public String toString() {
-		return "" + this.id + " - " + this.name + " -- " + this.url + " -- " + this.imageUrl;
+		return "" + this.id + " - " + this.name;
 	}
 	
 	// Get Methods
