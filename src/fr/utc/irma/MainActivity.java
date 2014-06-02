@@ -1,5 +1,12 @@
 package fr.utc.irma;
 
+import java.io.IOException;
+import java.util.Iterator;
+
+import fr.utc.irma.ontologies.Filter;
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
+import fr.utc.irma.ontologies.Recipe;
+import fr.utc.irma.ontologies.RecipesManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +42,22 @@ public class MainActivity extends Activity {
     
     public void loadRecipesStuff(View buttonClicked) {
         // LALALALA
-        System.out.println("Ma bite");
+        try {
+            System.out.println("Ma bite");
+            Filter filter = new Filter();
+            filter.addWith("chorizo");
+
+            OntologyQueryInterfaceConnector connector = new OntologyQueryInterfaceConnector(getAssets());
+            RecipesManager manager = new RecipesManager(connector);
+            Iterator<Recipe> iterator = manager.getFiltered(filter).iterator();
+            System.out.println(manager.getFiltered(filter).size());
+            while(iterator.hasNext()) {
+                //System.out.println(iterator.next());
+                iterator.next();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
