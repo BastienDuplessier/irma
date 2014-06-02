@@ -17,7 +17,7 @@ public class RecipesManager {
 
 	public ArrayList<Recipe> getAll() {
 		return this.fromSPARQL(PREFIX + " "
-				+ "SELECT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
+				+ "SELECT DISTINCT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
 				+ "?difficulty ?textIngredients ?textRecipe WHERE { "
 				+ "?id a irma:Recipe . "
 				+ "?id irma:name ?name . "
@@ -59,7 +59,7 @@ public class RecipesManager {
 
     private String getSPARQLQuery(String sparqlFragment) {
         return PREFIX + " "
-                + "SELECT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
+                + "SELECT DISTINCT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
                 + "?difficulty ?textIngredients ?textRecipe WHERE { "
                 + "?id a irma:Recipe . "
                 + "?id irma:name ?name . "
