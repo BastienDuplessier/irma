@@ -39,23 +39,4 @@ public class MainActivity extends Activity {
         //i.putExtra("id_oeuvre", clicked.id);
         this.startActivity(i);
     }
-
-    public void datAsyncAction(View buttonClicked) {
-        // Here we test some async work
-        OntologyQueryInterfaceConnector connector = null;
-        try {
-            connector = new OntologyQueryInterfaceConnector(getAssets());
-            RecipesManager manager = new RecipesManager(connector);
-            manager.asyncLoadAll(new ExecutableTask() {
-                @Override
-                public void execute(ArrayList<Recipe> recipes) {
-                    Iterator<Recipe> recipesIterator = recipes.iterator();
-                    while(recipesIterator.hasNext())
-                        System.out.println(recipesIterator.next().toString());                    
-                }
-            });
-        } catch (IOException e) {
-            System.out.println("Scoubidoubidouuuuuu !!");
-        }
-    }
 }
