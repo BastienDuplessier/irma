@@ -19,7 +19,7 @@ public class Filter extends ArrayList<String>{
             String criteria = iterator.next();
             String ingredient = criteria.substring(1);
             if(criteria.startsWith("+"))
-                queryBuffer.append("?recipe irma:linked_to irma:" + ingredient + " . ");
+                queryBuffer.append("?id irma:linked_to irma:" + ingredient + " . ");
         }
         return queryBuffer.toString();
     }
