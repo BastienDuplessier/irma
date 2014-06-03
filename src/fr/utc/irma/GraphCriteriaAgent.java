@@ -29,7 +29,8 @@ public class GraphCriteriaAgent extends GraphAgent {
 	}
 	
 	public boolean matchAgainstRecipe(GraphRecipeAgent RA){
-		return true;//this.criteria.matchAgainstRecipe(RA.recipe);
+		return RA.recipe.getName().toLowerCase().indexOf(this.criteria.getName().toLowerCase())!=-1;
+		//this.criteria.matchAgainstRecipe(RA.recipe);
 	}
 	
 

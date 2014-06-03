@@ -11,8 +11,9 @@ import android.view.View;
 public class GraphView extends View {
 	public int backgroundColor = Color.WHITE;
 	GraphContainer container;
+	
 	private void init(){
-		this.container=new GraphContainer();
+		this.container=new GraphContainer(this.getContext());
 	}
 	
 	public GraphView(Context context) {

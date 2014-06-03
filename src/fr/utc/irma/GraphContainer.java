@@ -1,23 +1,52 @@
 package fr.utc.irma;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.IngredientsManager;
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
+import fr.utc.irma.ontologies.Recipe;
+import fr.utc.irma.ontologies.RecipesManager;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
-	public ArrayList<GraphRecipeAgent> recipes = new ArrayList<GraphRecipeAgent>();
-	public ArrayList<Ingredient> globals = new ArrayList<Ingredient>();
+	public ArrayList<GraphRecipeAgent> visibleRecipes = new ArrayList<GraphRecipeAgent>();
+	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
 	
-	public GraphContainer() {
-		for(int i=0; i<40; i++){
-			addRecipe(new Recipe(Math.random()>0.5?"recettePoulet":"recetteChocolat"));
-		}
+	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
+	private Context a;
+	
+	private void loadAllRecipes(){
+    	try {
+    	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(a.getAssets());
+    	    RecipesManager  rcpMng = new RecipesManager (OQIC);
+    	    Iterator<Recipe> allIng = rcpMng.getAll().iterator();
+    	    while(allIng.hasNext())
+    	    	allRecipes.add(allIng.next());
+    	} catch (IOException e) {
+    	    Log.d("RecipeLoader","Haha, nobody cares");
+    	}
+    	//((DynamicTableView)findViewById(R.id.ingList)).updateDisplay();
+    }
+	
+	public GraphContainer(Context a) {
+		this.a=a;
+		
 		/*for(int i=0; i<2; i++){
 			addCriteria(new Ingredient("ingredient", i==0?"recettePoulet":"recetteChocolat"));
 		}*/
+		loadAllRecipes();
+		for(Recipe r: allRecipes)
+			addRecipe(r);
+		
+	
 		updateCriteriaPosition();
 	}
 	
@@ -41,7 +70,7 @@ public class GraphContainer {
 	}
 	
 	public void addRecipe(Recipe r){
-		recipes.add(new GraphRecipeAgent(r));
+		visibleRecipes.add(new GraphRecipeAgent(r));
 	}
 	
 	public void addCriteria(Ingredient c){
@@ -50,7 +79,7 @@ public class GraphContainer {
 	}
 	
 	public void makeCriteriaGlobal(GraphCriteriaAgent a){
-		globals.add(a.criteria);
+		globalCriterias.add(a.criteria);
 		criterias.remove(a);
 		updateCriteriaPosition();
 	}
@@ -65,7 +94,7 @@ public class GraphContainer {
 		// Draw foreground
 		for(GraphCriteriaAgent c : criterias)
 			c.draw(canvas);
-		for(GraphRecipeAgent c : recipes){
+		for(GraphRecipeAgent c : visibleRecipes){
 			c.draw(canvas);
 		}
 		
@@ -73,7 +102,7 @@ public class GraphContainer {
 	public void tick(){
 		// TODO : Criteria vs recipes
 		for(GraphCriteriaAgent CA:criterias){
-			for(GraphRecipeAgent RA : recipes){
+			for(GraphRecipeAgent RA : visibleRecipes){
 				// Attract if there is a match
 				if(CA.matchAgainstRecipe(RA)){
 					Force Fe = CA.elasticForce(RA, 0.01);
@@ -87,10 +116,10 @@ public class GraphContainer {
 		
 		
 		// Recipe vs recipe
-		for(int i=0; i<recipes.size()-1 ; i++){
-			for(int j=i+1; j<recipes.size(); j++){
-				GraphRecipeAgent r1 = recipes.get(i);
-				GraphRecipeAgent r2 = recipes.get(j);
+		for(int i=0; i<visibleRecipes.size()-1 ; i++){
+			for(int j=i+1; j<visibleRecipes.size(); j++){
+				GraphRecipeAgent r1 = visibleRecipes.get(i);
+				GraphRecipeAgent r2 = visibleRecipes.get(j);
 				Force F = r1.gravitationalForce(r2);
 				r1.accelerate(F.Fx,F.Fy);
 				r2.accelerate(-F.Fx,-F.Fy);
@@ -98,7 +127,7 @@ public class GraphContainer {
 			}
 		}
 		// Recipes move
-		for(GraphRecipeAgent RA:recipes){
+		for(GraphRecipeAgent RA:visibleRecipes){
 			RA.tick();
 		}
 			
