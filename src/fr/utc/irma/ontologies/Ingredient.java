@@ -1,8 +1,12 @@
 package fr.utc.irma.ontologies;
 
+import java.io.Serializable;
+
 import com.hp.hpl.jena.query.QuerySolution;
 
-public class Ingredient {
+public class Ingredient implements Serializable {
+	
+	private static final long serialVersionUID = 6894113962246182007L;
 	
 	private String id;
 	private String name;
@@ -18,7 +22,7 @@ public class Ingredient {
 	}
 	
 	public String toString() {
-		return "" + this.id + " - " + this.name + " -- " + this.url + " -- " + this.imageUrl;
+		return this.name;
 	}
 	
 	// Get Methods

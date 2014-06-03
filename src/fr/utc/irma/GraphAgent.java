@@ -37,8 +37,12 @@ public class GraphAgent {
 		this.x=x;
 		this.y=y;
 	}
+	public void customDraw(Canvas canvas){
+		
+	}
 	public void draw(Canvas canvas){
-		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);  
+		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);
+		customDraw(canvas);
 	}
 	public Force gravitationalForce(GraphAgent GA){
 		double dx= this.x-GA.x;

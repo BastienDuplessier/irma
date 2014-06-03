@@ -3,20 +3,21 @@ package fr.utc.irma;
 import java.util.ArrayList;
 
 import fr.utc.irma.GraphAgent.Force;
+import fr.utc.irma.ontologies.Ingredient;
 import android.graphics.Canvas;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
 	public ArrayList<GraphRecipeAgent> recipes = new ArrayList<GraphRecipeAgent>();
-	public ArrayList<Criteria> globals = new ArrayList<Criteria>();
+	public ArrayList<Ingredient> globals = new ArrayList<Ingredient>();
 	
 	public GraphContainer() {
 		for(int i=0; i<40; i++){
 			addRecipe(new Recipe(Math.random()>0.5?"recettePoulet":"recetteChocolat"));
 		}
-		for(int i=0; i<2; i++){
-			addCriteria(new Criteria("ingredient", i==0?"recettePoulet":"recetteChocolat"));
-		}
+		/*for(int i=0; i<2; i++){
+			addCriteria(new Ingredient("ingredient", i==0?"recettePoulet":"recetteChocolat"));
+		}*/
 		updateCriteriaPosition();
 	}
 	
@@ -43,13 +44,15 @@ public class GraphContainer {
 		recipes.add(new GraphRecipeAgent(r));
 	}
 	
-	public void addCriteria(Criteria c){
+	public void addCriteria(Ingredient c){
 		criterias.add(new GraphCriteriaAgent(c));
+		updateCriteriaPosition();
 	}
 	
 	public void makeCriteriaGlobal(GraphCriteriaAgent a){
 		globals.add(a.criteria);
 		criterias.remove(a);
+		updateCriteriaPosition();
 	}
 	
 	public void draw(Canvas canvas){

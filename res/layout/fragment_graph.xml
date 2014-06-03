@@ -11,14 +11,13 @@
         android:layout_weight="0.75"
         android:layout_width="0dp"
         android:layout_height="match_parent">
-	    <LinearLayout android:layout_width="match_parent" android:layout_height="40dip" android:orientation="horizontal" style="?android:attr/buttonBarStyle">
-	        <Button android:text="Ingredient : Poisson" android:layout_width="wrap_content" android:layout_height="match_parent" style="?android:attr/buttonBarButtonStyle"/>
-	        <Button android:text="Temps de cuisson: 40min" android:layout_width="wrap_content" android:layout_height="match_parent" style="?android:attr/buttonBarButtonStyle"/>
-	        <Button android:text="Ustensile : Friteuse" android:layout_width="wrap_content" android:layout_height="match_parent" style="?android:attr/buttonBarButtonStyle"/>
+	    <LinearLayout android:id="@+id/criterias"  android:layout_width="match_parent" android:layout_height="40dip" android:orientation="horizontal" style="?android:attr/buttonBarStyle">
+	       
 	    </LinearLayout>
 	       
 	 
 	    <fr.utc.irma.GraphView
+	        android:id="@+id/graphDisplay"
 	        android:layout_weight="1"
 	        android:layout_width="match_parent"
 	        android:layout_height="0dp" />
@@ -45,6 +44,8 @@
 			android:textColor="#33b6ea" 
 			android:textSize="50sp"
 			pixlui:typeface="bello.ttf" />
+            
+            
             
             <TextView
                 android:id="@+id/textToJustifyFrag"

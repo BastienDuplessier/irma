@@ -38,5 +38,9 @@ public class GraphView extends View {
 		super(context, attrs, defStyleAttr);
 		init();
 	}
+	
+	public GraphContainer getContainer(){
+		return container;
+	}
 
 }
