@@ -3,6 +3,7 @@ package fr.utc.irma;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
@@ -14,6 +15,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -23,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -32,7 +36,17 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	String searchFilter="";
+	
+	// Tous les ingredients
+	ArrayList<Ingredient> all = new ArrayList<Ingredient>();
+
+	// Ingredients choisis par l'user
 	ArrayList<Ingredient> chosen = new ArrayList<Ingredient>();
+		
+	// Liste (affichage) des ingredients
+	LinearLayout ingList ;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +92,7 @@ public class MainActivity extends Activity {
     	for(Ingredient i:chosen)
     		l+="\n"+i.getName();
         ((TextView)findViewById(R.id.selectedCriterias)).setText(l);;
+        refreshList();
     }
     
     private void loadList(){
@@ -85,23 +100,56 @@ public class MainActivity extends Activity {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
     	    IngredientsManager ingMng = new IngredientsManager(OQIC);
     	    Iterator<Ingredient> allIng = ingMng.getAll().iterator();
-
     	    while(allIng.hasNext())
-    	    	addIng(allIng.next());
+        	    all.add(allIng.next());
+    	    refreshList();
+    	    setupFiltering();
     	} catch (IOException e) {
     	    Log.d("IngredientsLoader","Haha, nobody cares");
     	}
     	//((DynamicTableView)findViewById(R.id.ingList)).updateDisplay();
     }
     
+    public void setSearchFilter(String sf){
+    	searchFilter=sf.toUpperCase(Locale.FRANCE).trim();
+    }
+    
+    public void refreshList() {
+    	ingList = (LinearLayout)findViewById(R.id.ingList);
+    	ingList.removeAllViews();
+	    for(Ingredient toBeShown:all)
+	    	if(searchFilter==""|| toBeShown.getName().toUpperCase(Locale.FRANCE).indexOf(searchFilter)!=-1 
+	    	|| chosen.contains(toBeShown))
+	    		addIng(toBeShown);
+	}
+    
+    EditText filtering;
+    private void setupFiltering(){
+    	filtering=(EditText)findViewById(R.id.criterias);
+    	filtering.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				MainActivity.this.setSearchFilter(MainActivity.this.filtering.getText().toString());
+				refreshList();
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,int after) {}
+			@Override
+			public void afterTextChanged(Editable arg0) {}
+		});
+    }
+    
     private void addIng(Ingredient ing){
-    	LinearLayout ingList = (LinearLayout)findViewById(R.id.ingList);
+    	
     	ImageView ingButton = new ImageView(this);
     	ingButton.setLayoutParams(new LayoutParams(200, 200));
     	UrlImageViewHelper.setUrlDrawable(ingButton, ing.getImageUrl(), drawable.courgette);
     	ingList.addView(ingButton);
     	
     	ingButton.setTag(ing);
+    	if(!chosen.contains(ing))
+    		ingButton.setAlpha(100);
     	ingButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
