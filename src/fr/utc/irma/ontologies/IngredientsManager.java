@@ -1,6 +1,7 @@
 package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
@@ -29,6 +30,15 @@ public class IngredientsManager {
 	public ArrayList<Ingredient> fromSPARQL(String query) {
 		ResultSet results = connector.executeSparql(query);
 		return this.fromResultSet(results);
+	}
+	
+	// Load all ingredients images
+	public void loadImages() {
+	    Iterator<Ingredient> iterator = getAll().iterator();
+	    while (iterator.hasNext()) {
+	        Ingredient ingredient = iterator.next();
+	        // Load and save image            
+        }
 	}
 
 	// Build Ingredients from ResultSet
