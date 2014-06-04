@@ -3,7 +3,7 @@ package fr.utc.irma.ontologies;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Filter extends ArrayList<String>{
+public class Filter extends ArrayList<Criteria>{
 
     public void addWith(String name) {
         String criteria = "+" + name;
@@ -12,14 +12,11 @@ public class Filter extends ArrayList<String>{
     }
 
     public String toSPARQLFragment() {
-        Iterator<String> iterator = iterator();
+        Iterator<Criteria> iterator = iterator();
         StringBuffer queryBuffer = new StringBuffer();
         
         while (iterator.hasNext()) {
-            String criteria = iterator.next();
-            String ingredient = criteria.substring(1);
-            if(criteria.startsWith("+"))
-                queryBuffer.append("?id irma:linked_to irma:" + ingredient + " . ");
+            queryBuffer.append(iterator.next().toSparql());
         }
         return queryBuffer.toString();
     }
