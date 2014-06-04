@@ -12,6 +12,7 @@ import android.util.Log;
 
 public class GraphCriteriaAgent extends GraphAgent {
 	public Ingredient criteria;
+	public Double circleSize=null;
 	
 	public GraphCriteriaAgent(Ingredient c, GraphContainer gc) {
 		super(gc);
@@ -56,8 +57,11 @@ public class GraphCriteriaAgent extends GraphAgent {
 					closestWrong=this.d2to(RA);
 			}
 		}
+		// Do we draw a circle ?
 		if(closestWrong!= null && furthestRight!=null && furthestRight<closestWrong){
-			furthestRight=Math.sqrt(furthestRight)+0.05;
+			furthestRight=Math.sqrt(furthestRight);
+			circleSize=furthestRight;
+			furthestRight+=0.05;
 			canvas.drawOval(
 					new RectF(
 							(float)((float)canvas.getWidth()*(this.x-furthestRight)),
@@ -66,7 +70,9 @@ public class GraphCriteriaAgent extends GraphAgent {
 							(float)((float)canvas.getHeight()*(this.y+furthestRight)))
 					,
 					bigCirclesPaint);
-			
+		
+		}else{
+			circleSize=null;
 		}
 			
 

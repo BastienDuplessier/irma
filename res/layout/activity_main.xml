@@ -45,7 +45,7 @@
 			android:paddingBottom="5dp"
 			android:gravity="center" 
 			android:inputType="text" />
-		<Button android:layout_width="match_parent" android:layout_height="50dip" android:text="Go"
+		<Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Go"
 		    android:layout_margin="20dip"
              android:id="@+id/startGraphButton"/>
 	</LinearLayout>

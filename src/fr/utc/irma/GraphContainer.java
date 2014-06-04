@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.hp.hpl.jena.sparql.function.library.min;
+
 import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Ingredient;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
@@ -12,6 +14,7 @@ import fr.utc.irma.ontologies.RecipesManager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.widget.Toast;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
@@ -85,9 +88,7 @@ public class GraphContainer {
 	}
 	
 	public void draw(Canvas canvas){
-		// TODO : Prepare background display (compute dists)
-		
-		
+	
 		// Draw backgrounds 
 		for(GraphCriteriaAgent c : criterias)
 			c.customDrawBefore(canvas);
@@ -133,6 +134,31 @@ public class GraphContainer {
 		for(GraphRecipeAgent RA:visibleRecipes){
 			RA.tick();
 		}
+			
+		
+	}
+	
+	public void clickOn(float clickedX, float clickedY, GraphView GV){
+		// When the graph is clicked, we look for the closest Graph Criteria Agent with the click inside its bounds;
+		
+		double minDist=10000;
+		Ingredient closestToClick=null;
+		
+		for(GraphCriteriaAgent GCA:criterias)
+			if(GCA.circleSize!=null){
+				double dx=clickedX-GCA.x;
+				double dy=clickedY-GCA.y;
+				double d=Math.sqrt(dx*dx + dy*dy);
+				Log.d("Click", "at distance "+d+" of "+GCA.criteria.getName() + " whose circle size is "+GCA.circleSize);
+				if(d<GCA.circleSize && d<minDist){
+					minDist=d;
+					closestToClick=GCA.criteria;
+					Log.d("Click", closestToClick.getName() + " is now the closest");
+				}
+			}
+		
+		if(closestToClick!=null)
+			GV.descCriteria(closestToClick);
 			
 		
 	}

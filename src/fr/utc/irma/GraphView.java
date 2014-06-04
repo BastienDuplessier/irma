@@ -1,9 +1,11 @@
 package fr.utc.irma;
 
+import fr.utc.irma.ontologies.Ingredient;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class GraphView extends View {
@@ -40,6 +42,17 @@ public class GraphView extends View {
 	
 	public GraphContainer getContainer(){
 		return container;
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		container.clickOn(event.getX()/this.getWidth(), event.getY()/this.getHeight(), this);
+		return super.onTouchEvent(event);
+	}
+	
+	public void descCriteria(Ingredient crit){
+		((GraphActivity)this.getContext()).setSideBarToCriteriaDescription(crit);
+		
 	}
 
 }

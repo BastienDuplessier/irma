@@ -2,6 +2,9 @@ package fr.utc.irma;
 
 import java.util.ArrayList;
 
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import fr.utc.irma.R.drawable;
 import fr.utc.irma.ontologies.Ingredient;
 import android.app.Activity;
 import android.app.Fragment;
@@ -13,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +35,6 @@ public class GraphActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		// Extras
-		//Toast.makeText(this, getIntent().getExtras().getStringArray("choice") [0], Toast.LENGTH_SHORT).show();;
 		
 		
 	}
@@ -91,15 +94,25 @@ public class GraphActivity extends Activity {
 				Toast.makeText(this.getActivity(), "Couldnt pass activity parameters to GraphActivity",Toast.LENGTH_SHORT).show();
 			}
 			for(Ingredient c:startingCriterias){
-		        /*Button tmp = new Button(getActivity());
-		        tmp.setText(c);*/
-				Log.d("extrasStartIng", c.getName());
-				Toast.makeText(getActivity(), c.getName(), Toast.LENGTH_SHORT).show();
 		        ((GraphView)getActivity().findViewById(R.id.graphDisplay)).getContainer().addCriteria(c);
-		        //((LinearLayout)container.findViewById(R.id.criterias)).addView(tmp);
 			}
 			super.onActivityCreated(savedInstanceState);
 		}
+	}
+
+	public void setSideBarToCriteriaDescription(Ingredient crit){
+		Log.d("Click", crit.getName() + "is the final closest");
+		LinearLayout sideBar =((LinearLayout)findViewById(R.id.GraphActivityRightSidebar)); 
+		sideBar.removeAllViews();
+		LayoutInflater li =(LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE); 
+		View descFrag = li.inflate(
+				R.layout.criteria_view,
+				sideBar
+				);
+		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(crit.getName());
+		
+		UrlImageViewHelper.setUrlDrawable(((ImageView)descFrag.findViewById(R.id.ingDescImg)), crit.getImageUrl(), drawable.courgette);
+
 	}
 
 }
