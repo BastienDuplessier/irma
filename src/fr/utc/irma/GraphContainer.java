@@ -6,11 +6,9 @@ import java.util.Iterator;
 
 import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Ingredient;
-import fr.utc.irma.ontologies.IngredientsManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import fr.utc.irma.ontologies.Recipe;
 import fr.utc.irma.ontologies.RecipesManager;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
@@ -52,6 +50,8 @@ public class GraphContainer {
 	
 	public void updateCriteriaPosition(){
 		switch (criterias.size()) {
+		case 0:
+			break;
 		case 1:
 			criterias.get(0).setPosition(0.5, 0.5);
 			break;
@@ -59,7 +59,7 @@ public class GraphContainer {
 			criterias.get(0).setPosition(0.25, 0.5);
 			criterias.get(1).setPosition(0.75, 0.5);
 			break;
-		case 3:
+		default:
 			criterias.get(0).setPosition(0.25, 0.25);
 			criterias.get(1).setPosition(0.75, 0.25);
 			criterias.get(2).setPosition(0.5, 0.75);
@@ -70,11 +70,11 @@ public class GraphContainer {
 	}
 	
 	public void addRecipe(Recipe r){
-		visibleRecipes.add(new GraphRecipeAgent(r));
+		visibleRecipes.add(new GraphRecipeAgent(r, this));
 	}
 	
 	public void addCriteria(Ingredient c){
-		criterias.add(new GraphCriteriaAgent(c));
+		criterias.add(new GraphCriteriaAgent(c, this));
 		updateCriteriaPosition();
 	}
 	
@@ -88,8 +88,11 @@ public class GraphContainer {
 		// TODO : Prepare background display (compute dists)
 		
 		
-		// TODO :  Draw backgrounds around criterias to show matchnign items
-		
+		// Draw backgrounds 
+		for(GraphCriteriaAgent c : criterias)
+			c.customDrawBefore(canvas);
+		for(GraphRecipeAgent c : visibleRecipes)
+			c.customDrawBefore(canvas);
 		
 		// Draw foreground
 		for(GraphCriteriaAgent c : criterias)
@@ -104,7 +107,7 @@ public class GraphContainer {
 		for(GraphCriteriaAgent CA:criterias){
 			for(GraphRecipeAgent RA : visibleRecipes){
 				// Attract if there is a match
-				if(CA.matchAgainstRecipe(RA)){
+				if(CA.matchAgainstRecipeAgent(RA)){
 					Force Fe = CA.elasticForce(RA, 0.01);
 					RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
 				}

@@ -2,27 +2,19 @@ package fr.utc.irma;
 
 import java.util.ArrayList;
 
-import javax.xml.datatype.Duration;
-
 import fr.utc.irma.ontologies.Ingredient;
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Build;
 
 public class GraphActivity extends Activity {
 	@Override
@@ -90,11 +82,14 @@ public class GraphActivity extends Activity {
 			return rootView;
 		}
 		
+		@SuppressWarnings("unchecked")
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
-
-			startingCriterias = (ArrayList<Ingredient>)getActivity().getIntent().getSerializableExtra("choice");
-	        
+			try{
+				startingCriterias = (ArrayList<Ingredient>)getActivity().getIntent().getSerializableExtra("choice");
+			}catch(ClassCastException e){
+				Toast.makeText(this.getActivity(), "Couldnt pass activity parameters to GraphActivity",Toast.LENGTH_SHORT).show();
+			}
 			for(Ingredient c:startingCriterias){
 		        /*Button tmp = new Button(getActivity());
 		        tmp.setText(c);*/

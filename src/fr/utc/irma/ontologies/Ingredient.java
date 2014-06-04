@@ -25,6 +25,9 @@ public class Ingredient implements Serializable {
 		return this.name;
 	}
 	
+	public boolean matchAgainstRecipe(Recipe R){
+		return R.getName().toLowerCase().indexOf(name.toLowerCase())!=-1;
+	}
 	// Get Methods
 	public String getId() { return this.id; }
 	public String getName() { return this.name; }

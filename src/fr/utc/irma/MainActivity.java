@@ -13,26 +13,20 @@ import fr.utc.irma.ontologies.IngredientsManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -45,7 +39,7 @@ public class MainActivity extends Activity {
 	ArrayList<Ingredient> chosen = new ArrayList<Ingredient>();
 		
 	// Liste (affichage) des ingredients
-	LinearLayout ingList ;
+	RelativeLayout ingList ;
 	
 	
     @Override
@@ -88,10 +82,6 @@ public class MainActivity extends Activity {
     		chosen.remove(toAdd);
     	else
     		chosen.add(toAdd);
-    	String l="";
-    	for(Ingredient i:chosen)
-    		l+="\n"+i.getName();
-        ((TextView)findViewById(R.id.selectedCriterias)).setText(l);;
         refreshList();
     }
     
@@ -102,7 +92,20 @@ public class MainActivity extends Activity {
     	    Iterator<Ingredient> allIng = ingMng.getAll().iterator();
     	    while(allIng.hasNext())
         	    all.add(allIng.next());
+    	    
+    	    ingList = (RelativeLayout)findViewById(R.id.ingList);
+    	    /*ingList.(new OnLayoutChangeListener() {
+				
+				@Override
+				public void onLayoutChange(View v, int left, int top, int right,
+						int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+					//MainActivity.this.refreshList();
+					
+				}
+			});*/
     	    refreshList();
+    	    
+    	    
     	    setupFiltering();
     	} catch (IOException e) {
     	    Log.d("IngredientsLoader","Haha, nobody cares");
@@ -115,7 +118,17 @@ public class MainActivity extends Activity {
     }
     
     public void refreshList() {
-    	ingList = (LinearLayout)findViewById(R.id.ingList);
+    	Button go=((Button)findViewById(R.id.startGraphButton));
+    	if(chosen.size()==0){
+    		go.setText("GO");
+    		go.setClickable(false);
+    		go.setEnabled(false);
+    	}else{
+    		go.setText( TextUtils.join(" + ", chosen));
+    		go.setClickable(true);
+    		go.setEnabled(true);
+    	}
+    	
     	ingList.removeAllViews();
 	    for(Ingredient toBeShown:all)
 	    	if(searchFilter==""|| toBeShown.getName().toUpperCase(Locale.FRANCE).indexOf(searchFilter)!=-1 
@@ -140,16 +153,32 @@ public class MainActivity extends Activity {
 		});
     }
     
-    private void addIng(Ingredient ing){
+    @SuppressWarnings("deprecation")
+	private void addIng(Ingredient ing){
     	
     	ImageView ingButton = new ImageView(this);
-    	ingButton.setLayoutParams(new LayoutParams(200, 200));
+    	// grid 
+    	int fullWidth=ingList.getWidth();
+    	if(fullWidth==0)
+    		fullWidth=800;
+    	int numberOfCells=ingList.getChildCount();
+    	int numberOfCollums=4;
+    	int imgWidth=fullWidth/4;
+    	
+    	
+    	RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(imgWidth, imgWidth);
+    	lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+    	lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+    	lp.leftMargin=(numberOfCells%numberOfCollums)*imgWidth;
+    	lp.topMargin=((int)numberOfCells/numberOfCollums)*imgWidth;
+    	
+    	ingButton.setLayoutParams(lp);
     	UrlImageViewHelper.setUrlDrawable(ingButton, ing.getImageUrl(), drawable.courgette);
     	ingList.addView(ingButton);
     	
     	ingButton.setTag(ing);
     	if(!chosen.contains(ing))
-    		ingButton.setAlpha(100);
+    		ingButton.setAlpha(150);
     	ingButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -157,6 +186,7 @@ public class MainActivity extends Activity {
 				MainActivity.this.pickCriteria((Ingredient)v.getTag());
 			}
 		});
+    	
     }
     
 }

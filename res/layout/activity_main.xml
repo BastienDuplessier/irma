@@ -6,71 +6,10 @@
 
 	<ScrollView android:layout_height="wrap_content"
 		android:layout_weight="2" android:layout_width="0dip">
-		<LinearLayout 
+		<RelativeLayout 
 		    android:layout_width="fill_parent" 
 		    android:layout_height="wrap_content"
-		    android:id="@+id/ingList"
-			android:orientation="vertical"/>
-		    
-		<!-- <TableLayout 
-			android:layout_height="wrap_content" android:layout_width="wrap_content"
-			android:shrinkColumns="*" android:stretchColumns="*"
-			android:background="#ffffff">
-			Row 1 with single column
-			<TableRow android:id="@+id/tableRow1" android:layout_height="wrap_content"
-				android:layout_width="match_parent" android:gravity="center_horizontal">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" android:onClick="startGraphActivity" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-			</TableRow>
-
-			Row 2 with 3 columns
-			<TableRow android:id="@+id/tableRow2" android:layout_height="wrap_content"
-				android:layout_width="match_parent">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-			</TableRow>
-			<TableRow android:id="@+id/tableRow3" android:layout_height="wrap_content"
-				android:layout_width="match_parent">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:background="@drawable/courgette" />
-			</TableRow>
-		</TableLayout> -->
+		    android:id="@+id/ingList"/>
 	</ScrollView>
 	<ScrollView android:layout_height="wrap_content"
 		android:layout_weight="1" android:layout_width="0dip">
@@ -79,14 +18,6 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" 
 		android:orientation="vertical">
-		<TextView
-              android:id="@+id/selectedCriterias"
-              android:layout_height="wrap_content"
-              android:layout_width="match_parent"
-              android:text="">
-         </TextView>
-         <Button android:layout_width="match_parent" android:layout_height="50dip" android:text="Go"
-             android:id="@+id/startGraphButton"/>
 		<com.neopixl.pixlui.components.textview.TextView
 			android:id="@+id/textView1" 
 			android:layout_width="match_parent"
@@ -114,6 +45,9 @@
 			android:paddingBottom="5dp"
 			android:gravity="center" 
 			android:inputType="text" />
+		<Button android:layout_width="match_parent" android:layout_height="50dip" android:text="Go"
+		    android:layout_margin="20dip"
+             android:id="@+id/startGraphButton"/>
 	</LinearLayout>
 	</ScrollView>
 
