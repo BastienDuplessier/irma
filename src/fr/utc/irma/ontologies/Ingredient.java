@@ -1,8 +1,12 @@
 package fr.utc.irma.ontologies;
 
+import java.io.Serializable;
+
 import com.hp.hpl.jena.query.QuerySolution;
 
-public class Ingredient {
+public class Ingredient implements Serializable {
+	
+	private static final long serialVersionUID = 6894113962246182007L;
 	
 	private String id;
 	private String name;
@@ -18,9 +22,12 @@ public class Ingredient {
 	}
 	
 	public String toString() {
-		return "" + this.id + " - " + this.name + " -- " + this.url + " -- " + this.imageUrl;
+		return this.name;
 	}
 	
+	public boolean matchAgainstRecipe(Recipe R){
+		return R.getName().toLowerCase().indexOf(name.toLowerCase())!=-1;
+	}
 	// Get Methods
 	public String getId() { return this.id; }
 	public String getName() { return this.name; }

@@ -1,33 +1,42 @@
 package fr.utc.irma;
 
+import java.util.ArrayList;
+
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
+
+import fr.utc.irma.R.drawable;
+import fr.utc.irma.ontologies.Ingredient;
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.os.Build;
+import android.widget.Toast;
 
 public class GraphActivity extends Activity {
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		getActionBar().hide();
+		
 		setContentView(R.layout.activity_graph);
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		
+		
 	}
 
 	@Override
@@ -49,18 +58,21 @@ public class GraphActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
 
+		ArrayList<Ingredient> startingCriterias;
+		
 		public PlaceholderFragment() {
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			
 			View rootView = inflater.inflate(R.layout.fragment_graph,
 					container, false);
 			
@@ -68,8 +80,39 @@ public class GraphActivity extends Activity {
 			//justify texte
 	        MiseEnPage.justifyText(textView);
 	        
+	        
+	        
 			return rootView;
 		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void onActivityCreated(Bundle savedInstanceState) {
+			try{
+				startingCriterias = (ArrayList<Ingredient>)getActivity().getIntent().getSerializableExtra("choice");
+			}catch(ClassCastException e){
+				Toast.makeText(this.getActivity(), "Couldnt pass activity parameters to GraphActivity",Toast.LENGTH_SHORT).show();
+			}
+			for(Ingredient c:startingCriterias){
+		        ((GraphView)getActivity().findViewById(R.id.graphDisplay)).getContainer().addCriteria(c);
+			}
+			super.onActivityCreated(savedInstanceState);
+		}
+	}
+
+	public void setSideBarToCriteriaDescription(Ingredient crit){
+		Log.d("Click", crit.getName() + "is the final closest");
+		LinearLayout sideBar =((LinearLayout)findViewById(R.id.GraphActivityRightSidebar)); 
+		sideBar.removeAllViews();
+		LayoutInflater li =(LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE); 
+		View descFrag = li.inflate(
+				R.layout.criteria_view,
+				sideBar
+				);
+		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(crit.getName());
+		
+		UrlImageViewHelper.setUrlDrawable(((ImageView)descFrag.findViewById(R.id.ingDescImg)), crit.getImageUrl(), drawable.courgette);
+
 	}
 
 }

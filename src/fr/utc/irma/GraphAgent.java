@@ -11,7 +11,10 @@ public class GraphAgent {
 	
 	public Paint nodePaint= new Paint();
 	public  float displayRadius = 10f;
-	public GraphAgent() {
+	public GraphContainer gc;
+	
+	public GraphAgent(GraphContainer c) {
+		this.gc=c;
 		this.x=Math.random();
 		this.y=Math.random();
 		nodePaint.setColor(Color.BLACK);
@@ -37,13 +40,22 @@ public class GraphAgent {
 		this.x=x;
 		this.y=y;
 	}
+	public void customDrawBefore(Canvas canvas){
+		
+	}
+	
+	public void customDrawAfter(Canvas canvas){
+		
+	}
+	
 	public void draw(Canvas canvas){
-		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);  
+		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);
+		customDrawAfter(canvas);
 	}
 	public Force gravitationalForce(GraphAgent GA){
 		double dx= this.x-GA.x;
 		double dy= this.y-GA.y;
-		double d2=dx*dx + dy * dy+0.01;
+		double d2=this.d2to(GA);
 		double d=Math.sqrt(d2);
 		double ux=dx/d;
 		double uy=dy/d;
@@ -56,7 +68,7 @@ public class GraphAgent {
 	public Force elasticForce(GraphAgent GA, double optimalLength){
 		double dx= this.x-GA.x;
 		double dy= this.y-GA.y;
-		double d2=dx*dx + dy * dy;
+		double d2=this.d2to(GA);
 		double d=Math.sqrt(d2);
 		
 		double dOffset=optimalLength*optimalLength-d2;
@@ -68,6 +80,11 @@ public class GraphAgent {
 		return F;
 	}
 	
+	public double d2to(GraphAgent GA){
+		double dx= this.x-GA.x;
+		double dy= this.y-GA.y;
+		return dx*dx + dy * dy+0.001;
+	}
 	
 	public class Force{
 		public double Fx;
