@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
     	    IngredientsManager ingMng = new IngredientsManager(OQIC);
     	    all = ingMng.getAll();
-    	    ingMng.loadImages();
+    	    ingMng.loadImagesAsync(this);
     	    
     	    ingList = (RelativeLayout)findViewById(R.id.ingList);
     	    /*ingList.(new OnLayoutChangeListener() {
