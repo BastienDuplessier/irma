@@ -45,18 +45,18 @@ public class Ingredient implements Serializable {
     public String getIdShort() { return this.id.split("#")[1]; }
 	public String getImageName() { 
 	    String[] splitString = this.imageUrl.split("\\.");
-	    System.out.println(splitString.toString());
 	    String extension = splitString[splitString.length - 1];
 	    return this.getIdShort() + "." + extension;
 	}
-	
-	public Bitmap loadImage() throws IOException {
-	    URL url = new URL(this.imageUrl);
-	    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-	    connection.setDoInput(true);
-	    connection.connect();
-	    InputStream input = connection.getInputStream();
-	    Bitmap myBitmap = BitmapFactory.decodeStream(input);
-	    return myBitmap;
-	}
+
+    public Bitmap loadImageFromUrl() throws IOException {
+        URL url = new URL(this.imageUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoInput(true);
+        connection.connect();
+        InputStream input = connection.getInputStream();
+        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+        return myBitmap;
+    }
+ 
 }
