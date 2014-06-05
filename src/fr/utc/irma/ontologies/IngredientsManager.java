@@ -1,5 +1,6 @@
 package fr.utc.irma.ontologies;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,11 +10,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
-
-import fr.utc.irma.MainActivity;
 
 public class IngredientsManager {
 
@@ -41,7 +41,7 @@ public class IngredientsManager {
 		return this.fromResultSet(results);
 	}
 	
-	// Load all ingredients images
+	// Load all ingredients images async
 	public void loadImagesAsync(final Activity activity) {
 	    new AsyncTask<Void, Integer, Void>() {
 	        ProgressDialog progress = ProgressDialog.show(activity, "Downloading Ingredients Images", "Please wait while images are downloaded");
@@ -62,25 +62,26 @@ public class IngredientsManager {
 	        protected Void doInBackground(Void... params) {
 
 	            ArrayList<Ingredient> all = getAll();
-                Iterator<Ingredient> iterator = all.iterator();
-	            int maxElements = all.size();
-	            
+	            Iterator<Ingredient> iterator = all.iterator();
+
 	            while (iterator.hasNext()) {
 	                Ingredient ingredient = iterator.next();
 	                String filename = ingredient.getImageName();
-	                FileOutputStream outputStream;
 
-	                try {
-	                    Bitmap image = ingredient.loadImage();
-	                    outputStream = activity.openFileOutput(filename, Context.MODE_PRIVATE);
-	                    image.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
-	                    outputStream.flush();
-	                    outputStream.close();
+	                File file = activity.getBaseContext().getFileStreamPath(filename);
+	                if(!file.exists()) {
+	                    try {
+	                        // Download and save image
+	                        Bitmap image = ingredient.loadImageFromUrl();
+	                        FileOutputStream outputStream = activity.openFileOutput(filename, Context.MODE_PRIVATE);
+	                        image.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+	                        outputStream.flush();
+	                        outputStream.close();
 
-	                } catch (Exception e) {
-	                    e.printStackTrace();
+	                    } catch (Exception e) {
+	                        Log.d("IngredientManager - loadImagesAsync", "Fail");
+	                    }
 	                }
-	                progress.incrementProgressBy(1 / maxElements);
 	            }
                 return null;
 	        }
