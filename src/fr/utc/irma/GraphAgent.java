@@ -52,31 +52,30 @@ public class GraphAgent {
 		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);
 		customDrawAfter(canvas);
 	}
-	public Force gravitationalForce(GraphAgent GA){
+	public Force elasticForce(GraphAgent GA){
 		double dx= this.x-GA.x;
 		double dy= this.y-GA.y;
-		double d2=this.d2to(GA);
+		double d2=dx*dx + dy * dy;
 		double d=Math.sqrt(d2);
+		/*
 		double ux=dx/d;
-		double uy=dy/d;
+		double uy=dy/d;*/
 		Force F=new Force();
-		F.Fx=0.000001/d2*ux; 
-		F.Fy=0.000001/d2*uy;
+		F.Fx=-0.00001*d*dx; 
+		F.Fy=-0.00001*d*dy;
 		return F;
 	}
 	
-	public Force elasticForce(GraphAgent GA, double optimalLength){
+public Force gravitationalForce(GraphAgent GA){
 		double dx= this.x-GA.x;
 		double dy= this.y-GA.y;
-		double d2=this.d2to(GA);
+		double d2=dx*dx + dy * dy+0.01;
 		double d=Math.sqrt(d2);
-		
-		double dOffset=optimalLength*optimalLength-d2;
 		double ux=dx/d;
 		double uy=dy/d;
 		Force F=new Force();
-		F.Fx=0.000005*dOffset*ux; 
-		F.Fy=0.000005*dOffset*uy;
+		F.Fx=0.00001/d2*ux; 
+		F.Fy=0.00001/d2*uy;
 		return F;
 	}
 	

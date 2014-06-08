@@ -109,7 +109,7 @@ public class GraphContainer {
 			for(GraphRecipeAgent RA : visibleRecipes){
 				// Attract if there is a match
 				if(CA.matchAgainstRecipeAgent(RA)){
-					Force Fe = CA.elasticForce(RA, 0.01);
+					Force Fe = CA.elasticForce(RA);
 					RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
 				}
 				// Avoid collision
