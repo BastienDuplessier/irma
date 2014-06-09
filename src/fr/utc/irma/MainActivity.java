@@ -1,19 +1,17 @@
 package fr.utc.irma;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
-import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
-
-import fr.utc.irma.R.drawable;
 import fr.utc.irma.ontologies.Ingredient;
 import fr.utc.irma.ontologies.IngredientsManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -103,9 +101,8 @@ public class MainActivity extends Activity {
     	try {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
     	    IngredientsManager ingMng = new IngredientsManager(OQIC);
-    	    Iterator<Ingredient> allIng = ingMng.getAll().iterator();
-    	    while(allIng.hasNext())
-        	    all.add(allIng.next());
+    	    all = ingMng.getAll();
+    	    ingMng.loadImagesAsync(this);
     	    
     	    ingList = (RelativeLayout)findViewById(R.id.ingList);
     	    /*ingList.(new OnLayoutChangeListener() {
@@ -187,10 +184,17 @@ public class MainActivity extends Activity {
     	lp.topMargin=((int)numberOfCells/numberOfCollums)*imgWidth;
     	
     	ingButton.setLayoutParams(lp);
-    	UrlImageViewHelper.setUrlDrawable(ingButton, ing.getImageUrl(), drawable.courgette);
-    	ingList.addView(ingButton);
-    	
-    	ingButton.setTag(ing);
+
+        try {
+            FileInputStream inputStream = this.openFileInput(ing.getImageName());
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            ingButton.setImageBitmap(bitmap);
+            ingList.addView(ingButton);
+        } catch (Exception e) {
+            Log.d("openFileInput", "Too bad, no image");
+        }
+        
+        ingButton.setTag(ing);
     	if(!chosen.contains(ing))
     		ingButton.setAlpha(150);
     	ingButton.setOnClickListener(new OnClickListener() {
