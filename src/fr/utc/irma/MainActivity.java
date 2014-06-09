@@ -55,10 +55,22 @@ public class MainActivity extends Activity {
         DisplayMetrics dm = new DisplayMetrics();            
         display.getMetrics(dm);            
         double widthTier = dm.widthPixels/2.8;                      
+        
         //ajuster la taille du texte selon la taille d ecran
         textView.setLineSpacing(0.5f, 1.3f);
         textView.setTextSize(8*(float)widthTier/320f);
-        MiseEnPage.justifyText(textView);
+        
+        //preparer final pour fait appel textView dans le corps de fonction post
+        final TextView txtViewFinal = textView;
+        
+        //par méthode post, récupérer width correctement quand textView est bien créé
+        txtViewFinal.post(new Runnable() {  
+            @Override  
+            public void run() {  
+                MiseEnPage.justifyText(txtViewFinal);
+            }
+        }); 
+        
         loadList();
         ((Button)findViewById(R.id.startGraphButton)).setOnClickListener(new OnClickListener() {
 			

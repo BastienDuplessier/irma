@@ -9,7 +9,6 @@ public class MiseEnPage {
 
 	public static void justifyText(TextView textView)
 	{
-		
 		int contentWidth = textView.getWidth();
 		String text=textView.getText().toString();
         String tempText;
@@ -52,6 +51,7 @@ public class MiseEnPage {
                 myText=word;
             }
         }
+        
         lineList.add(myText);
         return lineList;
     }
@@ -69,10 +69,10 @@ public class MiseEnPage {
         String justifiedText="";
         for(String word:wordArray){
             if(i<totalSpacesToInsert)
-                justifiedText=justifiedText+word+" "+toAppend;
+                justifiedText=justifiedText+" "+toAppend+word;
 
             else                
-                justifiedText=justifiedText+word+toAppend;
+                justifiedText=justifiedText+toAppend+word;
 
             i++;
         }

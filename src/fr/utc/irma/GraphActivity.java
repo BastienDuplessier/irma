@@ -78,7 +78,16 @@ public class GraphActivity extends Activity {
 			
 			TextView textView = (TextView)rootView.findViewById(R.id.textToJustifyFrag);
 			//justify texte
-	        MiseEnPage.justifyText(textView);
+			//preparer final pour fait appel textView dans le corps de fonction post
+	        final TextView txtViewFinal = textView;
+	        
+	        //par méthode post, récupérer width correctement quand textView est bien créé
+	        txtViewFinal.post(new Runnable() {  
+	            @Override  
+	            public void run() {  
+	                MiseEnPage.justifyText(txtViewFinal);
+	            }
+	        }); 
 	        
 	        
 	        
