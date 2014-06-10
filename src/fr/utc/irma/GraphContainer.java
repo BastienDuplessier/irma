@@ -22,6 +22,7 @@ public class GraphContainer {
 	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
 	
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
+	private RecipesManager rcpMng;
 	private Context a;
 	
 	private void loadAllRecipes(){
