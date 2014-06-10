@@ -8,6 +8,8 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
 import fr.utc.irma.ExecutableTask;
+import fr.utc.irma.GraphCriteriaAgent;
+import fr.utc.irma.GraphRecipeAgent;
 
 public class RecipesManager {
 
@@ -21,7 +23,6 @@ public class RecipesManager {
 
 	public ArrayList<Recipe> getAll() {
 		return this.fromSPARQL(getAllQuery());
-
 	}
 
 	// Build Recipes from SPARQL Query
@@ -71,5 +72,10 @@ public class RecipesManager {
                 + "?id irma:difficulty ?difficulty . "
                 + "?id irma:text_ingredients ?textIngredients . "
                 + "?id irma:text_recipe ?textRecipe } ";
+    }
+
+    // First step : match recipe to ingredient
+    public boolean matchCriteria(Recipe recipe, Ingredient ingredient) {
+        return fromSPARQL(PREFIX + " " + "SELECT ?recipe WHERE { ?recipe irma:linked_to " + ingredient.getId() + " . }").isEmpty();
     }
 }
