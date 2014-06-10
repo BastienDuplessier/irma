@@ -8,8 +8,6 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
 import fr.utc.irma.ExecutableTask;
-import fr.utc.irma.GraphCriteriaAgent;
-import fr.utc.irma.GraphRecipeAgent;
 
 public class RecipesManager {
 
