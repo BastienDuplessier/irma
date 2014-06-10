@@ -28,9 +28,7 @@ public class GraphContainer {
     	try {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(a.getAssets());
     	    RecipesManager  rcpMng = new RecipesManager (OQIC);
-    	    Iterator<Recipe> allIng = rcpMng.getAll().iterator();
-    	    while(allIng.hasNext())
-    	    	allRecipes.add(allIng.next());
+    	    allRecipes = rcpMng.getAll();
     	} catch (IOException e) {
     	    Log.d("RecipeLoader","Haha, nobody cares");
     	}
