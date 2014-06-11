@@ -36,7 +36,8 @@ public class Recipe {
 	}
 	
 	// Get Methods
-	public String getId() { return this.id; }
+	public String getId() { return "<" + this.id + ">"; }
+    public String getIdShort() { return "irma:" + this.id.split("#")[1]; }
 	public String getName() { return this.name; }
 	public String getUrl() { return this.url; }
 	public String getHowMany() { return this.howMany; }
