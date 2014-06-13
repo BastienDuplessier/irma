@@ -10,6 +10,7 @@ public class MiseEnPage {
 	public static void justifyText(TextView textView)
 	{
 		int contentWidth = textView.getWidth();
+		//textView.setText("Le Lorem Ipsum est simplement ensemble du faux texte employé dans la composandard de l'imprimerie depuis les années 1500 quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte.");
 		String text=textView.getText().toString();
         String tempText;
         String resultText = "";
@@ -19,7 +20,7 @@ public class MiseEnPage {
         paraList = paraBreak(text);        
         for(int i = 0; i<paraList.size(); i++) {  
         	ArrayList<String> lineList=lineBreak(paraList.get(i).trim(),paint,contentWidth);  
-            tempText = TextUtils.join("\r", lineList).replaceFirst("\\s*", "");  
+            tempText = TextUtils.join(" ", lineList).replaceFirst("\\s*", "");  
        	    resultText += tempText.replaceFirst("\\s*", "");      
         }                
         
@@ -69,10 +70,10 @@ public class MiseEnPage {
         String justifiedText="";
         for(String word:wordArray){
             if(i<totalSpacesToInsert)
-                justifiedText=justifiedText+" "+toAppend+word;
+                justifiedText=justifiedText+word+" "+toAppend;
 
             else                
-                justifiedText=justifiedText+toAppend+word;
+                justifiedText=justifiedText+word+toAppend;
 
             i++;
         }

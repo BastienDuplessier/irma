@@ -9,7 +9,9 @@ import fr.utc.irma.ontologies.Ingredient;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,7 +79,11 @@ public class GraphActivity extends Activity {
 					container, false);
 			
 			TextView textView = (TextView)rootView.findViewById(R.id.textToJustifyFrag);
-			//justify texte
+			
+	    	//ajuster la taille du texte selon la taille d ecran
+	        textView.setLineSpacing(0.5f, 1.3f);
+	        textView.setTextSize(7f);
+	        
 			//preparer final pour fait appel textView dans le corps de fonction post
 	        final TextView txtViewFinal = textView;
 	        
