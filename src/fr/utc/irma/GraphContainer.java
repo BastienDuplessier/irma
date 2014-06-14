@@ -28,7 +28,7 @@ public class GraphContainer {
 	private void loadAllRecipes(){
     	try {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(a.getAssets());
-    	    RecipesManager  rcpMng = new RecipesManager (OQIC);
+    	    rcpMng = new RecipesManager (OQIC);
     	    allRecipes = rcpMng.getAll();
     	} catch (IOException e) {
     	    Log.d("RecipeLoader","Haha, nobody cares");
@@ -107,7 +107,8 @@ public class GraphContainer {
 		for(GraphCriteriaAgent CA:criterias){
 			for(GraphRecipeAgent RA : visibleRecipes){
 				// Attract if there is a match
-				if(CA.matchAgainstRecipeAgent(RA)){
+                if(rcpMng.matchCriteria(RA.recipe, CA.criteria)){
+				//if(CA.matchAgainstRecipeAgent(RA)){
 					Force Fe = CA.elasticForce(RA);
 					RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
 				}
