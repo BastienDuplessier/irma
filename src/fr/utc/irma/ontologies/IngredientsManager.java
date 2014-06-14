@@ -24,7 +24,6 @@ public class IngredientsManager {
 				+ "OPTIONAL { ?id irma:name ?name } . "
 				+ "OPTIONAL { ?id irma:url ?url }  . "
 				+ "OPTIONAL { ?id irma:image_url ?imageUrl } . } ");
-
 	}
 
 	// Build Ingredients from SPARQL Query
