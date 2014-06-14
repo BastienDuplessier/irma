@@ -1,33 +1,19 @@
 # Cooking schema for irma
-@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix irma:    <http://www.w3.org/2014/06/irma#> .
 
 
 ## Classes
-irma:Recipe a owl:Class, rdf:Class ;
-	    rdfs:subClassOf irma:Information .
-irma:Ingredient a owl:Class, rdf:Class ;
+irma:Recipe a owl:Class, rdfs:Class ;
+	    rdfs:subClassOf irma:Result .
+irma:Ingredient a owl:Class, rdfs:Class ;
 		rdfs:subClassOf irma:Criteria .
-
-
-## Recipe properties
-irma:how_many a rdf:Property, owl:ObjectProperty ;
-	      rdfs:domain irma:Recipe ;
-	      rdfs:range rdfs:Literal .
-irma:preparation_time a rdf:Property, owl:ObjectProperty ;
-		      rdfs:domain irma:Recipe ;
-		      rdfs:range rdfs:Literal .
-irma:cook_time a rdf:Property, owl:ObjectProperty ;
-	       rdfs:domain irma:Recipe ;
-	       rdfs:range rdfs:Literal .
-irma:difficulty a rdf:Property, owl:ObjectProperty ;
-		rdfs:domain irma:Recipe ;
-	   	rdfs:range rdfs:Literal .
-irma:text_ingredients a rdf:Property, owl:ObjectProperty ;
-		      rdfs:domain irma:Recipe ; 
-		      rdfs:range rdfs:Literal .
-irma:text_recipe a rdf:Property, owl:ObjectProperty ;
-		 rdfs:domain irma:Recipe ;
-		 rdfs:range rdfs:Literal .
+irma:HowMany a owl:Class, rdfs:Class ;
+	     rdfs:subClassOf irma:Criteria .
+irma:PreparationTime a owl:Class, rdfs:Class ;
+		     rdfs:subClassOf irma:Criteria .
+irma:CookingTime a owl:Class, rdfs:Class ;
+		 rdfs:subClassOf irma:Criteria .
+irma:Difficulty a owl:Class, rdfs:Class ;
+		rdfs:subClassOf irma:Criteria .
