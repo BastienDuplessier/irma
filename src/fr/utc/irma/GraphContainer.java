@@ -4,54 +4,44 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.hp.hpl.jena.sparql.function.library.min;
-
 import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Ingredient;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import fr.utc.irma.ontologies.Recipe;
 import fr.utc.irma.ontologies.RecipesManager;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
-import android.widget.Toast;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
 	public ArrayList<GraphRecipeAgent> visibleRecipes = new ArrayList<GraphRecipeAgent>();
-	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
-	
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
+
+	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
 	private GraphActivity activity;
-	
-	private void loadAllRecipes(){
-    	try {
-    	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(activity.getAssets());
-    	    RecipesManager  rcpMng = new RecipesManager (OQIC);
-    	    Iterator<Recipe> allIng = rcpMng.getAll().iterator();
-    	    while(allIng.hasNext())
-    	    	allRecipes.add(allIng.next());
-    	} catch (IOException e) {
-    	    Log.d("RecipeLoader","Haha, nobody cares");
-    	}
-    	//((DynamicTableView)findViewById(R.id.ingList)).updateDisplay();
-    }
-	
-	public GraphContainer(GraphActivity a) {
-		this.activity=a;
-		
-		/*for(int i=0; i<2; i++){
-			addCriteria(new Ingredient("ingredient", i==0?"recettePoulet":"recetteChocolat"));
-		}*/
-		loadAllRecipes();
-		for(Recipe r: allRecipes)
-			addRecipe(r);
-		
-	
-		updateCriteriaPosition();
+
+	private void loadAllRecipes() {
+		try {
+			OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(
+					activity.getAssets());
+			RecipesManager rcpMng = new RecipesManager(OQIC);
+			Iterator<Recipe> allRec = rcpMng.getAll().iterator();
+			while (allRec.hasNext())
+				allRecipes.add(allRec.next());
+		} catch (IOException e) {
+			Log.d("RecipeLoader", "Haha, nobody cares");
+		}
 	}
-	
-	public void updateCriteriaPosition(){
+
+	public GraphContainer(GraphActivity a) {
+		this.activity = a;
+		loadAllRecipes();
+		for (Recipe r : allRecipes)
+			addRecipe(r);
+
+	}
+
+	public void updateCriteriaPosition() {
 		switch (criterias.size()) {
 		case 0:
 			break;
@@ -67,133 +57,132 @@ public class GraphContainer {
 			criterias.get(1).setPosition(0.75, 0.25);
 			criterias.get(2).setPosition(0.5, 0.75);
 			break;
-		
 
 		}
 	}
-	
-	public void addRecipe(Recipe r){
+
+	public void addRecipe(Recipe r) {
 		visibleRecipes.add(new GraphRecipeAgent(r, this));
 	}
-	
-	public void addCriteria(Ingredient c){
+
+	public void addCriteria(Ingredient c) {
 		criterias.add(new GraphCriteriaAgent(c, this));
-		
-		if(criterias.size()>3)
+
+		if (criterias.size() > 3)
 			makeCriteriaGlobal(criterias.get(0));
-		
+
 		updateCriteriaPosition();
 	}
-	
-	public void makeCriteriaGlobal(GraphCriteriaAgent a){
+
+	public void makeCriteriaGlobal(GraphCriteriaAgent a) {
 		globalCriterias.add(a.criteria);
 		activity.addGlobalCriteria(a.criteria);
 		removeCriteria(a);
 	}
-	public void makeCriteriaLocal(Ingredient a){
+
+	public void makeCriteriaLocal(Ingredient a) {
 		globalCriterias.remove(a);
 		addCriteria(a);
 		updateCriteriaPosition();
 	}
-	
-	public void removeCriteria(GraphCriteriaAgent gca){
+
+	public void removeCriteria(GraphCriteriaAgent gca) {
 		this.criterias.remove(gca);
 		this.updateCriteriaPosition();
 		activity.setSideBarToCriteriaDescription(new ArrayList<GraphCriteriaAgent>());
 	}
-	
-	public void draw(Canvas canvas){
-	
-		// Draw backgrounds 
-		for(GraphCriteriaAgent c : criterias)
+
+	public void draw(Canvas canvas) {
+
+		// Draw backgrounds
+		for (GraphCriteriaAgent c : criterias)
 			c.customDrawBefore(canvas);
-		for(GraphRecipeAgent c : visibleRecipes)
+		for (GraphRecipeAgent c : visibleRecipes)
 			c.customDrawBefore(canvas);
-		
+
 		// Draw foreground
-		for(GraphCriteriaAgent c : criterias)
+		for (GraphCriteriaAgent c : criterias)
 			c.draw(canvas);
-		for(GraphRecipeAgent c : visibleRecipes){
+		for (GraphRecipeAgent c : visibleRecipes) {
 			c.draw(canvas);
 		}
-		
+
 	}
-	public void tick(){
+
+	public void tick() {
 		// TODO : Criteria vs recipes
-		for(GraphCriteriaAgent CA:criterias){
-			for(GraphRecipeAgent RA : visibleRecipes){
+		for (GraphCriteriaAgent CA : criterias) {
+			for (GraphRecipeAgent RA : visibleRecipes) {
 				// Attract if there is a match
-				if(CA.matchAgainstRecipeAgent(RA)){
+				if (CA.matchAgainstRecipeAgent(RA)) {
 					Force Fe = CA.elasticForce(RA);
-					RA.accelerate(-500*Fe.Fx,-500*Fe.Fy);
+					RA.accelerate(-500 * Fe.Fx, -500 * Fe.Fy);
 				}
 				// Avoid collision
 				Force Fg = CA.gravitationalForce(RA);
-				RA.accelerate(-3*Fg.Fx,-3*Fg.Fy);
+				RA.accelerate(-3 * Fg.Fx, -3 * Fg.Fy);
 			}
 		}
-		
-		
+
 		// Recipe vs recipe
-		for(int i=0; i<visibleRecipes.size()-1 ; i++){
-			for(int j=i+1; j<visibleRecipes.size(); j++){
+		for (int i = 0; i < visibleRecipes.size() - 1; i++) {
+			for (int j = i + 1; j < visibleRecipes.size(); j++) {
 				GraphRecipeAgent r1 = visibleRecipes.get(i);
 				GraphRecipeAgent r2 = visibleRecipes.get(j);
 				Force F = r1.gravitationalForce(r2);
-				r1.accelerate(F.Fx,F.Fy);
-				r2.accelerate(-F.Fx,-F.Fy);
-				
+				r1.accelerate(F.Fx, F.Fy);
+				r2.accelerate(-F.Fx, -F.Fy);
+
 			}
 		}
-		
+
 		// Global Criterias
-		for(Ingredient crit : globalCriterias){
-			for(GraphRecipeAgent RA:visibleRecipes){
-				if(!crit.matchAgainstRecipe(RA.recipe)){
-					RA.accelerate((RA.x-0.5)/100, (RA.y-0.5)/100);
-					
+		for (Ingredient crit : globalCriterias) {
+			for (GraphRecipeAgent RA : visibleRecipes) {
+				if (!crit.matchAgainstRecipe(RA.recipe)) {
+					RA.accelerate((RA.x - 0.5) / 100, (RA.y - 0.5) / 100);
+
 				}
 			}
 		}
-		
+
 		// Recipes move
-		for(GraphRecipeAgent RA:visibleRecipes){
+		for (GraphRecipeAgent RA : visibleRecipes) {
 			RA.tick();
 		}
-		
+
 		// CLear out of bound recipes
-		
-		for(int i=0; i<visibleRecipes.size(); i++){
+
+		for (int i = 0; i < visibleRecipes.size(); i++) {
 			GraphRecipeAgent RA = visibleRecipes.get(i);
-			if(Math.abs(RA.x)>2 || Math.abs(RA.y)>2){
+			if (RA.x < -0.5 || RA.x > 1.5 || RA.y < -0.5 || RA.y > 1.5) {
 				visibleRecipes.remove(RA);
-				i++;
 			}
 		}
-		
+
 	}
-	
-	public ArrayList<GraphCriteriaAgent> getAllClicked(float clickedX, float clickedY){
+
+	public ArrayList<GraphCriteriaAgent> getAllClicked(float clickedX,
+			float clickedY) {
 		ArrayList<GraphCriteriaAgent> allClicked = new ArrayList<GraphCriteriaAgent>();
-		for(GraphCriteriaAgent GCA:criterias){
-			double dx=clickedX-GCA.x;
-			double dy=clickedY-GCA.y;
-			double d=Math.sqrt(dx*dx + dy*dy);
-			if((GCA.circleSize!=null && d<GCA.circleSize) || d<GCA.displayRadius){
+		for (GraphCriteriaAgent GCA : criterias) {
+			double dx = clickedX - GCA.x;
+			double dy = clickedY - GCA.y;
+			double d = Math.sqrt(dx * dx + dy * dy);
+			if ((GCA.circleSize != null && d < GCA.circleSize)
+					|| d < GCA.displayRadius) {
 				allClicked.add(GCA);
 			}
 		}
 		return allClicked;
 	}
-	
-	public void clickOn(float clickedX, float clickedY, GraphView GV){
-		// When the graph is clicked, we look for Graph Criteria Agents with the click inside there bounds;
-		
-		GV.descCriteria( getAllClicked(clickedX, clickedY));
-			
-		
+
+	public void clickOn(float clickedX, float clickedY, GraphView GV) {
+		// When the graph is clicked, we look for Graph Criteria Agents with the
+		// click inside there bounds;
+
+		GV.descCriteria(getAllClicked(clickedX, clickedY));
+
 	}
-	
-	
 
 }

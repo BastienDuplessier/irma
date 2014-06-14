@@ -9,9 +9,8 @@
         android:layout_height="70dip"
         android:src="@drawable/courgette"
         android:id="@+id/recipeListImage"/>
-    <TextView 
-        android:id="@+id/recipeListText" 
-        android:layout_height="wrap_content" 
-        android:layout_width="wrap_content"/>
-
+   	
+    <TextView android:id="@+id/recipeListText" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+   	
+	
 </LinearLayout>

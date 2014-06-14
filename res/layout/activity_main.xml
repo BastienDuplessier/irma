@@ -1,54 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-	android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent"
-	android:weightSum="3">
+    android:baselineAligned="false"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:weightSum="3" >
 
-	<ScrollView android:layout_height="wrap_content"
-		android:layout_weight="2" android:layout_width="0dip">
-		<RelativeLayout 
-		    android:layout_width="fill_parent" 
-		    android:layout_height="wrap_content"
-		    android:id="@+id/ingList"/>
-	</ScrollView>
-	<ScrollView android:layout_height="wrap_content"
-		android:layout_weight="1" android:layout_width="0dip">
-	<LinearLayout
-		android:id="@+id/rightPaneLayoutID" 
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" 
-		android:orientation="vertical">
-		<com.neopixl.pixlui.components.textview.TextView
-			android:id="@+id/textView1" 
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" 
-			android:text="Irma" 
-			android:textColor="#33b6ea" 
-			android:textSize="80sp"
-			android:gravity="center" 
-			pixlui:typeface="bello.ttf" />
-		<TextView 
-		    android:id="@+id/textToJustifyMain"
-		    android:layout_width="match_parent" 
-		    android:layout_height="wrap_content" 
-		    android:text="@string/lorem" 
-		    android:textSize="17sp" 
-		    android:paddingLeft="5dp"
-		    android:paddingRight="5dp"
-			android:layout_marginBottom="10dp"/>
-		<EditText android:id="@+id/criterias"
-			android:layout_width="match_parent" 
-			android:layout_height="wrap_content"
-			android:hint="Filtrez les critères" 
-			android:background="#EEE9E9"
-			android:paddingTop="5dp"
-			android:paddingBottom="5dp"
-			android:gravity="center" 
-			android:inputType="text" />
-		<Button android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Go"
-		    android:layout_margin="20dip"
-             android:id="@+id/startGraphButton"/>
-	</LinearLayout>
-	</ScrollView>
+    <ScrollView
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="2" >
+
+        <RelativeLayout
+            android:id="@+id/ingList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:id="@+id/rightPaneLayoutID"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.neopixl.pixlui.components.textview.TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Irma"
+                android:textColor="#33b6ea"
+                android:textSize="80sp"
+                pixlui:typeface="bello.ttf" />
+
+            <TextView
+                android:id="@+id/textToJustifyMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/lorem"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/criterias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEE9E9"
+                android:gravity="center"
+                android:hint="Filtrez les critères"
+                android:inputType="text"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+
+            <Button
+                android:id="@+id/startGraphButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dip"
+                android:text="Go" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

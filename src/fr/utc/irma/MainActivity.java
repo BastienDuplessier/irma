@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
     	lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
     	lp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
     	lp.leftMargin=(numberOfCells%numberOfCollums)*imgWidth;
-    	lp.topMargin=((int)numberOfCells/numberOfCollums)*imgWidth;
+    	lp.topMargin=((int)numberOfCells/numberOfCollums)*imgWidth*142/215;
     	
     	ingButton.setLayoutParams(lp);
     	UrlImageViewHelper.setUrlDrawable(ingButton, ing.getImageUrl(), drawable.courgette);
