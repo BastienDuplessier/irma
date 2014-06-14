@@ -12,6 +12,7 @@ public class Ingredient implements Serializable {
 	private String name;
 	private String url;
 	private String imageUrl;
+	public boolean optionnal = false;
 	
 	
 	public Ingredient(QuerySolution row) {
