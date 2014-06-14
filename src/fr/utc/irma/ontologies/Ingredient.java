@@ -10,8 +10,8 @@ public class Ingredient implements Serializable {
 	
 	private String id;
 	private String name;
-	private String url;
-	private String imageUrl;
+	private String url="";
+	private String imageUrl="";
 	
 	
 	public Ingredient(QuerySolution row) {
