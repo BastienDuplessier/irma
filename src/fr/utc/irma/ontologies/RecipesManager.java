@@ -1,6 +1,7 @@
 package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import android.os.AsyncTask;
 
@@ -32,14 +33,18 @@ public class RecipesManager {
 
 	// Build Recipes from ResultSet
 	private ArrayList<Recipe> fromResultSet(ResultSet inData) {
-		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+		Hashtable<String, Recipe> recipes = new Hashtable<String, Recipe>();
 
 		while(inData.hasNext()) {
 			QuerySolution row = inData.next();
-			recipes.add(new Recipe(row));
+			Recipe recipe = recipes.get(row.get("id").toString());
+			if(recipe == null)
+			    recipes.put(row.get("id").toString(), new Recipe(row));
+			else
+			    recipe.addCriteria(row);
 		}
 
-		return recipes;
+		return new ArrayList<Recipe>(recipes.values());
 	}
 
 	public void asyncLoad(final ExecutableTask executableTask, final String sparqlQuery) {
@@ -62,12 +67,12 @@ public class RecipesManager {
 
     private String getAllQuery() {
         return PREFIX + " "
-                + "SELECT ?id ?name ?url ?imageUrl ?description "
-                + "?difficulty ?textIngredients ?textRecipe WHERE { "
+                + "SELECT ?id ?name ?url ?imageUrl ?description ?criteria WHERE { "
                 + "?id a irma:Recipe . "
                 + "?id irma:name ?name . "
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
-                + "?id irma:description ?description } ";
+                + "?id irma:description ?description ."
+                + "?id irma:linked_to ?criteria } ";
     }
 }
