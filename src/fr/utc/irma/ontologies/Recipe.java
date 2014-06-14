@@ -8,12 +8,7 @@ public class Recipe {
 	private String name;
 	private String url;
 	private String imageUrl;
-	private String howMany;
-	private String preparationTime;
-	private String cookTime;
-	private String difficulty;
-	private String textIngredients;
-	private String textRecipe;
+	private String description;
 	
 	
 	public Recipe(QuerySolution row) {
@@ -23,12 +18,7 @@ public class Recipe {
 		this.imageUrl = row.get("imageUrl").toString();
 		
 		// Recipe specific
-		this.howMany = row.get("howMany").toString();
-		this.preparationTime = row.get("preparationTime").toString();
-		this.cookTime = row.get("cookTime").toString();
-		this.difficulty = row.get("difficulty").toString();
-		this.textIngredients = row.get("textIngredients").toString();
-		this.textRecipe = row.get("textRecipe").toString();
+		this.description = row.get("description").toString();
 	}
 	
 	public String toString() {
@@ -40,10 +30,5 @@ public class Recipe {
 	public String getName() { return this.name; }
 	public String getImageUrl(){return this.imageUrl;}
 	public String getUrl() { return this.url; }
-	public String getHowMany() { return this.howMany; }
-	public String getPreparationTime() { return this.preparationTime; }
-	public String getCookTime() { return this.cookTime; }
-	public String getDifficulty() { return this.difficulty; }
-	public String getTextIngredients() { return this.textIngredients; }
-	public String getTextRecipe() { return this.textRecipe; }
+	public String getDescription() { return this.description; }
 }

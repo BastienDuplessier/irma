@@ -62,17 +62,12 @@ public class RecipesManager {
 
     private String getAllQuery() {
         return PREFIX + " "
-                + "SELECT ?id ?name ?url ?imageUrl ?howMany ?preparationTime ?cookTime "
+                + "SELECT ?id ?name ?url ?imageUrl ?description "
                 + "?difficulty ?textIngredients ?textRecipe WHERE { "
                 + "?id a irma:Recipe . "
                 + "?id irma:name ?name . "
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
-                + "?id irma:how_many ?howMany . "
-                + "?id irma:preparation_time ?preparationTime . "
-                + "?id irma:cook_time ?cookTime . "
-                + "?id irma:difficulty ?difficulty . "
-                + "?id irma:text_ingredients ?textIngredients . "
-                + "?id irma:text_recipe ?textRecipe } ";
+                + "?id irma:description ?description } ";
     }
 }
