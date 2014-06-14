@@ -2,14 +2,12 @@ package fr.utc.irma;
 
 import java.util.ArrayList;
 
-import fr.utc.irma.ontologies.Ingredient;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 public class GraphView extends View {
 	public int backgroundColor = Color.WHITE;

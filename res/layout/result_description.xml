@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-	<ImageView 
+
+    <ImageView
+        android:id="@+id/resultImage"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/resultImage"/>
-    
+        android:layout_height="wrap_content" />
+
     <com.neopixl.pixlui.components.textview.TextView
-			android:id="@+id/resultName" 
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" 
-			android:gravity="center"
-			android:text="" 
-			android:textColor="#33b6ea" 
-			android:textSize="25sp"
-			pixlui:typeface="bello.ttf" />
-   	
-   	<WebView 
-   	    android:layout_width="match_parent"
-   	    android:layout_height="wrap_content"
-   	    android:id="@+id/resultHTMLDescription"/>
-   	
-   	<Button android:layout_width="match_parent"
-   	    android:layout_height="wrap_content"
-   	    android:text="Voir en ligne"
-   	    android:id="@+id/resultLink"/>
-    
+        android:id="@+id/resultName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#33b6ea"
+        android:textSize="25sp"
+        pixlui:typeface="bello.ttf" />
+
+    <WebView
+        android:id="@+id/resultHTMLDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/resultLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voir en ligne" />
+
 </LinearLayout>
