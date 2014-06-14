@@ -21,9 +21,9 @@ public class IngredientsManager {
 				+ "SELECT ?id ?name ?url ?imageUrl WHERE { "
 				+ "?id a ?class . "
 				+ "?class rdfs:subClassOf irma:Criteria . "
-				+ "?id irma:name ?name . "
-				+ "?id irma:url ?url . "
-				+ "?id irma:image_url ?imageUrl } ");
+				+ "OPTIONAL { ?id irma:name ?name } . "
+				+ "OPTIONAL { ?id irma:url ?url }  . "
+				+ "OPTIONAL { ?id irma:image_url ?imageUrl } . } ");
 
 	}
 
@@ -36,6 +36,7 @@ public class IngredientsManager {
 	// Build Ingredients from ResultSet
 	private ArrayList<Ingredient> fromResultSet(ResultSet inData) {
 		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+		
 		
 		while(inData.hasNext()) {
 			QuerySolution row = inData.next();
