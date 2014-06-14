@@ -88,8 +88,7 @@ public class GraphContainer {
 	public void makeCriteriaGlobal(GraphCriteriaAgent a){
 		globalCriterias.add(a.criteria);
 		activity.addGlobalCriteria(a.criteria);
-		criterias.remove(a);
-		updateCriteriaPosition();
+		removeCriteria(a);
 	}
 	public void makeCriteriaLocal(Ingredient a){
 		globalCriterias.remove(a);
@@ -97,7 +96,11 @@ public class GraphContainer {
 		updateCriteriaPosition();
 	}
 	
-	
+	public void removeCriteria(GraphCriteriaAgent gca){
+		this.criterias.remove(gca);
+		this.updateCriteriaPosition();
+		activity.setSideBarToCriteriaDescription(new ArrayList<GraphCriteriaAgent>());
+	}
 	
 	public void draw(Canvas canvas){
 	
@@ -142,19 +145,36 @@ public class GraphContainer {
 				
 			}
 		}
+		
+		// Global Criterias
+		for(Ingredient crit : globalCriterias){
+			for(GraphRecipeAgent RA:visibleRecipes){
+				if(!crit.matchAgainstRecipe(RA.recipe)){
+					RA.accelerate((RA.x-0.5)/100, (RA.y-0.5)/100);
+					
+				}
+			}
+		}
+		
 		// Recipes move
 		for(GraphRecipeAgent RA:visibleRecipes){
 			RA.tick();
 		}
-			
+		
+		// CLear out of bound recipes
+		
+		for(int i=0; i<visibleRecipes.size(); i++){
+			GraphRecipeAgent RA = visibleRecipes.get(i);
+			if(Math.abs(RA.x)>2 || Math.abs(RA.y)>2){
+				visibleRecipes.remove(RA);
+				i++;
+			}
+		}
 		
 	}
 	
-	public void clickOn(float clickedX, float clickedY, GraphView GV){
-		// When the graph is clicked, we look for Graph Criteria Agents with the click inside there bounds;
-		
-		ArrayList<GraphCriteriaAgent> allClicked = new ArrayList<GraphCriteriaAgent>(); 
-		
+	public ArrayList<GraphCriteriaAgent> getAllClicked(float clickedX, float clickedY){
+		ArrayList<GraphCriteriaAgent> allClicked = new ArrayList<GraphCriteriaAgent>();
 		for(GraphCriteriaAgent GCA:criterias){
 			double dx=clickedX-GCA.x;
 			double dy=clickedY-GCA.y;
@@ -163,10 +183,13 @@ public class GraphContainer {
 				allClicked.add(GCA);
 			}
 		}
-			
+		return allClicked;
+	}
+	
+	public void clickOn(float clickedX, float clickedY, GraphView GV){
+		// When the graph is clicked, we look for Graph Criteria Agents with the click inside there bounds;
 		
-		//if(allClicked.size()>0)
-		GV.descCriteria( allClicked);
+		GV.descCriteria( getAllClicked(clickedX, clickedY));
 			
 		
 	}

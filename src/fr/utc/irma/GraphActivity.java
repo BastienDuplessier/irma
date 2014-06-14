@@ -142,7 +142,7 @@ public class GraphActivity extends Activity {
 		// "Make global" buttons
 		for(GraphCriteriaAgent gca : clickedCriterias){
 			Button makeGlobal = new Button(this);
-			makeGlobal.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			makeGlobal.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			makeGlobal.setText("Rendre "+gca.criteria.getName()+ " global");
 			makeGlobal.setTag(gca);
 			makeGlobal.setOnClickListener(new OnClickListener() {
@@ -159,13 +159,13 @@ public class GraphActivity extends Activity {
 		// "Delete" buttons
 		for(GraphCriteriaAgent gca : clickedCriterias){
 			Button deleteGCA = new Button(this);
-			deleteGCA.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			deleteGCA.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
 			deleteGCA.setText("Supprimer "+gca.criteria.getName());
 			deleteGCA.setTag(gca);
 			deleteGCA.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					GraphActivity.this.gV.getContainer().criterias.remove((GraphCriteriaAgent)v.getTag());
+					GraphActivity.this.gV.getContainer().removeCriteria((GraphCriteriaAgent)v.getTag());
 				}
 			});
 			sideBar.addView(deleteGCA);

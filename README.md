@@ -3,9 +3,43 @@ irma
 
 IRMA project for IA04/NF28
 
-#Schéma RDF suggéré
+#Description des classes
 
-![alt tag](http://s8.postimg.org/8h064crbp/2bedel.jpg)
+##Activités
+### class MainActivity
+Activité d'accueil qui permet de choisir ses critéres de départ pour graphActivity
+
+## class GraphActivity
+Activité de tri de recettes interractif.
+
+## Données
+### class Information
+Décrit une recette ici, un élément sujet de notre recherche en général.
+
+### class CriteriaValue
+Décrit un couple clef valeur décrivant une Information
+Exemple : "ingredient : poulet", "temps de cuisson : 30min"
+
+## Systéme agent (graph)
+### class GraphContainer
+Contiens la liste de agents et gére leurs interractions, a la facon du conteneur jade.
+
+### class GraphView
+Affiche le container et gére les entrées tactiles.
+
+### class GraphAgent 
+Représente un agent sur le graph, abstrait et ne faisant rien.
+### class GraphRecipeAgent
+Représente une recette sur le graph, subit la gravité
+### class GraphCriteriaAgent
+Représente un critére visible sur le graph (pas les critéres globaux). Influe sur les GraphRecipeAgent.
+
+## Helper classes
+### MiseEnPage
+Permet la justification du texte
+### ExecutableTask
+Permet les appels assinchrones
+
 
 #Comment récupérer tous les ingrédients ?  
 C'est assez simple, il suffit d'instancier un nouveau `OntologyQueryInterfaceConnector` avec `getAssets` en argument (pour récupérer les fichiers). 

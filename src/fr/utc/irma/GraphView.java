@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class GraphView extends View {
 	public int backgroundColor = Color.WHITE;
@@ -34,6 +35,11 @@ public class GraphView extends View {
 		canvas.drawColor(backgroundColor);
 		container.tick();
 		container.draw(canvas);
+		
+		// For 2bl click detection
+		framesSinceLastClick++;
+		
+		// Trigger a refresh of the view
 		invalidate();
 	}
 
@@ -46,9 +52,26 @@ public class GraphView extends View {
 		return container;
 	}
 	
+	int framesSinceLastClick=100;
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		container.clickOn(event.getX()/this.getWidth(), event.getY()/this.getHeight(), this);
+		float rel_x=event.getX()/this.getWidth();
+		float rel_y=event.getY()/this.getHeight();
+		
+		container.clickOn(rel_x, rel_y, this);
+		
+		if(framesSinceLastClick<10){
+			
+			for(GraphCriteriaAgent GCA : container.getAllClicked(rel_x, rel_y)){
+				container.makeCriteriaGlobal(GCA);
+			}
+			
+			
+			framesSinceLastClick=100;
+		}else{
+			framesSinceLastClick=0;
+		}
+		
 		return super.onTouchEvent(event);
 	}
 	
