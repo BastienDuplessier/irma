@@ -5,13 +5,19 @@
     tools:context="fr.utc.irma.GraphActivity$PlaceholderFragment"
     android:orientation="horizontal" 
     android:layout_width="match_parent" 
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
     <LinearLayout 
         android:orientation="vertical"
         android:layout_weight="0.75"
         android:layout_width="0dp"
         android:layout_height="match_parent">
-	    <LinearLayout android:id="@+id/criterias"  android:layout_width="match_parent" android:layout_height="40dip" android:orientation="horizontal" style="?android:attr/buttonBarStyle">
+	    <LinearLayout 
+	        android:id="@+id/criterias"  
+	        android:layout_width="match_parent" 
+	        android:layout_height="40dip" 
+	        android:orientation="horizontal" 
+	        style="?android:attr/buttonBarStyle">
 	       
 	    </LinearLayout>
 	       
@@ -34,8 +40,7 @@
             android:id="@+id/GraphActivityRightSidebar"
 			android:orientation="vertical"
 			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:background="@android:color/white">
+			android:layout_width="match_parent">
 			
             <com.neopixl.pixlui.components.textview.TextView
 			android:id="@+id/textView1" 

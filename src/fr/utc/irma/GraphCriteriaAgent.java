@@ -57,8 +57,10 @@ public class GraphCriteriaAgent extends GraphAgent {
 					closestWrong=this.d2to(RA);
 			}
 		}
+		if(closestWrong==null)
+			closestWrong=furthestRight;
 		// Do we draw a circle ?
-		if(closestWrong!= null && furthestRight!=null && furthestRight<closestWrong){
+		if(closestWrong!= null && furthestRight!=null && furthestRight<=closestWrong){
 			furthestRight=Math.sqrt(furthestRight);
 			circleSize=furthestRight;
 			furthestRight+=0.05;

@@ -165,9 +165,8 @@ public class GraphContainer {
 		
 		for(int i=0; i<visibleRecipes.size(); i++){
 			GraphRecipeAgent RA = visibleRecipes.get(i);
-			if(Math.abs(RA.x)>2 || Math.abs(RA.y)>2){
+			if(RA.x<-0.5 || RA.x>1.5 || RA.y<-0.5 || RA.y>1.5){
 				visibleRecipes.remove(RA);
-				i++;
 			}
 		}
 		

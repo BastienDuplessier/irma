@@ -15,8 +15,8 @@ public class GraphAgent {
 	
 	public GraphAgent(GraphContainer c) {
 		this.gc=c;
-		this.x=Math.random();
-		this.y=Math.random();
+		this.x=Math.random()*0.2-0.1+0.5;
+		this.y=Math.random()*0.2-0.1+0.5;
 		nodePaint.setColor(Color.BLACK);
 		nodePaint.setAlpha(128);
 		nodePaint.setStyle(Style.FILL);
@@ -35,6 +35,12 @@ public class GraphAgent {
 	public void accelerate(double x, double y){
 		speedX+=x;
 		speedY+=y;
+		double goodSpd=0.01;
+		if(speedX*speedX + speedY*speedY > goodSpd*goodSpd){
+			double spdTooMuch=Math.sqrt(speedX*speedX + speedY*speedY)/goodSpd;
+			speedX/=spdTooMuch;
+			speedY/=spdTooMuch;
+		}
 	}
 	public void setPosition(double x, double y){
 		this.x=x;

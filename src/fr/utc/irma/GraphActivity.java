@@ -54,9 +54,6 @@ public class GraphActivity extends Activity {
 		
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
 	public static class PlaceholderFragment extends Fragment {
 
 		ArrayList<Ingredient> startingCriterias;
