@@ -8,8 +8,8 @@ import java.util.Locale;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.drawable;
-import fr.utc.irma.ontologies.Ingredient;
-import fr.utc.irma.ontologies.IngredientsManager;
+import fr.utc.irma.ontologies.Criteria;
+import fr.utc.irma.ontologies.CriteriasManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 
 import android.app.Activity;
@@ -35,10 +35,10 @@ public class MainActivity extends Activity {
 	String searchFilter="";
 	
 	// Tous les ingredients
-	ArrayList<Ingredient> all = new ArrayList<Ingredient>();
+	ArrayList<Criteria> all = new ArrayList<Criteria>();
 
 	// Ingredients choisis par l'user
-	ArrayList<Ingredient> chosen = new ArrayList<Ingredient>();
+	ArrayList<Criteria> chosen = new ArrayList<Criteria>();
 		
 	// Liste (affichage) des ingredients
 	RelativeLayout ingList ;
@@ -97,13 +97,13 @@ public class MainActivity extends Activity {
     public void startGraphActivity(){
     	Intent i = new Intent(this, GraphActivity.class);
     	ArrayList<String> chosenStr=new ArrayList<String>();
-    	for(Ingredient ing : chosen)
+    	for(Criteria ing : chosen)
     		chosenStr.add(ing.getUrl());
     	i.putExtra("choice", chosen);
 		this.startActivity(i);
     }
     
-    public void pickCriteria(Ingredient toAdd){
+    public void pickCriteria(Criteria toAdd){
     	if(chosen.contains(toAdd))
     		chosen.remove(toAdd);
     	else
@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
     private void loadList(){
     	try {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
-    	    IngredientsManager ingMng = new IngredientsManager(OQIC);
+    	    CriteriasManager ingMng = new CriteriasManager(OQIC);
     	    all = ingMng.getAll();
     	    
     	    ingList = (RelativeLayout)findViewById(R.id.ingList);
@@ -154,7 +154,7 @@ public class MainActivity extends Activity {
     	}
     	
     	ingList.removeAllViews();
-	    for(Ingredient toBeShown:all)
+	    for(Criteria toBeShown:all)
 	    	if(searchFilter==""|| toBeShown.getName().toUpperCase(Locale.FRANCE).indexOf(searchFilter)!=-1 
 	    	|| chosen.contains(toBeShown))
 	    		addIng(toBeShown);
@@ -178,7 +178,7 @@ public class MainActivity extends Activity {
     }
     
     @SuppressWarnings("deprecation")
-	private void addIng(Ingredient ing){
+	private void addIng(Criteria ing){
     	
     	ImageView ingButton = new ImageView(this);
     	// grid 
@@ -207,7 +207,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				MainActivity.this.pickCriteria((Ingredient)v.getTag());
+				MainActivity.this.pickCriteria((Criteria)v.getTag());
 			}
 		});
     	

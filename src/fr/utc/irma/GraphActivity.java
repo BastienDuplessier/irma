@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.id;
-import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.Criteria;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import fr.utc.irma.ontologies.Recipe;
 import fr.utc.irma.ontologies.RecipesManager;
@@ -46,7 +46,7 @@ public class GraphActivity extends Activity {
 
 	public static class PlaceholderFragment extends Fragment {
 
-		ArrayList<Ingredient> startingCriterias;
+		ArrayList<Criteria> startingCriterias;
 
 		public PlaceholderFragment() {
 		}
@@ -85,14 +85,14 @@ public class GraphActivity extends Activity {
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
 			try {
-				startingCriterias = (ArrayList<Ingredient>) getActivity()
+				startingCriterias = (ArrayList<Criteria>) getActivity()
 						.getIntent().getSerializableExtra("choice");
 			} catch (ClassCastException e) {
 				Toast.makeText(this.getActivity(),
 						"Couldnt pass activity parameters to GraphActivity",
 						Toast.LENGTH_SHORT).show();
 			}
-			for (Ingredient c : startingCriterias) {
+			for (Criteria c : startingCriterias) {
 				((GraphActivity) this.getActivity()).globalCriterias = ((LinearLayout) getActivity()
 						.findViewById(R.id.criterias));
 				((GraphActivity) this.getActivity()).gV = ((GraphView) getActivity()
@@ -242,7 +242,7 @@ public class GraphActivity extends Activity {
 
 	LinearLayout globalCriterias;
 
-	public void addGlobalCriteria(Ingredient ing) {
+	public void addGlobalCriteria(Criteria ing) {
 		Button removeGlobal = new Button(this);
 		removeGlobal.setLayoutParams(new LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
@@ -254,7 +254,7 @@ public class GraphActivity extends Activity {
 			public void onClick(View v) {
 				globalCriterias.removeView(v);
 				GraphActivity.this.gV.getContainer().makeCriteriaLocal(
-						(Ingredient) v.getTag());
+						(Criteria) v.getTag());
 			}
 		});
 		globalCriterias.addView(removeGlobal);

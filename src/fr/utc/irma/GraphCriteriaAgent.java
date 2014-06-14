@@ -1,6 +1,6 @@
 package fr.utc.irma;
 
-import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.Criteria;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,10 +9,10 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 
 public class GraphCriteriaAgent extends GraphAgent {
-	public Ingredient criteria;
+	public Criteria criteria;
 	public Double circleSize=null;
 	
-	public GraphCriteriaAgent(Ingredient c, GraphContainer gc) {
+	public GraphCriteriaAgent(Criteria c, GraphContainer gc) {
 		super(gc);
 		this.criteria=c;
 		

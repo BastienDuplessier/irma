@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
-public class IngredientsManager {
+public class CriteriasManager {
 
 
 	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>"
             + " PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
-	public IngredientsManager(OntologyQueryInterfaceConnector connector) {
+	public CriteriasManager(OntologyQueryInterfaceConnector connector) {
 		this.connector = connector;
 	}
 
-	public ArrayList<Ingredient> getAll() {
+	public ArrayList<Criteria> getAll() {
 		return this.fromSPARQL(PREFIX + " "   
 				+ "SELECT ?id ?name ?url ?imageUrl WHERE { "
 				+ "?id a ?class . "
@@ -27,21 +27,21 @@ public class IngredientsManager {
 	}
 
 	// Build Ingredients from SPARQL Query
-	public ArrayList<Ingredient> fromSPARQL(String query) {
+	public ArrayList<Criteria> fromSPARQL(String query) {
 		ResultSet results = connector.executeSparql(query);
 		return this.fromResultSet(results);
 	}
 
 	// Build Ingredients from ResultSet
-	private ArrayList<Ingredient> fromResultSet(ResultSet inData) {
-		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+	private ArrayList<Criteria> fromResultSet(ResultSet inData) {
+		ArrayList<Criteria> criterias = new ArrayList<Criteria>();
 		
 		
 		while(inData.hasNext()) {
 			QuerySolution row = inData.next();
-			ingredients.add(new Ingredient(row));
+			criterias.add(new Criteria(row));
 		}
 
-		return ingredients;
+		return criterias;
 	}
 }

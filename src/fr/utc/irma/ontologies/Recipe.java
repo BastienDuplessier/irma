@@ -34,7 +34,7 @@ public class Recipe {
 		return "" + this.id + " - " + this.name + " -- " + this.url + " -- " + this.imageUrl;
 	}
 	
-	public boolean matchCriteria(Ingredient criteria) {
+	public boolean matchCriteria(Criteria criteria) {
 	    return criterias.contains(criteria.getId());
 	}
 	

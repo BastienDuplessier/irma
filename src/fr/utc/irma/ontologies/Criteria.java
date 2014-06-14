@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.hp.hpl.jena.query.QuerySolution;
 
-public class Ingredient implements Serializable {
+public class Criteria implements Serializable {
 	
 	private static final long serialVersionUID = 6894113962246182007L;
 	
@@ -15,7 +15,7 @@ public class Ingredient implements Serializable {
 	public boolean optionnal = false;
 	
 	
-	public Ingredient(QuerySolution row) {
+	public Criteria(QuerySolution row) {
 		this.id = row.get("id").toString();
 		this.name = row.get("name") == null ? "" : row.get("name").toString();
 		this.url = row.get("url") == null ? "" : row.get("url").toString();

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import fr.utc.irma.GraphAgent.Force;
-import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.Criteria;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import fr.utc.irma.ontologies.Recipe;
 import fr.utc.irma.ontologies.RecipesManager;
@@ -17,7 +17,7 @@ public class GraphContainer {
 	public ArrayList<GraphRecipeAgent> visibleRecipes = new ArrayList<GraphRecipeAgent>();
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 
-	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
+	public ArrayList<Criteria> globalCriterias = new ArrayList<Criteria>();
 	private GraphActivity activity;
 
 	private void loadAllRecipes() {
@@ -65,7 +65,7 @@ public class GraphContainer {
 		visibleRecipes.add(new GraphRecipeAgent(r, this));
 	}
 
-	public void addCriteria(Ingredient c) {
+	public void addCriteria(Criteria c) {
 		criterias.add(new GraphCriteriaAgent(c, this));
 
 		if (criterias.size() > 3)
@@ -80,7 +80,7 @@ public class GraphContainer {
 		removeCriteria(a);
 	}
 
-	public void makeCriteriaLocal(Ingredient a) {
+	public void makeCriteriaLocal(Criteria a) {
 		globalCriterias.remove(a);
 		addCriteria(a);
 		updateCriteriaPosition();
@@ -137,7 +137,7 @@ public class GraphContainer {
 		}
 
 		// Global Criterias
-		for (Ingredient crit : globalCriterias) {
+		for (Criteria crit : globalCriterias) {
 			for (GraphRecipeAgent RA : visibleRecipes) {
 			    if (!RA.recipe.matchCriteria(crit)) {
 					RA.accelerate((RA.x - 0.5) / 100, (RA.y - 0.5) / 100);
