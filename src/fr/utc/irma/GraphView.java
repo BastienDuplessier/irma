@@ -1,5 +1,7 @@
 package fr.utc.irma;
 
+import java.util.ArrayList;
+
 import fr.utc.irma.ontologies.Ingredient;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,7 +15,7 @@ public class GraphView extends View {
 	GraphContainer container;
 	
 	private void init(){
-		this.container=new GraphContainer(this.getContext());
+		this.container=new GraphContainer((GraphActivity)this.getContext());
 	}
 	
 	public GraphView(Context context) {
@@ -50,8 +52,8 @@ public class GraphView extends View {
 		return super.onTouchEvent(event);
 	}
 	
-	public void descCriteria(Ingredient crit){
-		((GraphActivity)this.getContext()).setSideBarToCriteriaDescription(crit);
+	public void descCriteria( ArrayList<GraphCriteriaAgent> clickedCriteria){
+		((GraphActivity)this.getContext()).setSideBarToCriteriaDescription(clickedCriteria);
 		
 	}
 

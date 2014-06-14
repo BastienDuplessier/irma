@@ -14,6 +14,8 @@ import fr.utc.irma.ontologies.RecipesManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,8 +24,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,26 +52,6 @@ public class GraphActivity extends Activity {
 		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.graph, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
@@ -115,16 +100,20 @@ public class GraphActivity extends Activity {
 				Toast.makeText(this.getActivity(), "Couldnt pass activity parameters to GraphActivity",Toast.LENGTH_SHORT).show();
 			}
 			for(Ingredient c:startingCriterias){
-		        ((GraphView)getActivity().findViewById(R.id.graphDisplay)).getContainer().addCriteria(c);
+				((GraphActivity)this.getActivity()).globalCriterias=((LinearLayout)getActivity().findViewById(R.id.criterias));
+		        ((GraphActivity)this.getActivity()).gV=((GraphView)getActivity().findViewById(R.id.graphDisplay));
+		        ((GraphActivity)this.getActivity()).gV.getContainer().addCriteria(c);
 			}
 			super.onActivityCreated(savedInstanceState);
 		}
 	}
 	
+	public GraphView gV;
+	
 	RecipesManager RM ;
 	LinearLayout sideBar ; 
 	
-	public void setSideBarToCriteriaDescription(Ingredient crit){
+	public void setSideBarToCriteriaDescription(ArrayList<GraphCriteriaAgent> clickedCriterias){
 		
 		if(sideBar ==null )
 			sideBar=((LinearLayout)findViewById(R.id.GraphActivityRightSidebar));
@@ -138,8 +127,37 @@ public class GraphActivity extends Activity {
 				sideBar
 				);
 		// Fill ingredient descriptor
-		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(crit.getName());
-		UrlImageViewHelper.setUrlDrawable(((ImageView)descFrag.findViewById(R.id.ingDescImg)), crit.getImageUrl(), drawable.courgette);
+		String names = "";
+		for(GraphCriteriaAgent gca : clickedCriterias)
+			if(names.equals(""))
+				names+=gca.criteria.getName();
+			else
+				names+=" & " + gca.criteria.getName();
+		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(names);
+		if(clickedCriterias.size()==1)
+			UrlImageViewHelper.setUrlDrawable(
+					((ImageView)descFrag.findViewById(R.id.ingDescImg)),
+					clickedCriterias.get(0).criteria.getImageUrl());
+		
+		// "Make global" buttons
+		for(GraphCriteriaAgent gca : clickedCriterias){
+			Button makeGlobal = new Button(this);
+			makeGlobal.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			makeGlobal.setText("Rendre "+gca.criteria.getName()+ " global");
+			makeGlobal.setTag(gca);
+			makeGlobal.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					GraphActivity.this.gV.getContainer().makeCriteriaGlobal((GraphCriteriaAgent)v.getTag());
+					
+				}
+			});
+			sideBar.addView(makeGlobal);
+		}
+		
+		
+		// Load corresponding recipes in sidebar
 		if(RM==null){
 			try {
 				RM = new RecipesManager(new OntologyQueryInterfaceConnector(getAssets()));
@@ -163,13 +181,38 @@ public class GraphActivity extends Activity {
 							);
 					((TextView)descFrag.findViewById(R.id.recipeListText)).setText(r.getName());
 					UrlImageViewHelper.setUrlDrawable((ImageView)descFrag.findViewById(R.id.recipeListImage),r.getImageUrl());
-					
+					descFrag.setTag(r);
+					descFrag.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							startActivity(
+									new Intent(
+											Intent.ACTION_VIEW,
+											Uri.parse(((Recipe)v.getTag()).getUrl())));
+							
+						}
+					});
 				}
 			}
 		});
-		
-		
-		
+	}
+	
+	LinearLayout globalCriterias;
+	public void addGlobalCriteria(Ingredient ing){
+		Button removeGlobal = new Button(this);
+		removeGlobal.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT));
+		removeGlobal.setText(ing.getName());
+		removeGlobal.setTag(ing);
+		removeGlobal.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				globalCriterias.removeView(v);
+				GraphActivity.this.gV.getContainer().makeCriteriaLocal((Ingredient)v.getTag());
+				
+			}
+		});
+		globalCriterias.addView(removeGlobal);
 	}
 
 }

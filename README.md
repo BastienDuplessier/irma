@@ -3,6 +3,9 @@ irma
 
 IRMA project for IA04/NF28
 
+#Schéma RDF suggéré
+
+![alt tag](http://s8.postimg.org/8h064crbp/2bedel.jpg)
 
 #Comment récupérer tous les ingrédients ?  
 C'est assez simple, il suffit d'instancier un nouveau `OntologyQueryInterfaceConnector` avec `getAssets` en argument (pour récupérer les fichiers). 

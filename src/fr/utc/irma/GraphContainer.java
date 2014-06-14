@@ -22,11 +22,11 @@ public class GraphContainer {
 	public ArrayList<Ingredient> globalCriterias = new ArrayList<Ingredient>();
 	
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
-	private Context a;
+	private GraphActivity activity;
 	
 	private void loadAllRecipes(){
     	try {
-    	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(a.getAssets());
+    	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(activity.getAssets());
     	    RecipesManager  rcpMng = new RecipesManager (OQIC);
     	    Iterator<Recipe> allIng = rcpMng.getAll().iterator();
     	    while(allIng.hasNext())
@@ -37,8 +37,8 @@ public class GraphContainer {
     	//((DynamicTableView)findViewById(R.id.ingList)).updateDisplay();
     }
 	
-	public GraphContainer(Context a) {
-		this.a=a;
+	public GraphContainer(GraphActivity a) {
+		this.activity=a;
 		
 		/*for(int i=0; i<2; i++){
 			addCriteria(new Ingredient("ingredient", i==0?"recettePoulet":"recetteChocolat"));
@@ -83,9 +83,17 @@ public class GraphContainer {
 	
 	public void makeCriteriaGlobal(GraphCriteriaAgent a){
 		globalCriterias.add(a.criteria);
+		activity.addGlobalCriteria(a.criteria);
 		criterias.remove(a);
 		updateCriteriaPosition();
 	}
+	public void makeCriteriaLocal(Ingredient a){
+		globalCriterias.remove(a);
+		addCriteria(a);
+		updateCriteriaPosition();
+	}
+	
+	
 	
 	public void draw(Canvas canvas){
 	
@@ -139,10 +147,9 @@ public class GraphContainer {
 	}
 	
 	public void clickOn(float clickedX, float clickedY, GraphView GV){
-		// When the graph is clicked, we look for the closest Graph Criteria Agent with the click inside its bounds;
+		// When the graph is clicked, we look for Graph Criteria Agents with the click inside there bounds;
 		
-		double minDist=10000;
-		Ingredient closestToClick=null;
+		ArrayList<GraphCriteriaAgent> allClicked = new ArrayList<GraphCriteriaAgent>(); 
 		
 		for(GraphCriteriaAgent GCA:criterias)
 			if(GCA.circleSize!=null){
@@ -150,15 +157,14 @@ public class GraphContainer {
 				double dy=clickedY-GCA.y;
 				double d=Math.sqrt(dx*dx + dy*dy);
 				Log.d("Click", "at distance "+d+" of "+GCA.criteria.getName() + " whose circle size is "+GCA.circleSize);
-				if(d<GCA.circleSize && d<minDist){
-					minDist=d;
-					closestToClick=GCA.criteria;
-					Log.d("Click", closestToClick.getName() + " is now the closest");
+				if(d<GCA.circleSize){
+					allClicked.add(GCA);
+					
 				}
 			}
 		
-		if(closestToClick!=null)
-			GV.descCriteria(closestToClick);
+		if(allClicked.size()>0)
+			GV.descCriteria( allClicked);
 			
 		
 	}
