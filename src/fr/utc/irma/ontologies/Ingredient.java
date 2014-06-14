@@ -10,15 +10,15 @@ public class Ingredient implements Serializable {
 	
 	private String id;
 	private String name;
-	private String url="";
-	private String imageUrl="";
+	private String url;
+	private String imageUrl;
 	
 	
 	public Ingredient(QuerySolution row) {
 		this.id = row.get("id").toString();
-		this.name = row.get("name").toString();
-		this.url = row.get("url").toString();
-		this.imageUrl = row.get("imageUrl").toString();
+		this.name = row.get("name") == null ? "" : row.get("name").toString();
+		this.url = row.get("url") == null ? "" : row.get("url").toString();
+		this.imageUrl = row.get("imageUrl") == null ? "" : row.get("imageUrl").toString();
 	}
 	
 	public String toString() {

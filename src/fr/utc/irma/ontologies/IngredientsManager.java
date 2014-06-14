@@ -8,7 +8,8 @@ import com.hp.hpl.jena.query.ResultSet;
 public class IngredientsManager {
 
 
-	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>" ;
+	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>"
+            + " PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
 	public IngredientsManager(OntologyQueryInterfaceConnector connector) {
@@ -16,9 +17,10 @@ public class IngredientsManager {
 	}
 
 	public ArrayList<Ingredient> getAll() {
-		return this.fromSPARQL(PREFIX + " "
+		return this.fromSPARQL(PREFIX + " "   
 				+ "SELECT ?id ?name ?url ?imageUrl WHERE { "
-				+ "?id a irma:Ingredient . "
+				+ "?id a ?class . "
+				+ "?class rdfs:subClassOf irma:Criteria . "
 				+ "?id irma:name ?name . "
 				+ "?id irma:url ?url . "
 				+ "?id irma:image_url ?imageUrl } ");
