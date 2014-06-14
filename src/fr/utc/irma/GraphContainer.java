@@ -114,7 +114,7 @@ public class GraphContainer {
 		for (GraphCriteriaAgent CA : criterias) {
 			for (GraphRecipeAgent RA : visibleRecipes) {
 				// Attract if there is a match
-				if (CA.matchAgainstRecipeAgent(RA)) {
+				if (RA.recipe.matchCriteria(CA.criteria)) {
 					Force Fe = CA.elasticForce(RA);
 					RA.accelerate(-500 * Fe.Fx, -500 * Fe.Fy);
 				}
@@ -139,7 +139,7 @@ public class GraphContainer {
 		// Global Criterias
 		for (Ingredient crit : globalCriterias) {
 			for (GraphRecipeAgent RA : visibleRecipes) {
-				if (!crit.matchAgainstRecipe(RA.recipe)) {
+			    if (!RA.recipe.matchCriteria(crit)) {
 					RA.accelerate((RA.x - 0.5) / 100, (RA.y - 0.5) / 100);
 
 				}

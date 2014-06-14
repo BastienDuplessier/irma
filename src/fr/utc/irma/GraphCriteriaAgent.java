@@ -38,7 +38,7 @@ public class GraphCriteriaAgent extends GraphAgent {
 	}
 	
 	public boolean matchAgainstRecipeAgent(GraphRecipeAgent RA){
-		return this.criteria.matchAgainstRecipe(RA.recipe);
+		return RA.recipe.matchCriteria(this.criteria);
 	}
 	
 	// Background computing and drawing
