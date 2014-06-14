@@ -78,6 +78,10 @@ public class GraphContainer {
 	
 	public void addCriteria(Ingredient c){
 		criterias.add(new GraphCriteriaAgent(c, this));
+		
+		if(criterias.size()>3)
+			makeCriteriaGlobal(criterias.get(0));
+		
 		updateCriteriaPosition();
 	}
 	
@@ -151,20 +155,18 @@ public class GraphContainer {
 		
 		ArrayList<GraphCriteriaAgent> allClicked = new ArrayList<GraphCriteriaAgent>(); 
 		
-		for(GraphCriteriaAgent GCA:criterias)
-			if(GCA.circleSize!=null){
-				double dx=clickedX-GCA.x;
-				double dy=clickedY-GCA.y;
-				double d=Math.sqrt(dx*dx + dy*dy);
-				Log.d("Click", "at distance "+d+" of "+GCA.criteria.getName() + " whose circle size is "+GCA.circleSize);
-				if(d<GCA.circleSize){
-					allClicked.add(GCA);
-					
-				}
+		for(GraphCriteriaAgent GCA:criterias){
+			double dx=clickedX-GCA.x;
+			double dy=clickedY-GCA.y;
+			double d=Math.sqrt(dx*dx + dy*dy);
+			if((GCA.circleSize!=null && d<GCA.circleSize) || d<GCA.displayRadius){
+				allClicked.add(GCA);
 			}
+		}
+			
 		
-		if(allClicked.size()>0)
-			GV.descCriteria( allClicked);
+		//if(allClicked.size()>0)
+		GV.descCriteria( allClicked);
 			
 		
 	}

@@ -10,7 +10,7 @@ public class GraphAgent {
 	private double speedX=0,speedY=0;
 	
 	public Paint nodePaint= new Paint();
-	public  float displayRadius = 10f;
+	public  float displayRadius = 0.01f;
 	public GraphContainer gc;
 	
 	public GraphAgent(GraphContainer c) {
@@ -49,7 +49,7 @@ public class GraphAgent {
 	}
 	
 	public void draw(Canvas canvas){
-		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),displayRadius,nodePaint);
+		canvas.drawCircle((float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y),canvas.getWidth()*displayRadius,nodePaint);
 		customDrawAfter(canvas);
 	}
 	public Force elasticForce(GraphAgent GA){

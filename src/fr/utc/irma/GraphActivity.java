@@ -156,6 +156,22 @@ public class GraphActivity extends Activity {
 			sideBar.addView(makeGlobal);
 		}
 		
+		// "Delete" buttons
+		for(GraphCriteriaAgent gca : clickedCriterias){
+			Button deleteGCA = new Button(this);
+			deleteGCA.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+			deleteGCA.setText("Supprimer "+gca.criteria.getName());
+			deleteGCA.setTag(gca);
+			deleteGCA.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					GraphActivity.this.gV.getContainer().criterias.remove((GraphCriteriaAgent)v.getTag());
+				}
+			});
+			sideBar.addView(deleteGCA);
+		}
+				
+		
 		
 		// Load corresponding recipes in sidebar
 		if(RM==null){

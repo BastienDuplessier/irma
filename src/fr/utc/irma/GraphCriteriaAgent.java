@@ -31,7 +31,7 @@ public class GraphCriteriaAgent extends GraphAgent {
 	@Override
 	public void initGraphics() {
 		nodePaint.setColor(Color.RED);
-		displayRadius=40f;
+		displayRadius=0.05f;
 	}
 	
 	@Override
