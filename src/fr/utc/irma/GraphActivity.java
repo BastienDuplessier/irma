@@ -192,7 +192,7 @@ public class GraphActivity extends Activity {
 				// Fill recipe list
 				for(Recipe r : recipes){ 
 					View descFrag = li.inflate(
-							R.layout.reciepe_quick_desc,
+							R.layout.result_list_item,
 							sideBar
 							);
 					((TextView)descFrag.findViewById(R.id.recipeListText)).setText(r.getName());
@@ -230,5 +230,6 @@ public class GraphActivity extends Activity {
 		});
 		globalCriterias.addView(removeGlobal);
 	}
+	
 
 }
