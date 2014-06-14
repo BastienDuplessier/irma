@@ -9,7 +9,7 @@ IRMA project for IA04/NF28
 ### class MainActivity
 Activité d'accueil qui permet de choisir ses critéres de départ pour graphActivity
 
-## class GraphActivity
+### class GraphActivity
 Activité de tri de recettes interractif.
 
 ## Données
@@ -39,6 +39,15 @@ Représente un critére visible sur le graph (pas les critéres globaux). Influe su
 Permet la justification du texte
 ### ExecutableTask
 Permet les appels assinchrones
+
+## Ontologies
+### class IngredientsManager
+???
+### class RecipesManager
+???
+## class OntologyQueryInterfaceConnector
+???
+
 
 
 #Comment récupérer tous les ingrédients ?  
