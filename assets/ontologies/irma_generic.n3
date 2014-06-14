@@ -30,11 +30,11 @@ irma:url a rdf:Property, owl:ObjectProperty ;
 irma:description a rdf:Propety, owl:ObjectProperty ;
 		 rdfs:domain irma:Result ;
 		 rdfs:range rdf:Literal . 
-irma:value a rdf:Property, owl:ObjectPropnerty ;
+irma:value a rdf:Property, owl:ObjectProperty ;
 	   rdfs:domain irma:Criteria ;
 	   rdfs:range rdfs:Literal .
 
 ## Link
 irma:linked_to a rdf:Property, owl:ObjectProperty ;
-	       rdfs:domain irma:Information ;
+	       rdfs:domain irma:Result ;
 	       rdfs:range rdfs:Criteria .
