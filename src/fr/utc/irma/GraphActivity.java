@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.drawable;
+import fr.utc.irma.R.id;
 import fr.utc.irma.ontologies.Ingredient;
 import fr.utc.irma.ontologies.IngredientsManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
@@ -28,6 +29,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -112,20 +114,52 @@ public class GraphActivity extends Activity {
 	
 	RecipesManager RM ;
 	LinearLayout sideBar ; 
+	LayoutInflater li;
 	
-	public void setSideBarToCriteriaDescription(ArrayList<GraphCriteriaAgent> clickedCriterias){
-		
+	private void sideBarInit(){
 		if(sideBar ==null )
 			sideBar=((LinearLayout)findViewById(R.id.GraphActivityRightSidebar));
-		
 		sideBar.removeAllViews();
+		li =(LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE); 
+		
+	}
+	
+	public void setSideBarToResultDescription(Recipe result){
+		sideBarInit();
+		View descFrag = li.inflate(
+			R.layout.result_description,
+			sideBar
+			);
+		
+		descFrag.findViewById(id.resultLink).setTag(result);
+		descFrag.findViewById(id.resultLink).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity( new Intent( Intent.ACTION_VIEW,
+					Uri.parse(((Recipe)v.getTag()).getUrl())));
+			}
+		});
+		
+		((TextView)descFrag.findViewById(R.id.resultName)).setText(result.getName());
+		UrlImageViewHelper.setUrlDrawable(
+				((ImageView)descFrag.findViewById(R.id.resultImage)),
+				result.getImageUrl());
+		((WebView)descFrag.findViewById(R.id.resultHTMLDescription)).loadData("<b>Hello</b>", "text/html", null);
+	
+		
+	}
+	
+	
+	public void setSideBarToCriteriaDescription(ArrayList<GraphCriteriaAgent> clickedCriterias){
+		sideBarInit();
+	
 		
 		// Load ingredient descritor
-		LayoutInflater li =(LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE); 
 		View descFrag = li.inflate(
 				R.layout.criteria_view,
 				sideBar
 				);
+		
 		// Fill ingredient descriptor
 		String names = "";
 		for(GraphCriteriaAgent gca : clickedCriterias)
@@ -134,6 +168,7 @@ public class GraphActivity extends Activity {
 			else
 				names+=" & " + gca.criteria.getName();
 		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(names);
+		
 		if(clickedCriterias.size()==1)
 			UrlImageViewHelper.setUrlDrawable(
 					((ImageView)descFrag.findViewById(R.id.ingDescImg)),
@@ -195,17 +230,16 @@ public class GraphActivity extends Activity {
 							R.layout.result_list_item,
 							sideBar
 							);
+					
 					((TextView)descFrag.findViewById(R.id.recipeListText)).setText(r.getName());
 					UrlImageViewHelper.setUrlDrawable((ImageView)descFrag.findViewById(R.id.recipeListImage),r.getImageUrl());
 					descFrag.setTag(r);
+					
+					
 					descFrag.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							startActivity(
-									new Intent(
-											Intent.ACTION_VIEW,
-											Uri.parse(((Recipe)v.getTag()).getUrl())));
-							
+							setSideBarToResultDescription((Recipe)v.getTag());
 						}
 					});
 				}
@@ -225,7 +259,6 @@ public class GraphActivity extends Activity {
 			public void onClick(View v) {
 				globalCriterias.removeView(v);
 				GraphActivity.this.gV.getContainer().makeCriteriaLocal((Ingredient)v.getTag());
-				
 			}
 		});
 		globalCriterias.addView(removeGlobal);

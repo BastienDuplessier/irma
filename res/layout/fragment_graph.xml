@@ -34,7 +34,8 @@
             android:id="@+id/GraphActivityRightSidebar"
 			android:orientation="vertical"
 			android:layout_height="wrap_content"
-			android:layout_width="match_parent">
+			android:layout_width="match_parent"
+			android:background="@android:color/white">
 			
             <com.neopixl.pixlui.components.textview.TextView
 			android:id="@+id/textView1" 
