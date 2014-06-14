@@ -14,6 +14,9 @@
 			android:textSize="40sp"
 			android:gravity="center" 
 			pixlui:typeface="bello.ttf" />
-    		<ImageView android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/ingDescImg"/>
+    		<ImageView 
+    		    android:layout_width="match_parent" 
+    		    android:layout_height="wrap_content" 
+    		    android:id="@+id/ingDescImg"/>
 
 </LinearLayout>

@@ -1,13 +1,19 @@
 package fr.utc.irma;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.drawable;
 import fr.utc.irma.ontologies.Ingredient;
+import fr.utc.irma.ontologies.IngredientsManager;
+import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
+import fr.utc.irma.ontologies.Recipe;
+import fr.utc.irma.ontologies.RecipesManager;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -114,20 +120,56 @@ public class GraphActivity extends Activity {
 			super.onActivityCreated(savedInstanceState);
 		}
 	}
-
+	
+	RecipesManager RM ;
+	LinearLayout sideBar ; 
+	
 	public void setSideBarToCriteriaDescription(Ingredient crit){
-		Log.d("Click", crit.getName() + "is the final closest");
-		LinearLayout sideBar =((LinearLayout)findViewById(R.id.GraphActivityRightSidebar)); 
+		
+		if(sideBar ==null )
+			sideBar=((LinearLayout)findViewById(R.id.GraphActivityRightSidebar));
+		
 		sideBar.removeAllViews();
+		
+		// Load ingredient descritor
 		LayoutInflater li =(LayoutInflater) getSystemService(this.LAYOUT_INFLATER_SERVICE); 
 		View descFrag = li.inflate(
 				R.layout.criteria_view,
 				sideBar
 				);
+		// Fill ingredient descriptor
 		((TextView)descFrag.findViewById(R.id.ingDescNameField)).setText(crit.getName());
-		
 		UrlImageViewHelper.setUrlDrawable(((ImageView)descFrag.findViewById(R.id.ingDescImg)), crit.getImageUrl(), drawable.courgette);
-
+		if(RM==null){
+			try {
+				RM = new RecipesManager(new OntologyQueryInterfaceConnector(getAssets()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Load recipe list
+		RM.asyncLoadAll(new ExecutableTask() {
+			@Override
+			public void execute(ArrayList<Recipe> recipes) {
+				
+				LayoutInflater li =(LayoutInflater) GraphActivity.this.getSystemService(
+						GraphActivity.this.LAYOUT_INFLATER_SERVICE);
+				// Fill recipe list
+				for(Recipe r : recipes){ 
+					View descFrag = li.inflate(
+							R.layout.reciepe_quick_desc,
+							sideBar
+							);
+					((TextView)descFrag.findViewById(R.id.recipeListText)).setText(r.getName());
+					UrlImageViewHelper.setUrlDrawable((ImageView)descFrag.findViewById(R.id.recipeListImage),r.getImageUrl());
+					
+				}
+			}
+		});
+		
+		
+		
 	}
 
 }

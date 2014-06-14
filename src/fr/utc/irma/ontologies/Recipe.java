@@ -38,6 +38,7 @@ public class Recipe {
 	// Get Methods
 	public String getId() { return this.id; }
 	public String getName() { return this.name; }
+	public String getImageUrl(){return this.imageUrl;}
 	public String getUrl() { return this.url; }
 	public String getHowMany() { return this.howMany; }
 	public String getPreparationTime() { return this.preparationTime; }

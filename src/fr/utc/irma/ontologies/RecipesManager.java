@@ -43,13 +43,16 @@ public class RecipesManager {
 	}
 
 	public void asyncLoad(final ExecutableTask executableTask, final String sparqlQuery) {
-		new AsyncTask<Void, Integer, Void>() {
+		new AsyncTask<Void, Integer, ArrayList<Recipe>>() {
+			
             @Override
-            protected Void doInBackground(Void... params) {
-                ArrayList<Recipe> recipes = fromSPARQL(sparqlQuery);
-                executableTask.execute(recipes);
-                return null;
+            protected ArrayList<Recipe> doInBackground(Void... params) {
+                return fromSPARQL(sparqlQuery);
             }
+            @Override
+            protected void onPostExecute(ArrayList<Recipe> result) {
+            	executableTask.execute(result);
+			}
 		}.execute();
 	}
 
