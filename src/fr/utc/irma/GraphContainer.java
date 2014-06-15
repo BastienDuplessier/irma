@@ -71,7 +71,7 @@ public class GraphContainer {
 					}
 					awaitingLoading=0;
 				}
-			}, this.globalCriterias, this.criterias);
+			}, this.globalCriterias, this.criterias, true);
 		}
 	}
 
@@ -89,14 +89,12 @@ public class GraphContainer {
 	}
 
 	public void makeCriteriaGlobal(GraphCriteriaAgent a) {
-		a.criteria.optionnal=false;
 		globalCriterias.add(a.criteria);
 		activity.addGlobalCriteria(a.criteria);
 		removeCriteria(a);
 	}
 
 	public void makeCriteriaLocal(Criteria a) {
-		a.optionnal=true;
 		globalCriterias.remove(a);
 		addCriteria(a);
 		updateCriteriaPosition();
@@ -130,13 +128,16 @@ public class GraphContainer {
 		for (GraphCriteriaAgent CA : criterias) {
 			for (GraphResultAgent RA : visibleRecipes) {
 				// Attract if there is a match
+				Force Fe = CA.elasticForce(RA);
+				Force Fg = CA.gravitationalForce(RA);
+				
 				if (RA.result.matchCriteria(CA.criteria)) {
-					Force Fe = CA.elasticForce(RA);
-					RA.accelerate(-500 * Fe.Fx, -500 * Fe.Fy);
+					RA.accelerate(-700 * Fe.Fx, -700 * Fe.Fy);
+				}else{
+					RA.accelerate(-10 * Fg.Fx, -10 * Fg.Fy);
 				}
 				// Avoid collision
-				Force Fg = CA.gravitationalForce(RA);
-				RA.accelerate(-3 * Fg.Fx, -3 * Fg.Fy);
+				RA.accelerate(-1 * Fg.Fx, -1 * Fg.Fy);
 			}
 		}
 

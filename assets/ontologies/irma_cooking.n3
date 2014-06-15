@@ -10,7 +10,7 @@ irma:Recipe a owl:Class, rdfs:Class ;
 irma:Ingredient a owl:Class, rdfs:Class ;
 		rdfs:subClassOf irma:Criteria .
 irma:HowMany a owl:Class, rdfs:Class ;
-	     rdfs:subClassOf irma:Criteria .
+		rdfs:subClassOf irma:Criteria .
 irma:PreparationTime a owl:Class, rdfs:Class ;
 		     rdfs:subClassOf irma:Criteria .
 irma:CookingTime a owl:Class, rdfs:Class ;

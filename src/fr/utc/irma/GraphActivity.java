@@ -105,7 +105,7 @@ public class GraphActivity extends Activity {
 
 	public void setSideBarToResultDescription(Result result) {
 		sideBarInit();
-		View descFrag = li.inflate(R.layout.result_description, sideBar);
+		View descFrag = li.inflate(R.layout.result_view, sideBar);
 
 		descFrag.findViewById(id.resultLink).setTag(result);
 		descFrag.findViewById(id.resultLink).setOnClickListener(
@@ -257,7 +257,7 @@ public class GraphActivity extends Activity {
 					});
 				}
 			}
-		}, (ArrayList<Criteria>)gV.container.globalCriterias, clickedCriterias);
+		}, (ArrayList<Criteria>)gV.container.globalCriterias, clickedCriterias, false);
 	}
 
 	LinearLayout globalCriterias;

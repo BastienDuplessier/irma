@@ -66,10 +66,11 @@ public class ResultManager {
 	
 	public void asyncLoadWithCriterias(ExecutableTask executableTask,
 			ArrayList<Criteria> globalCriterias,
-			ArrayList<GraphCriteriaAgent> optionnalCriterias) {
+			ArrayList<GraphCriteriaAgent> GCAs,
+			boolean gcaIsOptionnal) {
 		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)globalCriterias.clone();
-		for(GraphCriteriaAgent gca : optionnalCriterias){
-			gca.criteria.optionnal=true;
+		for(GraphCriteriaAgent gca : GCAs){
+			gca.criteria.optionnal=gcaIsOptionnal;
 			toSearch.add(gca.criteria);
 		}
 	    String query = buildQuery(toSearch);
