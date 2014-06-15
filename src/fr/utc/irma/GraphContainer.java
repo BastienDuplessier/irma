@@ -7,15 +7,15 @@ import java.util.Iterator;
 import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Criteria;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
-import fr.utc.irma.ontologies.Recipe;
-import fr.utc.irma.ontologies.RecipesManager;
+import fr.utc.irma.ontologies.Result;
+import fr.utc.irma.ontologies.ResultManager;
 import android.graphics.Canvas;
 import android.util.Log;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
-	public ArrayList<GraphRecipeAgent> visibleRecipes = new ArrayList<GraphRecipeAgent>();
-	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
+	public ArrayList<GraphResultAgent> visibleRecipes = new ArrayList<GraphResultAgent>();
+	private ArrayList<Result> allRecipes = new ArrayList<Result>();
 
 	public ArrayList<Criteria> globalCriterias = new ArrayList<Criteria>();
 	private GraphActivity activity;
@@ -27,7 +27,7 @@ public class GraphContainer {
 	public GraphContainer(GraphActivity a) {
 		this.activity = a;
 		loadAllRecipes();
-		for (Recipe r : allRecipes)
+		for (Result r : allRecipes)
 			addRecipe(r);
 
 	}
@@ -63,9 +63,9 @@ public class GraphContainer {
 			activity.getRM().asyncLoadWithCriterias(new ExecutableTask() {
 				
 				@Override
-				public void execute(ArrayList<Recipe> recipes) {
+				public void execute(ArrayList<Result> results) {
 					int maxLoad=awaitingLoading;
-					for(Recipe r : recipes){
+					for(Result r : results){
 						if(maxLoad-->0)
 							GraphContainer.this.addRecipe(r);
 					}
@@ -75,8 +75,8 @@ public class GraphContainer {
 		}
 	}
 
-	public void addRecipe(Recipe r) {
-		visibleRecipes.add(new GraphRecipeAgent(r, this));
+	public void addRecipe(Result r) {
+		visibleRecipes.add(new GraphResultAgent(r, this));
 	}
 
 	public void addCriteria(Criteria c) {
@@ -113,13 +113,13 @@ public class GraphContainer {
 		// Draw backgrounds
 		for (GraphCriteriaAgent c : criterias)
 			c.customDrawBefore(canvas);
-		for (GraphRecipeAgent c : visibleRecipes)
+		for (GraphResultAgent c : visibleRecipes)
 			c.customDrawBefore(canvas);
 
 		// Draw foreground
 		for (GraphCriteriaAgent c : criterias)
 			c.draw(canvas);
-		for (GraphRecipeAgent c : visibleRecipes) {
+		for (GraphResultAgent c : visibleRecipes) {
 			c.draw(canvas);
 		}
 
@@ -128,9 +128,9 @@ public class GraphContainer {
 	public void tick() {
 		// TODO : Criteria vs recipes
 		for (GraphCriteriaAgent CA : criterias) {
-			for (GraphRecipeAgent RA : visibleRecipes) {
+			for (GraphResultAgent RA : visibleRecipes) {
 				// Attract if there is a match
-				if (RA.recipe.matchCriteria(CA.criteria)) {
+				if (RA.result.matchCriteria(CA.criteria)) {
 					Force Fe = CA.elasticForce(RA);
 					RA.accelerate(-500 * Fe.Fx, -500 * Fe.Fy);
 				}
@@ -143,8 +143,8 @@ public class GraphContainer {
 		// Recipe vs recipe
 		for (int i = 0; i < visibleRecipes.size() - 1; i++) {
 			for (int j = i + 1; j < visibleRecipes.size(); j++) {
-				GraphRecipeAgent r1 = visibleRecipes.get(i);
-				GraphRecipeAgent r2 = visibleRecipes.get(j);
+				GraphResultAgent r1 = visibleRecipes.get(i);
+				GraphResultAgent r2 = visibleRecipes.get(j);
 				Force F = r1.gravitationalForce(r2);
 				r1.accelerate(F.Fx, F.Fy);
 				r2.accelerate(-F.Fx, -F.Fy);
@@ -154,8 +154,8 @@ public class GraphContainer {
 
 		// Global Criterias
 		for (Criteria crit : globalCriterias) {
-			for (GraphRecipeAgent RA : visibleRecipes) {
-			    if (!RA.recipe.matchCriteria(crit)) {
+			for (GraphResultAgent RA : visibleRecipes) {
+			    if (!RA.result.matchCriteria(crit)) {
 					RA.accelerate((RA.x - 0.5) / 100, (RA.y - 0.5) / 100);
 
 				}
@@ -163,13 +163,13 @@ public class GraphContainer {
 		}
 
 		// Recipes move
-		for (GraphRecipeAgent RA : visibleRecipes) {
+		for (GraphResultAgent RA : visibleRecipes) {
 			RA.tick();
 		}
 
 		// CLear out of bound recipes
 		for (int i = 0; i < visibleRecipes.size(); i++) {
-			GraphRecipeAgent RA = visibleRecipes.get(i);
+			GraphResultAgent RA = visibleRecipes.get(i);
 			if (RA.x < -0.5 || RA.x > 1.5 || RA.y < -0.5 || RA.y > 1.5) {
 				visibleRecipes.remove(RA);
 			}

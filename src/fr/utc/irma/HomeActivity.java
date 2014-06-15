@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class HomeActivity extends Activity {
 
 	String searchFilter="";
 	
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         //justify texte
         TextView textView = (TextView)findViewById(R.id.textToJustifyMain);
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				MainActivity.this.startGraphActivity();
+				HomeActivity.this.startGraphActivity();
 				
 			}
 		});
@@ -85,8 +85,8 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onGlobalLayout() {
-				MainActivity.this.ingList.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				MainActivity.this.refreshList();
+				HomeActivity.this.ingList.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				HomeActivity.this.refreshList();
 				
 			}
 		});
@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
     	filtering.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				MainActivity.this.setSearchFilter(MainActivity.this.filtering.getText().toString());
+				HomeActivity.this.setSearchFilter(HomeActivity.this.filtering.getText().toString());
 				refreshList();
 			}
 			
@@ -210,7 +210,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				MainActivity.this.pickCriteria((Criteria)v.getTag());
+				HomeActivity.this.pickCriteria((Criteria)v.getTag());
 			}
 		});	
     }

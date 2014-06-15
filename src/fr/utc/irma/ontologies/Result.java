@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.hp.hpl.jena.query.QuerySolution;
 
-public class Recipe {
+public class Result {
 	
 	private String id;
 	private String name;
@@ -19,7 +19,7 @@ public class Recipe {
 	//private HashMap<String, Criteria> criterias = new HashMap<String, Criteria>(); 
 	private HashSet<String> criterias = new HashSet<String>();
 	
-	public Recipe(QuerySolution row) {
+	public Result(QuerySolution row) {
 		this.id = row.get("id").toString();
 		this.name = row.get("name").toString();
 		this.url = row.get("url").toString();

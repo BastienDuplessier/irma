@@ -13,52 +13,52 @@ import com.hp.hpl.jena.query.ResultSet;
 import fr.utc.irma.ExecutableTask;
 import fr.utc.irma.GraphCriteriaAgent;
 
-public class RecipesManager {
+public class ResultManager {
 
 
 	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
-	public RecipesManager(OntologyQueryInterfaceConnector connector) {
+	public ResultManager(OntologyQueryInterfaceConnector connector) {
 		this.connector = connector;
 	}
 
-	public ArrayList<Recipe> getAll() {
+	public ArrayList<Result> getAll() {
 		return this.fromSPARQL(getAllQuery());
 
 	}
 
 	// Build Recipes from SPARQL Query
-	public ArrayList<Recipe> fromSPARQL(String query) {
+	public ArrayList<Result> fromSPARQL(String query) {
 		ResultSet results = connector.executeSparql(query);
 		return this.fromResultSet(results);
 	}
 
 	// Build Recipes from ResultSet
-	private ArrayList<Recipe> fromResultSet(ResultSet inData) {
-		Hashtable<String, Recipe> recipes = new Hashtable<String, Recipe>();
+	private ArrayList<Result> fromResultSet(ResultSet inData) {
+		Hashtable<String, Result> results = new Hashtable<String, Result>();
 
 		while(inData.hasNext()) {
 			QuerySolution row = inData.next();
-			Recipe recipe = recipes.get(row.get("id").toString());
-			if(recipe == null)
-			    recipes.put(row.get("id").toString(), new Recipe(row));
+			Result result = results.get(row.get("id").toString());
+			if(result == null)
+			    results.put(row.get("id").toString(), new Result(row));
 			else
-			    recipe.addCriteria(row);
+			    result.addCriteria(row);
 		}
 
-		return new ArrayList<Recipe>(recipes.values());
+		return new ArrayList<Result>(results.values());
 	}
 
 	public void asyncLoad(final ExecutableTask executableTask, final String sparqlQuery) {
-		new AsyncTask<Void, Integer, ArrayList<Recipe>>() {
+		new AsyncTask<Void, Integer, ArrayList<Result>>() {
 			
             @Override
-            protected ArrayList<Recipe> doInBackground(Void... params) {
+            protected ArrayList<Result> doInBackground(Void... params) {
                 return fromSPARQL(sparqlQuery);
             }
             @Override
-            protected void onPostExecute(ArrayList<Recipe> result) {
+            protected void onPostExecute(ArrayList<Result> result) {
             	executableTask.execute(result);
 			}
 		}.execute();

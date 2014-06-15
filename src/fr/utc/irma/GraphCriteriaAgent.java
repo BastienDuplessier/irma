@@ -37,8 +37,8 @@ public class GraphCriteriaAgent extends GraphAgent {
 		canvas.drawText(criteria.getName(), (float)( canvas.getWidth()*this.x),(float)( canvas.getHeight()*this.y), textPaint);
 	}
 	
-	public boolean matchAgainstRecipeAgent(GraphRecipeAgent RA){
-		return RA.recipe.matchCriteria(this.criteria);
+	public boolean matchAgainstRecipeAgent(GraphResultAgent RA){
+		return RA.result.matchCriteria(this.criteria);
 	}
 	
 	// Background computing and drawing
@@ -46,7 +46,7 @@ public class GraphCriteriaAgent extends GraphAgent {
 	public void customDrawBefore(Canvas canvas) {
 		// Compute dist
 		Double closestWrong=null, furthestRight = null;
-		for(GraphRecipeAgent RA : this.gc.visibleRecipes){
+		for(GraphResultAgent RA : this.gc.visibleRecipes){
 			if(this.matchAgainstRecipeAgent(RA)){
 				if(furthestRight==null || this.d2to(RA)>furthestRight)
 					furthestRight=this.d2to(RA);

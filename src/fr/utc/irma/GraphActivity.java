@@ -10,8 +10,8 @@ import fr.utc.irma.R.id;
 import fr.utc.irma.ontologies.Criteria;
 import fr.utc.irma.ontologies.CriteriasManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
-import fr.utc.irma.ontologies.Recipe;
-import fr.utc.irma.ontologies.RecipesManager;
+import fr.utc.irma.ontologies.Result;
+import fr.utc.irma.ontologies.ResultManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout.Alignment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,94 +44,43 @@ public class GraphActivity extends Activity {
 
 		setContentView(R.layout.activity_graph);
 
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
-		
 		if(CM==null){
 			initKBConnection();
 		}
-
-	}
-
-	public static class PlaceholderFragment extends Fragment {
-
-		ArrayList<Criteria> startingCriterias;
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-
-			View rootView = inflater.inflate(R.layout.fragment_graph,
-					container, false);
-
-			TextView textView = (TextView) rootView
-					.findViewById(R.id.textToJustifyFrag);
-
-			// ajuster la taille du texte selon la taille d ecran
-			textView.setLineSpacing(0.5f, 1.3f);
-			textView.setTextSize(7f);
-
-			// preparer final pour fait appel textView dans le corps de fonction
-			// post
-			final TextView txtViewFinal = textView;
-
-			// par méthode post, récupérer width correctement quand textView est
-			// bien créé
-			txtViewFinal.post(new Runnable() {
-				@Override
-				public void run() {
-					MiseEnPage.justifyText(txtViewFinal);
-				}
-			});
-
-			return rootView;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public void onActivityCreated(Bundle savedInstanceState) {
-			try {
-				startingCriterias = (ArrayList<Criteria>) getActivity()
-						.getIntent().getSerializableExtra("choice");
-			} catch (ClassCastException e) {
-				Toast.makeText(this.getActivity(),
-						"Couldnt pass activity parameters to GraphActivity",
-						Toast.LENGTH_SHORT).show();
-			}
+		
+		try {
+			((GraphActivity) this).globalCriterias = (LinearLayout)  findViewById(R.id.criterias);
+			((GraphActivity) this).gV = ( GraphView) findViewById(R.id.graphDisplay);
+			
+			ArrayList<Criteria> startingCriterias = (ArrayList<Criteria>) this.getIntent().getSerializableExtra("choice");
 			for (Criteria c : startingCriterias) {
-				((GraphActivity) this.getActivity()).globalCriterias = ((LinearLayout) getActivity()
-						.findViewById(R.id.criterias));
-				((GraphActivity) this.getActivity()).gV = ((GraphView) getActivity()
-						.findViewById(R.id.graphDisplay));
-				((GraphActivity) this.getActivity()).gV.getContainer()
-						.addCriteria(c);
+				((GraphActivity) this).gV.getContainer().addCriteria(c);
 			}
-			super.onActivityCreated(savedInstanceState);
+		} catch (ClassCastException e) {
+			Log.e("intent decode param", "Failed");
 		}
+		
+		
+
 	}
 
 	public GraphView gV;
 
-	RecipesManager RM;
+	ResultManager RM;
 	CriteriasManager CM;
 	OntologyQueryInterfaceConnector OQIC;
 	
 	private void initKBConnection(){
 		try {
 			OQIC = new OntologyQueryInterfaceConnector(getAssets());
-			RM = new RecipesManager(OQIC);
+			RM = new ResultManager(OQIC);
 			CM = new CriteriasManager(OQIC);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public RecipesManager getRM(){
+	public ResultManager getRM(){
 		if(RM==null)
 			initKBConnection();
 		return RM;
@@ -153,7 +103,7 @@ public class GraphActivity extends Activity {
 
 	}
 
-	public void setSideBarToResultDescription(Recipe result) {
+	public void setSideBarToResultDescription(Result result) {
 		sideBarInit();
 		View descFrag = li.inflate(R.layout.result_description, sideBar);
 
@@ -163,7 +113,7 @@ public class GraphActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						startActivity(new Intent(Intent.ACTION_VIEW, Uri
-								.parse(((Recipe) v.getTag()).getUrl())));
+								.parse(((Result) v.getTag()).getUrl())));
 					}
 				});
 
@@ -283,12 +233,12 @@ public class GraphActivity extends Activity {
 		// Load recipe list
 		RM.asyncLoadWithCriterias(new ExecutableTask() {
 			@Override
-			public void execute(ArrayList<Recipe> recipes) {
+			public void execute(ArrayList<Result> results) {
 
 				LayoutInflater li = (LayoutInflater) GraphActivity.this
 						.getSystemService(GraphActivity.this.LAYOUT_INFLATER_SERVICE);
 				// Fill recipe list
-				for (Recipe r : recipes) {
+				for (Result r : results) {
 					View descFrag = li.inflate(R.layout.result_list_item,
 							sideBar);
 
@@ -302,7 +252,7 @@ public class GraphActivity extends Activity {
 					descFrag.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							setSideBarToResultDescription((Recipe) v.getTag());
+							setSideBarToResultDescription((Result) v.getTag());
 						}
 					});
 				}

@@ -2,8 +2,8 @@ package fr.utc.irma;
 
 import java.util.ArrayList;
 
-import fr.utc.irma.ontologies.Recipe;
+import fr.utc.irma.ontologies.Result;
 
 public interface ExecutableTask {
-	public void execute(ArrayList<Recipe> recipes);
+	public void execute(ArrayList<Result> results);
 }
