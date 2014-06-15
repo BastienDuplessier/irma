@@ -18,15 +18,16 @@ public class OntologyQueryInterfaceConnector {
 	// UNIQUE FILENAMES FOR ONTOLOGIES
 	private static final String IRMA_GENERIC = "irma_generic.n3";
 	private static final String IRMA_SPECIFIC = "irma_cooking.n3";
-	// TODO: Put real data, not sample
-	private static final String IRMA_DATA = "irma_data.n3";
+    private static final String IRMA_DATA = "irma_data.n3";
+    private static final String IRMA_DATA2 = "irma_data2.n3";
 
 	private Model model = ModelFactory.createDefaultModel();
 
 	public OntologyQueryInterfaceConnector(AssetManager assetManager) throws IOException {
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_GENERIC), null, "TURTLE");
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_SPECIFIC), null, "TURTLE");
-		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
+        model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
+        model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA2), null, "TURTLE");
 	}
 
 	public ResultSet executeSparql(String stringQuery) {
