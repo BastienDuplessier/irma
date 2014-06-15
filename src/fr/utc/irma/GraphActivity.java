@@ -1,20 +1,24 @@
 package fr.utc.irma;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.id;
 import fr.utc.irma.ontologies.Criteria;
+import fr.utc.irma.ontologies.CriteriasManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
 import fr.utc.irma.ontologies.Recipe;
 import fr.utc.irma.ontologies.RecipesManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Layout.Alignment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class GraphActivity extends Activity {
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +46,10 @@ public class GraphActivity extends Activity {
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
+		}
+		
+		if(CM==null){
+			initKBConnection();
 		}
 
 	}
@@ -107,6 +117,31 @@ public class GraphActivity extends Activity {
 	public GraphView gV;
 
 	RecipesManager RM;
+	CriteriasManager CM;
+	OntologyQueryInterfaceConnector OQIC;
+	
+	private void initKBConnection(){
+		try {
+			OQIC = new OntologyQueryInterfaceConnector(getAssets());
+			RM = new RecipesManager(OQIC);
+			CM = new CriteriasManager(OQIC);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public RecipesManager getRM(){
+		if(RM==null)
+			initKBConnection();
+		return RM;
+	}
+	
+	public CriteriasManager getCM(){
+		if(CM==null)
+			initKBConnection();
+		return CM;
+	}
+	
 	LinearLayout sideBar;
 	LayoutInflater li;
 
@@ -134,12 +169,50 @@ public class GraphActivity extends Activity {
 
 		((TextView) descFrag.findViewById(R.id.resultName)).setText(result
 				.getName());
-		UrlImageViewHelper.setUrlDrawable(
+		
+		if(result.getImageUrl().length()>0)
+			UrlImageViewHelper.setUrlDrawable(
 				((ImageView) descFrag.findViewById(R.id.resultImage)),
 				result.getImageUrl());
-		((WebView) descFrag.findViewById(R.id.resultHTMLDescription)).loadData(
-				"<b>Hello</b>", "text/html", null);
-
+		
+		if(result.getDescription().length()>0)
+			((WebView) descFrag.findViewById(R.id.resultHTMLDescription)).loadData(
+				result.getDescription(), "text/html", null);
+		
+		// Criterias buttons
+		for(String critID:result.getCriterias()){
+			Criteria fullCritDesc=getCM().getCriteriaFromId(critID);
+			if(fullCritDesc!=null){
+				LinearLayout addC = new LinearLayout(this);
+				addC.setOrientation(LinearLayout.HORIZONTAL);
+				addC.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+							
+				ImageView Cimage=new ImageView(this);
+				Cimage.setLayoutParams(new LayoutParams(50, 50));
+				UrlImageViewHelper.setUrlDrawable(Cimage, fullCritDesc.getImageUrl());
+				addC.addView(Cimage);
+				
+				TextView Cname = new TextView(this);
+				Cname.setText(fullCritDesc.getName());
+				addC.addView(Cname);
+				
+				addC.setTag(fullCritDesc);
+				addC.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						GraphActivity.this.gV.container.addCriteria((Criteria)arg0.getTag());
+					}
+				});
+				
+				sideBar.addView(addC);
+			}else{
+				TextView bug = new TextView(this);
+				bug.setText(critID);
+				sideBar.addView(bug);
+			}
+		}
+		
 	}
 
 	public void setSideBarToCriteriaDescription(
@@ -168,7 +241,7 @@ public class GraphActivity extends Activity {
 		for (GraphCriteriaAgent gca : clickedCriterias) {
 			Button makeGlobal = new Button(this);
 			makeGlobal.setLayoutParams(new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			makeGlobal.setText("Rendre " + gca.criteria.getName() + " global");
 			makeGlobal.setTag(gca);
 			makeGlobal.setOnClickListener(new OnClickListener() {
@@ -177,6 +250,7 @@ public class GraphActivity extends Activity {
 				public void onClick(View v) {
 					GraphActivity.this.gV.getContainer().makeCriteriaGlobal(
 							(GraphCriteriaAgent) v.getTag());
+					Toast.makeText(GraphActivity.this, "Vous pouvez rendre un critere global en le double clickant", Toast.LENGTH_LONG).show();
 
 				}
 			});
@@ -202,16 +276,12 @@ public class GraphActivity extends Activity {
 
 		// Load corresponding recipes in sidebar
 		if (RM == null) {
-			try {
-				RM = new RecipesManager(new OntologyQueryInterfaceConnector(
-						getAssets()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			initKBConnection();
 		}
-
+		
+		
 		// Load recipe list
-		RM.asyncLoadAll(new ExecutableTask() {
+		RM.asyncLoadWithCriterias(new ExecutableTask() {
 			@Override
 			public void execute(ArrayList<Recipe> recipes) {
 
@@ -237,7 +307,7 @@ public class GraphActivity extends Activity {
 					});
 				}
 			}
-		});
+		}, (ArrayList<Criteria>)gV.container.globalCriterias, clickedCriterias);
 	}
 
 	LinearLayout globalCriterias;

@@ -21,16 +21,7 @@ public class GraphContainer {
 	private GraphActivity activity;
 
 	private void loadAllRecipes() {
-		try {
-			OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(
-					activity.getAssets());
-			RecipesManager rcpMng = new RecipesManager(OQIC);
-			Iterator<Recipe> allRec = rcpMng.getAll().iterator();
-			while (allRec.hasNext())
-				allRecipes.add(allRec.next());
-		} catch (IOException e) {
-			Log.d("RecipeLoader", "Haha, nobody cares");
-		}
+		makeSureThereAreEnoughRecipeNodes();
 	}
 
 	public GraphContainer(GraphActivity a) {
@@ -60,6 +51,29 @@ public class GraphContainer {
 
 		}
 	}
+	
+	// 2 modes : load precise stuffs, or just global criterias
+	
+	
+	
+	int awaitingLoading=0;
+	private void makeSureThereAreEnoughRecipeNodes(){
+		if(awaitingLoading==0 && visibleRecipes.size()<30){
+			awaitingLoading=30-visibleRecipes.size();
+			activity.getRM().asyncLoadWithCriterias(new ExecutableTask() {
+				
+				@Override
+				public void execute(ArrayList<Recipe> recipes) {
+					int maxLoad=awaitingLoading;
+					for(Recipe r : recipes){
+						if(maxLoad-->0)
+							GraphContainer.this.addRecipe(r);
+					}
+					awaitingLoading=0;
+				}
+			}, this.globalCriterias, this.criterias);
+		}
+	}
 
 	public void addRecipe(Recipe r) {
 		visibleRecipes.add(new GraphRecipeAgent(r, this));
@@ -75,12 +89,14 @@ public class GraphContainer {
 	}
 
 	public void makeCriteriaGlobal(GraphCriteriaAgent a) {
+		a.criteria.optionnal=false;
 		globalCriterias.add(a.criteria);
 		activity.addGlobalCriteria(a.criteria);
 		removeCriteria(a);
 	}
 
 	public void makeCriteriaLocal(Criteria a) {
+		a.optionnal=true;
 		globalCriterias.remove(a);
 		addCriteria(a);
 		updateCriteriaPosition();
@@ -152,13 +168,15 @@ public class GraphContainer {
 		}
 
 		// CLear out of bound recipes
-
 		for (int i = 0; i < visibleRecipes.size(); i++) {
 			GraphRecipeAgent RA = visibleRecipes.get(i);
 			if (RA.x < -0.5 || RA.x > 1.5 || RA.y < -0.5 || RA.y > 1.5) {
 				visibleRecipes.remove(RA);
 			}
 		}
+		
+		//Check if we need new recipes
+		makeSureThereAreEnoughRecipeNodes();
 
 	}
 

@@ -1,6 +1,9 @@
 package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.hp.hpl.jena.query.QuerySolution;
 
@@ -11,7 +14,10 @@ public class Recipe {
 	private String url;
 	private String imageUrl;
 	private String description;
-	private ArrayList<String> criterias;
+	
+	//private ArrayList<String> criterias;
+	//private HashMap<String, Criteria> criterias = new HashMap<String, Criteria>(); 
+	private HashSet<String> criterias = new HashSet<String>();
 	
 	public Recipe(QuerySolution row) {
 		this.id = row.get("id").toString();
@@ -21,8 +27,8 @@ public class Recipe {
 		
 		// Recipe specific
 		this.description = row.get("description").toString();
-		this.criterias = new ArrayList<String>();
-		this.criterias.add(row.get("criteria").toString());
+		addCriteria(row);
+		
 	}
 	
 	// Used to add criteria 
@@ -44,4 +50,12 @@ public class Recipe {
 	public String getImageUrl(){return this.imageUrl;}
 	public String getUrl() { return this.url; }
     public String getDescription() { return this.description; }
+    public ArrayList<String> getCriterias(){
+    	// Get all criterias names
+    	ArrayList<String> allCrits=new ArrayList<String>();
+    	for(Object o:this.criterias.toArray())
+    		allCrits.add(o.toString());
+    	return allCrits;
+    }
+    
 }

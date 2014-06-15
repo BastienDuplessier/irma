@@ -148,7 +148,11 @@ public class MainActivity extends Activity {
     		go.setClickable(false);
     		go.setEnabled(false);
     	}else{
-    		go.setText( TextUtils.join(" + ", chosen));
+    		ArrayList<String> chosenStrs=new ArrayList<String>();
+    		for(Criteria c:chosen)
+    			chosenStrs.add(c.getName());
+    		
+    		go.setText( TextUtils.join(" + ", chosenStrs));
     		go.setClickable(true);
     		go.setEnabled(true);
     	}

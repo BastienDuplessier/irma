@@ -12,7 +12,7 @@ public class Criteria implements Serializable {
 	private String name;
 	private String url;
 	private String imageUrl;
-	public boolean optionnal = false;
+	public boolean optionnal = true;
 	
 	
 	public Criteria(QuerySolution row) {

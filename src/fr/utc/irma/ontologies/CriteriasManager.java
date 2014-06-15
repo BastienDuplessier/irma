@@ -1,6 +1,7 @@
 package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
@@ -11,7 +12,10 @@ public class CriteriasManager {
 	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>"
             + " PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>" ;
 	private OntologyQueryInterfaceConnector connector;
-
+	
+	// Keep loaded criterias here for faster later queries on same manager instance
+	private HashMap<String, Criteria> ramCachedCriterias = new HashMap<String, Criteria>();
+	
 	public CriteriasManager(OntologyQueryInterfaceConnector connector) {
 		this.connector = connector;
 	}
@@ -36,12 +40,18 @@ public class CriteriasManager {
 	private ArrayList<Criteria> fromResultSet(ResultSet inData) {
 		ArrayList<Criteria> criterias = new ArrayList<Criteria>();
 		
-		
 		while(inData.hasNext()) {
-			QuerySolution row = inData.next();
-			criterias.add(new Criteria(row));
+			Criteria newC = new Criteria(inData.next());
+			criterias.add(newC);
+			ramCachedCriterias.put(newC.getId(), newC);
 		}
 
 		return criterias;
+	}
+	
+	public Criteria getCriteriaFromId(String id){
+		if(ramCachedCriterias.isEmpty())
+			getAll();
+		return ramCachedCriterias.get(id);		
 	}
 }

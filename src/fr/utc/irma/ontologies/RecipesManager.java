@@ -11,6 +11,7 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
 import fr.utc.irma.ExecutableTask;
+import fr.utc.irma.GraphCriteriaAgent;
 
 public class RecipesManager {
 
@@ -63,9 +64,18 @@ public class RecipesManager {
 		}.execute();
 	}
 	
-	public void asyncLoad(ExecutableTask executableTask, ArrayList<Criteria> criterias) {
-	    String query = buildQuery(criterias);
+	public void asyncLoadWithCriterias(ExecutableTask executableTask,
+			ArrayList<Criteria> globalCriterias,
+			ArrayList<GraphCriteriaAgent> optionnalCriterias) {
+		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)globalCriterias.clone();
+		for(GraphCriteriaAgent gca : optionnalCriterias){
+			gca.criteria.optionnal=true;
+			toSearch.add(gca.criteria);
+		}
+	    String query = buildQuery(toSearch);
 	    asyncLoad(executableTask, query);
+	    
+	    
 	}
 
     private String buildQuery(ArrayList<Criteria> criterias) {
@@ -94,7 +104,7 @@ public class RecipesManager {
                 
         }
         
-        queryBuffer.append(" } ");
+        queryBuffer.append(" } ORDER BY RAND()");
         return queryBuffer.toString();
     }
 
@@ -110,6 +120,6 @@ public class RecipesManager {
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
                 + "?id irma:description ?description ."
-                + "?id irma:linked_to ?criteria } ";
+                + "?id irma:linked_to ?criteria } ORDER BY RAND()";
     }
 }
