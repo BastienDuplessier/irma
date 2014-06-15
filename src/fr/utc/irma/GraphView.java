@@ -2,6 +2,7 @@ package fr.utc.irma;
 
 import java.util.ArrayList;
 
+import fr.utc.irma.ontologies.Criteria;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -59,11 +60,13 @@ public class GraphView extends View {
 		container.clickOn(rel_x, rel_y, this);
 		
 		if(framesSinceLastClick<10){
+			ArrayList<Criteria> toget=new ArrayList<Criteria>();
 			
-			for(GraphCriteriaAgent GCA : container.getAllClicked(rel_x, rel_y)){
-				container.makeCriteriaGlobal(GCA);
-			}
+			for(GraphCriteriaAgent GCA : container.getAllClicked(rel_x, rel_y))
+				toget.add(GCA.criteria);
+				//container.makeCriteriaGlobal(GCA);
 			
+			container.getMoreOfThis(toget);
 			
 			framesSinceLastClick=100;
 		}else{

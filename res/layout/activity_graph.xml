@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dip"
             android:orientation="horizontal" >
+            <TextView android:id="@+id/debugField" android:layout_height="wrap_content" android:layout_width="wrap_content"/>
         </LinearLayout>
 
         <fr.utc.irma.GraphView

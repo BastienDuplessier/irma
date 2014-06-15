@@ -43,7 +43,8 @@ public class CriteriasManager {
 		while(inData.hasNext()) {
 			Criteria newC = new Criteria(inData.next());
 			criterias.add(newC);
-			ramCachedCriterias.put(newC.getId(), newC);
+			if(!ramCachedCriterias.containsKey(newC.getId()))
+				ramCachedCriterias.put(newC.getId(), newC);
 		}
 
 		return criterias;

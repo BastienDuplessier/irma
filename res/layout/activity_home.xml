@@ -47,7 +47,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="@string/lorem"
+                android:text="@string/homeInstructions"
                 android:textSize="17sp" />
 
             <EditText
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="#EEE9E9"
                 android:gravity="center"
-                android:hint="Filtrez les critères"
+                android:hint="Filtrer les critères"
                 android:inputType="text"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp" />

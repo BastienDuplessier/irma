@@ -59,10 +59,9 @@ public class GraphActivity extends Activity {
 		} catch (ClassCastException e) {
 			Log.e("intent decode param", "Failed");
 		}
-		
-		
-
 	}
+	
+	
 
 	public GraphView gV;
 
@@ -72,9 +71,11 @@ public class GraphActivity extends Activity {
 	
 	private void initKBConnection(){
 		try {
-			OQIC = new OntologyQueryInterfaceConnector(getAssets());
-			RM = new ResultManager(OQIC);
-			CM = new CriteriasManager(OQIC);
+			if(OQIC==null || RM==null || CM==null){
+				OQIC = new OntologyQueryInterfaceConnector(getAssets());
+				RM = new ResultManager(OQIC);
+				CM = new CriteriasManager(OQIC);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -105,6 +106,7 @@ public class GraphActivity extends Activity {
 
 	public void setSideBarToResultDescription(Result result) {
 		sideBarInit();
+		sideBar.removeAllViews();
 		View descFrag = li.inflate(R.layout.result_view, sideBar);
 
 		descFrag.findViewById(id.resultLink).setTag(result);
@@ -124,10 +126,6 @@ public class GraphActivity extends Activity {
 			UrlImageViewHelper.setUrlDrawable(
 				((ImageView) descFrag.findViewById(R.id.resultImage)),
 				result.getImageUrl());
-		
-		if(result.getDescription().length()>0)
-			((WebView) descFrag.findViewById(R.id.resultHTMLDescription)).loadData(
-				result.getDescription(), "text/html", null);
 		
 		// Criterias buttons
 		for(String critID:result.getCriterias()){
@@ -238,33 +236,46 @@ public class GraphActivity extends Activity {
 		RM.asyncLoadWithCriterias(new ExecutableTask() {
 			@Override
 			public void execute(ArrayList<Result> results) {
-
-				LayoutInflater li = (LayoutInflater) GraphActivity.this
-						.getSystemService(GraphActivity.this.LAYOUT_INFLATER_SERVICE);
 				// Fill recipe list
+				int maxToShow=20;
 				for (Result r : results) {
-					View descFrag = li.inflate(R.layout.result_list_item,
-							sideBar);
-
-					((TextView) descFrag.findViewById(R.id.recipeListText))
-							.setText(r.getName());
-					UrlImageViewHelper.setUrlDrawable((ImageView) descFrag
-							.findViewById(R.id.recipeListImage), r
-							.getImageUrl());
-					descFrag.setTag(r);
-
-					descFrag.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							setSideBarToResultDescription((Result) v.getTag());
+					if(maxToShow-->0){
+						try{
+						LinearLayout listItemView=new LinearLayout(GraphActivity.this);
+						listItemView.setLayoutParams(
+								new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+						listItemView.setOrientation(LinearLayout.HORIZONTAL);
+						
+						ImageView pict = new ImageView(GraphActivity.this);
+						pict.setLayoutParams(new LayoutParams(70,  70));
+						UrlImageViewHelper.setUrlDrawable(pict, r.getImageUrl());
+						listItemView.addView(pict);
+						
+						TextView recipeName=new TextView(GraphActivity.this);
+						recipeName.setText(r.getName());
+						recipeName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+						listItemView.addView(recipeName);
+						
+						listItemView.setTag(r);
+	
+						listItemView.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								setSideBarToResultDescription((Result) v.getTag());
+							}
+						});
+						
+						sideBar.addView(listItemView);
+						}catch(Exception e){
+							
 						}
-					});
+					}
 				}
 			}
-		},weArePrettyStrictThere, new ArrayList<Criteria>());
+		},weArePrettyStrictThere, new ArrayList<Criteria>(), new String[0]);
 	}
 
-	LinearLayout globalCriterias;
+	public LinearLayout globalCriterias;
 
 	public void addGlobalCriteria(Criteria ing) {
 		Button removeGlobal = new Button(this);

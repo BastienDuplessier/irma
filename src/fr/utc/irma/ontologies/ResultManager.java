@@ -16,7 +16,8 @@ import fr.utc.irma.GraphCriteriaAgent;
 public class ResultManager {
 
 
-	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>" ;
+	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>"
+			+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
 	public ResultManager(OntologyQueryInterfaceConnector connector) {
@@ -62,7 +63,7 @@ public class ResultManager {
             	if(trial.size()>0)
             		return trial;
             	else
-            		return fromSPARQL(hardSparql);
+            		return fromSPARQL(easySparql);
             }
             @Override
             protected void onPostExecute(ArrayList<Result> result) {
@@ -74,19 +75,26 @@ public class ResultManager {
 	public void asyncLoadWithCriterias(
 			ExecutableTask executableTask,
 			ArrayList<Criteria> iNeedDat,
-			ArrayList<Criteria> wouldBeNice) {
+			ArrayList<Criteria> wouldBeNice,
+			Object[] noNoIds) {
 		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)iNeedDat.clone();
-		String easy = buildQuery(toSearch);
+		
+		ArrayList<String> nono = new ArrayList<String>();
+		for(Object no : noNoIds)
+			nono.add(no.toString());
+		
+		String easy = buildQuery(toSearch, nono);
 		for(Criteria heyINeedThatToo : wouldBeNice){
 			toSearch.add(heyINeedThatToo);
 		}
-	    String hard = buildQuery(toSearch);
+	    String hard = buildQuery(toSearch, nono);
 	    asyncLoad(executableTask, hard, easy);
 	    
 	    
 	}
-
-    private String buildQuery(ArrayList<Criteria> criterias) {
+	
+	
+    private String buildQuery(ArrayList<Criteria> criterias, ArrayList<String> nonos) {
         StringBuffer queryBuffer = new StringBuffer();
         queryBuffer.append(PREFIX);
         queryBuffer.append("SELECT ?id ?name ?url ?imageUrl ?description ?criteria WHERE { "
@@ -98,10 +106,15 @@ public class ResultManager {
                 + "?id irma:linked_to ?criteria . ");
         
         
-        for(Criteria criteria:criterias){
-            queryBuffer.append("?id irma:linked_to <");
-            queryBuffer.append(criteria.getId());
-            queryBuffer.append("> . ");
+        for(Criteria criteria:criterias)
+            queryBuffer.append("?id irma:linked_to <"+criteria.getId()+">.");
+        if(!nonos.isEmpty()){
+        	queryBuffer.append("FILTER(");
+        	
+        	for(String no : nonos)
+        		queryBuffer.append("?id != <"+no+"> && ");
+        	
+        	queryBuffer.append("xsd:true)");
         }
         
         queryBuffer.append(" } limit 200");

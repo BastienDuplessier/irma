@@ -2,6 +2,7 @@ package fr.utc.irma;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import fr.utc.irma.GraphAgent.Force;
@@ -11,6 +12,7 @@ import fr.utc.irma.ontologies.Result;
 import fr.utc.irma.ontologies.ResultManager;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.widget.TextView;
 
 public class GraphContainer {
 	public ArrayList<GraphCriteriaAgent> criterias = new ArrayList<GraphCriteriaAgent>();
@@ -20,15 +22,9 @@ public class GraphContainer {
 	public ArrayList<Criteria> globalCriterias = new ArrayList<Criteria>();
 	private GraphActivity activity;
 
-	private void loadAllRecipes() {
-		makeSureThereAreEnoughRecipeNodes();
-	}
 
 	public GraphContainer(GraphActivity a) {
 		this.activity = a;
-		loadAllRecipes();
-		for (Result r : allRecipes)
-			addRecipe(r);
 
 	}
 
@@ -49,40 +45,57 @@ public class GraphContainer {
 			criterias.get(2).setPosition(0.5, 0.75);
 			break;
 		}
-		awaitingLoading=0;
 	}
+	
 	
 	// 2 modes : load precise stuffs, or just global criterias
 	
 	
 	
-	int awaitingLoading=0;
+	public int isLoading = 0;
 	private void makeSureThereAreEnoughRecipeNodes(){
-		if(awaitingLoading==0 && visibleRecipes.size()<30){
-			awaitingLoading=30-visibleRecipes.size();
+		if(visibleRecipes.size()<80 && isLoading<=0){
 			ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
-			for(GraphCriteriaAgent GCA : criterias)
+			for(GraphCriteriaAgent GCA : criterias){
+				ArrayList<Criteria> justThisOne=new ArrayList<Criteria>();
+				justThisOne.add(GCA.criteria);
+				getMoreOfThis(justThisOne);
 				heyThatWouldBeNice.add(GCA.criteria);
-			
+			}
+			getMoreOfThis(heyThatWouldBeNice);
+		}
+	}
+	
+	public void getMoreOfThis(ArrayList<Criteria>  heyThatWouldBeNice){
+		
+			isLoading++;
 			activity.getRM().asyncLoadWithCriterias(new ExecutableTask() {
 				
 				@Override
 				public void execute(ArrayList<Result> results) {
-					int maxLoad=awaitingLoading;
-					for(Result r : results){
-						if(maxLoad-->0)
+					GraphContainer.this.isLoading--;
+					int tenMax=10;
+					for(Result r : results)
+						if(tenMax-->0)
 							GraphContainer.this.addRecipe(r);
-					}
-					awaitingLoading=0;
 				}
-			}, this.globalCriterias, heyThatWouldBeNice);
+			}, this.globalCriterias, heyThatWouldBeNice, recipesInGraph.toArray());
+		
+	}
+	
+
+	private HashSet<String> recipesInGraph=new HashSet<String>();
+	public void addRecipe(Result r) {
+		if(!recipesInGraph.contains(r.getId())){
+			recipesInGraph.add(r.getId());
+			visibleRecipes.add(new GraphResultAgent(r, this));
 		}
 	}
-
-	public void addRecipe(Result r) {
-		visibleRecipes.add(new GraphResultAgent(r, this));
+	public void killResult(GraphResultAgent r){
+		recipesInGraph.remove(r.result.getId());
+		visibleRecipes.remove(r);
 	}
-
+	
 	public void addCriteria(Criteria c) {
 		criterias.add(new GraphCriteriaAgent(c, this));
 
@@ -176,7 +189,8 @@ public class GraphContainer {
 		for (int i = 0; i < visibleRecipes.size(); i++) {
 			GraphResultAgent RA = visibleRecipes.get(i);
 			if (RA.x < -0.5 || RA.x > 1.5 || RA.y < -0.5 || RA.y > 1.5) {
-				visibleRecipes.remove(RA);
+				killResult(RA);
+				
 			}
 		}
 		
