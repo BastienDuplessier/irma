@@ -1,12 +1,13 @@
 #Generated on 2014-06-14 16:58:01 +0200
 @prefix irma:    <http://www.w3.org/2014/06/irma#> .
 irma:1person a irma:HowMany ; irma:name "Pour 1 personne" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:4persons a irma:HowMany ; irma:name "Pour 4 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:6persons a irma:HowMany ; irma:name "Pour 6 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:8persons a irma:HowMany ; irma:name "Pour 8 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:2persons a irma:HowMany ; irma:name "Pour 2 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:3persons a irma:HowMany ; irma:name "Pour 3 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
-irma:5persons a irma:HowMany ; irma:name "Pour 5 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:4person a irma:HowMany ; irma:name "Pour 4 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:6person a irma:HowMany ; irma:name "Pour 6 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:8person a irma:HowMany ; irma:name "Pour 8 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:2person a irma:HowMany ; irma:name "Pour 2 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:3person a irma:HowMany ; irma:name "Pour 3 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:5person a irma:HowMany ; irma:name "Pour 5 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
+irma:9person a irma:HowMany ; irma:name "Pour + 8 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
 
 irma:prepa5min a irma:PreparationTime ; irma:name "Temps de préparation 5 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" . 
 irma:prepa10min a irma:PreparationTime ; irma:name "Temps de préparation 10 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" . 
