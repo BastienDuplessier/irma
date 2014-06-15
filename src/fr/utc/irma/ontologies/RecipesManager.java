@@ -101,10 +101,9 @@ public class RecipesManager {
                 queryBuffer.append(criteria.getId());
                 queryBuffer.append("> . ");
             }
-                
         }
         
-        queryBuffer.append(" } ORDER BY RAND()");
+        queryBuffer.append(" }");
         return queryBuffer.toString();
     }
 
@@ -120,6 +119,6 @@ public class RecipesManager {
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
                 + "?id irma:description ?description ."
-                + "?id irma:linked_to ?criteria } ORDER BY RAND()";
+                + "?id irma:linked_to ?criteria }";
     }
 }

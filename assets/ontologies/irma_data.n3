@@ -1,81 +1,63 @@
 #Generated on 2014-06-14 16:58:01 +0200
 @prefix irma:    <http://www.w3.org/2014/06/irma#> .
-irma:1person a irma:HowMany ; irma:value "1" . 
-irma:4persons a irma:HowMany ; irma:value "4" . 
-irma:6persons a irma:HowMany ; irma:value "6" . 
-irma:8persons a irma:HowMany ; irma:value "8" . 
-irma:40persons a irma:HowMany ; irma:value "40" . 
-irma:10persons a irma:HowMany ; irma:value "10" . 
-irma:15persons a irma:HowMany ; irma:value "15" . 
-irma:2persons a irma:HowMany ; irma:value "2" . 
-irma:30persons a irma:HowMany ; irma:value "30" . 
-irma:45persons a irma:HowMany ; irma:value "45" . 
-irma:20persons a irma:HowMany ; irma:value "20" . 
-irma:12persons a irma:HowMany ; irma:value "12" . 
-irma:25persons a irma:HowMany ; irma:value "25" . 
-irma:3persons a irma:HowMany ; irma:value "3" . 
-irma:250persons a irma:HowMany ; irma:value "250" . 
-irma:500persons a irma:HowMany ; irma:value "500" . 
-irma:280persons a irma:HowMany ; irma:value "280" . 
-irma:50persons a irma:HowMany ; irma:value "50" . 
-irma:16persons a irma:HowMany ; irma:value "16" . 
-irma:950persons a irma:HowMany ; irma:value "950" . 
-irma:5persons a irma:HowMany ; irma:value "5" . 
-irma:36persons a irma:HowMany ; irma:value "36" . 
-irma:300persons a irma:HowMany ; irma:value "300" . 
-irma:35persons a irma:HowMany ; irma:value "35" . 
-irma:400persons a irma:HowMany ; irma:value "400" . 
-irma:24persons a irma:HowMany ; irma:value "24" . 
-irma:70persons a irma:HowMany ; irma:value "70" . 
-irma:18persons a irma:HowMany ; irma:value "18" . 
-irma:60persons a irma:HowMany ; irma:value "60" . 
-irma:100persons a irma:HowMany ; irma:value "100" . 
-irma:75persons a irma:HowMany ; irma:value "75" . 
-irma:prepa5min a irma:PrepatationTime ; irma:value "5" . 
-irma:prepa10min a irma:PrepatationTime ; irma:value "10" . 
-irma:prepa20min a irma:PrepatationTime ; irma:value "20" . 
-irma:prepa30min a irma:PrepatationTime ; irma:value "30" . 
-irma:prepa15min a irma:PrepatationTime ; irma:value "15" . 
-irma:prepa45min a irma:PrepatationTime ; irma:value "45" . 
-irma:prepa50min a irma:PrepatationTime ; irma:value "50" . 
-irma:prepa35min a irma:PrepatationTime ; irma:value "35" . 
-irma:prepa40min a irma:PrepatationTime ; irma:value "40" . 
-irma:prepa25min a irma:PrepatationTime ; irma:value "25" . 
-irma:prepa1min a irma:PrepatationTime ; irma:value "1" . 
-irma:prepa55min a irma:PrepatationTime ; irma:value "55" . 
-irma:prepa2min a irma:PrepatationTime ; irma:value "2" . 
-irma:prepa3min a irma:PrepatationTime ; irma:value "3" . 
-irma:prepa12min a irma:PrepatationTime ; irma:value "12" . 
-irma:prepa4min a irma:PrepatationTime ; irma:value "4" . 
-irma:cook3min a irma:CookingTime ; irma:value "3" . 
-irma:cook25min a irma:CookingTime ; irma:value "25" . 
-irma:cook20min a irma:CookingTime ; irma:value "20" . 
-irma:cook50min a irma:CookingTime ; irma:value "50" . 
-irma:cook10min a irma:CookingTime ; irma:value "10" . 
-irma:cook1min a irma:CookingTime ; irma:value "1" . 
-irma:cook35min a irma:CookingTime ; irma:value "35" . 
-irma:cook40min a irma:CookingTime ; irma:value "40" . 
-irma:cook30min a irma:CookingTime ; irma:value "30" . 
-irma:cook4min a irma:CookingTime ; irma:value "4" . 
-irma:cook15min a irma:CookingTime ; irma:value "15" . 
-irma:cook12min a irma:CookingTime ; irma:value "12" . 
-irma:cook6min a irma:CookingTime ; irma:value "6" . 
-irma:cook5min a irma:CookingTime ; irma:value "5" . 
-irma:cook45min a irma:CookingTime ; irma:value "45" . 
-irma:cook8min a irma:CookingTime ; irma:value "8" . 
-irma:cook2min a irma:CookingTime ; irma:value "2" . 
-irma:cook55min a irma:CookingTime ; irma:value "55" . 
-irma:cook18min a irma:CookingTime ; irma:value "18" . 
-irma:cook22min a irma:CookingTime ; irma:value "22" . 
-irma:cook7min a irma:CookingTime ; irma:value "7" . 
-irma:cook11min a irma:CookingTime ; irma:value "11" . 
-irma:cook9min a irma:CookingTime ; irma:value "9" . 
-irma:cook13min a irma:CookingTime ; irma:value "13" . 
-irma:cook14min a irma:CookingTime ; irma:value "14" . 
-irma:cook16min a irma:CookingTime ; irma:value "16" . 
-irma:difffacile a irma:Difficulty ; irma:value "Facile" . 
-irma:diffmoyenne a irma:Difficulty ; irma:value "Moyenne" . 
-irma:diffdifficile a irma:Difficulty ; irma:value "Difficile" . 
+irma:1person a irma:HowMany; irma:name "Pour 1 personne" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "1" . 
+irma:4persons a irma:HowMany; irma:name "Pour 4 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "4" . 
+irma:6persons a irma:HowMany; irma:name "Pour 6 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "6" . 
+irma:8persons a irma:HowMany; irma:name "Pour 8 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "8" . 
+irma:2persons a irma:HowMany; irma:name "Pour 2 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "2" . 
+irma:3persons a irma:HowMany; irma:name "Pour 3 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "3" . 
+irma:5persons a irma:HowMany; irma:name "Pour 5 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" ; irma:value "5" . 
+
+irma:prepa5min a irma:PrepatationTime; irma:name "Temps de préparation 5 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "5" . 
+irma:prepa10min a irma:PrepatationTime; irma:name "Temps de préparation 10 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "10" . 
+irma:prepa20min a irma:PrepatationTime; irma:name "Temps de préparation 20 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "20" . 
+irma:prepa30min a irma:PrepatationTime; irma:name "Temps de préparation 30 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "30" . 
+irma:prepa15min a irma:PrepatationTime; irma:name "Temps de préparation 15 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "15" . 
+irma:prepa45min a irma:PrepatationTime; irma:name "Temps de préparation 45 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "45" . 
+irma:prepa50min a irma:PrepatationTime; irma:name "Temps de préparation 50 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "50" . 
+irma:prepa35min a irma:PrepatationTime; irma:name "Temps de préparation 35 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "35" . 
+irma:prepa40min a irma:PrepatationTime; irma:name "Temps de préparation 40 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "40" . 
+irma:prepa25min a irma:PrepatationTime; irma:name "Temps de préparation 25 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "25" . 
+irma:prepa1min a irma:PrepatationTime; irma:name "Temps de préparation 1 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "1" . 
+irma:prepa55min a irma:PrepatationTime; irma:name "Temps de préparation 55 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "55" . 
+irma:prepa2min a irma:PrepatationTime; irma:name "Temps de préparation 2 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "2" . 
+irma:prepa3min a irma:PrepatationTime; irma:name "Temps de préparation 3 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "3" . 
+irma:prepa12min a irma:PrepatationTime; irma:name "Temps de préparation 12 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "12" . 
+irma:prepa4min a irma:PrepatationTime; irma:name "Temps de préparation 4 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "4" . 
+
+irma:cook3min a irma:CookingTime; irma:name "Cuisson 3 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "3" . 
+irma:cook25min a irma:CookingTime; irma:name "Cuisson 25 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "25" . 
+irma:cook20min a irma:CookingTime; irma:name "Cuisson 20 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "20" . 
+irma:cook50min a irma:CookingTime; irma:name "Cuisson 50 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "50" . 
+irma:cook10min a irma:CookingTime; irma:name "Cuisson 10 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "10" . 
+irma:cook1min a irma:CookingTime; irma:name "Cuisson 1 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "1" . 
+irma:cook35min a irma:CookingTime; irma:name "Cuisson 35 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "35" . 
+irma:cook40min a irma:CookingTime; irma:name "Cuisson 40 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "40" . 
+irma:cook30min a irma:CookingTime; irma:name "Cuisson 30 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "30" . 
+irma:cook4min a irma:CookingTime; irma:name "Cuisson 4 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "4" . 
+irma:cook15min a irma:CookingTime; irma:name "Cuisson 15 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "15" . 
+irma:cook12min a irma:CookingTime; irma:name "Cuisson 12 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "12" . 
+irma:cook6min a irma:CookingTime; irma:name "Cuisson 6 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "6" . 
+irma:cook5min a irma:CookingTime; irma:name "Cuisson 5 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "5" . 
+irma:cook45min a irma:CookingTime; irma:name "Cuisson 45 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "45" . 
+irma:cook8min a irma:CookingTime; irma:name "Cuisson 8 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "8" . 
+irma:cook2min a irma:CookingTime; irma:name "Cuisson 2 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "2" . 
+irma:cook55min a irma:CookingTime; irma:name "Cuisson 55 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "55" . 
+irma:cook18min a irma:CookingTime; irma:name "Cuisson 18 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "18" . 
+irma:cook22min a irma:CookingTime; irma:name "Cuisson 22 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "22" . 
+irma:cook7min a irma:CookingTime; irma:name "Cuisson 7 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "7" . 
+irma:cook11min a irma:CookingTime; irma:name "Cuisson 11 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "11" . 
+irma:cook9min a irma:CookingTime; irma:name "Cuisson 9 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "9" . 
+irma:cook13min a irma:CookingTime; irma:name "Cuisson 13 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "13" . 
+irma:cook14min a irma:CookingTime; irma:name "Cuisson 14 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "14" . 
+irma:cook16min a irma:CookingTime; irma:name "Cuisson 16 min"; irma:image_url "http://s2.postimg.org/r1em2exnt/timer.jpg" ; irma:value "16" . 
+irma:difffacile a irma:Difficulty; irma:name "Difficulté facile"; irma:image_url "http://s2.postimg.org/d6gbjy38p/difficulty.jpg" ; irma:value "Facile" . 
+irma:diffmoyenne a irma:Difficulty; irma:name "Difficulté moyenne"; irma:image_url "http://s2.postimg.org/d6gbjy38p/difficulty.jpg" ; irma:value "Moyenne" . 
+irma:diffdifficile a irma:Difficulty; irma:name "Difficulté difficile"; irma:image_url "http://s2.postimg.org/d6gbjy38p/difficulty.jpg" ; irma:value "Difficile" . 
+
+
+
+
 irma:abricot a irma:Ingredient ; irma:name "Abricot" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/18/00/PRODABRICA%2Bomb_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/abricot" .
 irma:abricotssecs a irma:Ingredient ; irma:name "Abricots secs" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/67/AA/LD_PR422A_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/abricots-secs" .
 irma:acacia a irma:Ingredient ; irma:name "Acacia" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/A4/09/LD_PR428BB_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/acacia" .

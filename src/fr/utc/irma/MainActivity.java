@@ -203,7 +203,6 @@ public class MainActivity extends Activity {
     	ingButton.setLayoutParams(lp);
     	UrlImageViewHelper.setUrlDrawable(ingButton, ing.getImageUrl(), drawable.courgette);
     	ingList.addView(ingButton);
-    	
     	ingButton.setTag(ing);
     	if(!chosen.contains(ing))
     		ingButton.setAlpha(150);
@@ -213,8 +212,7 @@ public class MainActivity extends Activity {
 				
 				MainActivity.this.pickCriteria((Criteria)v.getTag());
 			}
-		});
-    	
+		});	
     }
     
 }
