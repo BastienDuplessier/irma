@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
+import com.hp.hpl.jena.query.ResultSet;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.drawable;
 import fr.utc.irma.ontologies.Criteria;
 import fr.utc.irma.ontologies.CriteriasManager;
 import fr.utc.irma.ontologies.OntologyQueryInterfaceConnector;
-
+import fr.utc.irma.ontologies.ResultManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class HomeActivity extends Activity {
 
@@ -116,20 +118,8 @@ public class HomeActivity extends Activity {
     	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
     	    CriteriasManager ingMng = new CriteriasManager(OQIC);
     	    all = ingMng.getAll();
-    	    
     	    ingList = (RelativeLayout)findViewById(R.id.ingList);
-    	    /*ingList.(new OnLayoutChangeListener() {
-				
-				@Override
-				public void onLayoutChange(View v, int left, int top, int right,
-						int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-					//MainActivity.this.refreshList();
-					
-				}
-			});*/
     	    refreshList();
-    	    
-    	    
     	    setupFiltering();
     	} catch (IOException e) {
     	    Log.d("IngredientsLoader","Haha, nobody cares");

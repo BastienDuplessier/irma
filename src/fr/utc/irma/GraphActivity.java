@@ -230,6 +230,10 @@ public class GraphActivity extends Activity {
 		}
 		
 		
+		ArrayList<Criteria> weArePrettyStrictThere = (ArrayList<Criteria>)gV.container.globalCriterias.clone();
+		for(GraphCriteriaAgent GCA : clickedCriterias)
+			weArePrettyStrictThere.add(GCA.criteria);
+		
 		// Load recipe list
 		RM.asyncLoadWithCriterias(new ExecutableTask() {
 			@Override
@@ -257,7 +261,7 @@ public class GraphActivity extends Activity {
 					});
 				}
 			}
-		}, (ArrayList<Criteria>)gV.container.globalCriterias, clickedCriterias, false);
+		},weArePrettyStrictThere, new ArrayList<Criteria>());
 	}
 
 	LinearLayout globalCriterias;

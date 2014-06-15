@@ -3,6 +3,7 @@ package fr.utc.irma.ontologies;
 import java.io.IOException;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -25,9 +26,13 @@ public class OntologyQueryInterfaceConnector {
 
 	public OntologyQueryInterfaceConnector(AssetManager assetManager) throws IOException {
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_GENERIC), null, "TURTLE");
+		Log.d("OKLoad", "generic");
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_SPECIFIC), null, "TURTLE");
+		Log.d("OKLoad", "specific");
         model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA), null, "TURTLE");
+		Log.d("OKLoad", "criterias");
         model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA2), null, "TURTLE");
+		Log.d("OKLoad", "recipes");
 	}
 
 	public ResultSet executeSparql(String stringQuery) {

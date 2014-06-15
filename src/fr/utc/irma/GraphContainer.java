@@ -48,8 +48,8 @@ public class GraphContainer {
 			criterias.get(1).setPosition(0.75, 0.25);
 			criterias.get(2).setPosition(0.5, 0.75);
 			break;
-
 		}
+		awaitingLoading=0;
 	}
 	
 	// 2 modes : load precise stuffs, or just global criterias
@@ -60,6 +60,10 @@ public class GraphContainer {
 	private void makeSureThereAreEnoughRecipeNodes(){
 		if(awaitingLoading==0 && visibleRecipes.size()<30){
 			awaitingLoading=30-visibleRecipes.size();
+			ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
+			for(GraphCriteriaAgent GCA : criterias)
+				heyThatWouldBeNice.add(GCA.criteria);
+			
 			activity.getRM().asyncLoadWithCriterias(new ExecutableTask() {
 				
 				@Override
@@ -71,7 +75,7 @@ public class GraphContainer {
 					}
 					awaitingLoading=0;
 				}
-			}, this.globalCriterias, this.criterias, true);
+			}, this.globalCriterias, heyThatWouldBeNice);
 		}
 	}
 

@@ -50,12 +50,19 @@ public class ResultManager {
 		return new ArrayList<Result>(results.values());
 	}
 
-	public void asyncLoad(final ExecutableTask executableTask, final String sparqlQuery) {
+	public void asyncLoad(final ExecutableTask executableTask,
+			final String hardSparql,
+			final String easySparql) {
 		new AsyncTask<Void, Integer, ArrayList<Result>>() {
 			
             @Override
             protected ArrayList<Result> doInBackground(Void... params) {
-                return fromSPARQL(sparqlQuery);
+            	
+            	ArrayList<Result> trial = fromSPARQL(hardSparql);
+            	if(trial.size()>0)
+            		return trial;
+            	else
+            		return fromSPARQL(hardSparql);
             }
             @Override
             protected void onPostExecute(ArrayList<Result> result) {
@@ -64,17 +71,17 @@ public class ResultManager {
 		}.execute();
 	}
 	
-	public void asyncLoadWithCriterias(ExecutableTask executableTask,
-			ArrayList<Criteria> globalCriterias,
-			ArrayList<GraphCriteriaAgent> GCAs,
-			boolean gcaIsOptionnal) {
-		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)globalCriterias.clone();
-		for(GraphCriteriaAgent gca : GCAs){
-			gca.criteria.optionnal=gcaIsOptionnal;
-			toSearch.add(gca.criteria);
+	public void asyncLoadWithCriterias(
+			ExecutableTask executableTask,
+			ArrayList<Criteria> iNeedDat,
+			ArrayList<Criteria> wouldBeNice) {
+		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)iNeedDat.clone();
+		String easy = buildQuery(toSearch);
+		for(Criteria heyINeedThatToo : wouldBeNice){
+			toSearch.add(heyINeedThatToo);
 		}
-	    String query = buildQuery(toSearch);
-	    asyncLoad(executableTask, query);
+	    String hard = buildQuery(toSearch);
+	    asyncLoad(executableTask, hard, easy);
 	    
 	    
 	}
@@ -83,43 +90,39 @@ public class ResultManager {
         StringBuffer queryBuffer = new StringBuffer();
         queryBuffer.append(PREFIX);
         queryBuffer.append("SELECT ?id ?name ?url ?imageUrl ?description ?criteria WHERE { "
-                + "?id a irma:Recipe . "
+                + "?id a irma:Result . "
                 + "?id irma:name ?name . "
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
                 + "?id irma:description ?description . "
                 + "?id irma:linked_to ?criteria . ");
         
-        Iterator<Criteria> it = criterias.iterator();
-        while(it.hasNext()) {
-            Criteria criteria = it.next();
-            if(criteria.optionnal) {
-                queryBuffer.append("OPTIONAL { ?id irma:linked_to <");
-                queryBuffer.append(criteria.getId());
-                queryBuffer.append("> } . ");
-            } else {
-                queryBuffer.append("?id irma:linked_to <");
-                queryBuffer.append(criteria.getId());
-                queryBuffer.append("> . ");
-            }
+        
+        for(Criteria criteria:criterias){
+            queryBuffer.append("?id irma:linked_to <");
+            queryBuffer.append(criteria.getId());
+            queryBuffer.append("> . ");
         }
         
-        queryBuffer.append(" }");
+        queryBuffer.append(" } limit 200");
         return queryBuffer.toString();
     }
 
     public void asyncLoadAll(ExecutableTask executableTask) {
-        asyncLoad(executableTask, getAllQuery());
+        asyncLoad(executableTask, getAllQuery(), getAllQuery());
     }
 
     private String getAllQuery() {
         return PREFIX + " "
                 + "SELECT ?id ?name ?url ?imageUrl ?description ?criteria WHERE { "
-                + "?id a irma:Recipe . "
+                + "?id a irma:Result . "
                 + "?id irma:name ?name . "
                 + "?id irma:url ?url . "
                 + "?id irma:image_url ?imageUrl . "
                 + "?id irma:description ?description ."
-                + "?id irma:linked_to ?criteria }";
+                + "?id irma:linked_to ?criteria } limit 200";
     }
+    
+    
+    
 }
