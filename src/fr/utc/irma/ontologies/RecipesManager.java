@@ -2,8 +2,10 @@ package fr.utc.irma.ontologies;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import android.os.AsyncTask;
+import arq.query;
 
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
@@ -60,6 +62,41 @@ public class RecipesManager {
 			}
 		}.execute();
 	}
+	
+	public void asyncLoad(ExecutableTask executableTask, ArrayList<Criteria> criterias) {
+	    String query = buildQuery(criterias);
+	    asyncLoad(executableTask, query);
+	}
+
+    private String buildQuery(ArrayList<Criteria> criterias) {
+        StringBuffer queryBuffer = new StringBuffer();
+        queryBuffer.append(PREFIX);
+        queryBuffer.append("SELECT ?id ?name ?url ?imageUrl ?description ?criteria WHERE { "
+                + "?id a irma:Recipe . "
+                + "?id irma:name ?name . "
+                + "?id irma:url ?url . "
+                + "?id irma:image_url ?imageUrl . "
+                + "?id irma:description ?description . "
+                + "?id irma:linked_to ?criteria . ");
+        
+        Iterator<Criteria> it = criterias.iterator();
+        while(it.hasNext()) {
+            Criteria criteria = it.next();
+            if(criteria.optionnal) {
+                queryBuffer.append("OPTIONAL { ?id irma:linked_to <");
+                queryBuffer.append(criteria.getId());
+                queryBuffer.append("> } . ");
+            } else {
+                queryBuffer.append("?id irma:linked_to <");
+                queryBuffer.append(criteria.getId());
+                queryBuffer.append("> . ");
+            }
+                
+        }
+        
+        queryBuffer.append(" } ");
+        return queryBuffer.toString();
+    }
 
     public void asyncLoadAll(ExecutableTask executableTask) {
         asyncLoad(executableTask, getAllQuery());
