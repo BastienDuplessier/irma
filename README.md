@@ -38,17 +38,44 @@ Représente un critére visible sur le graph (pas les critéres globaux). Influe su
 ### MiseEnPage
 Permet la justification du texte
 ### ExecutableTask
-Permet les appels assinchrones
+Permet les appels assychrones
 
 ## Ontologies
-### class IngredientsManager
-???
+### class CriteriaManager
+Gère l'accès aux critères
 ### class RecipesManager
-???
+Gère l'accès aux recettes
 ## class OntologyQueryInterfaceConnector
-???
+Permet d'établir une connection entre les ontologies et donne un point d'accès pour effectuer des requetes SPARQL.
 
 
+#HEY RENAN !  
+J'ai terminé ce que j'avais a faire, j'ai même implémenté le fait d'avoir des critères en options dans la liste. Je te mes un bout de code en exemple histoire que tu saches comment on l'utilise.
+```
+ ArrayList<Criteria> test = new ArrayList<Criteria>();
+    	    Iterator<Criteria> it = all.iterator();
+    	    while(it.hasNext()) {
+    	    	// Là je construit une fake liste de critères dont un sera optionnel
+    	        Criteria crit = it.next();
+    	        if(crit.getId().contains("agneau")) {
+    	            crit.optionnal = true;
+    	            test.add(crit);
+    	        }
+    	        if(crit.getId().contains("poivre"))
+    	            test.add(crit);
+    	    }
+    	    
+    	    RecipesManager rcpMng = new RecipesManager(OQIC);
+    	    // On utilise asyncLoad(ExecutableTask, ArrayList<Criteria>) pour effecter la requete.
+    	    rcpMng.asyncLoad(new ExecutableTask() {
+                
+                @Override
+                public void execute(ArrayList<Recipe> recipes) {
+                	// C'est génial
+                    System.out.println(String.valueOf(recipes.size()));
+                }
+            }, test);
+```    	    
 
 #Comment récupérer tous les ingrédients ?  
 C'est assez simple, il suffit d'instancier un nouveau `OntologyQueryInterfaceConnector` avec `getAssets` en argument (pour récupérer les fichiers). 
