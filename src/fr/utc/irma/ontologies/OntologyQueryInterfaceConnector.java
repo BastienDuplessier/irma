@@ -14,7 +14,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 public class OntologyQueryInterfaceConnector {
-
+	
 	private static final String UNIQUE_ONTOLOGIES_DIRECTORY_NAME = "ontologies/";
 	// UNIQUE FILENAMES FOR ONTOLOGIES
 	private static final String IRMA_GENERIC = "irma_generic.n3";
@@ -47,6 +47,7 @@ public class OntologyQueryInterfaceConnector {
 	}
 
 	public ResultSet executeSparql(String stringQuery) {
+		Log.d("hardRequest", "Was asked to load : "+stringQuery);
 		Query query = QueryFactory.create(stringQuery);
 		QueryExecution queryExecution = QueryExecutionFactory.create(query, model);
 		return queryExecution.execSelect();

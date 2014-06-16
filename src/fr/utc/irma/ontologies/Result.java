@@ -13,7 +13,6 @@ public class Result {
 	private String name;
 	private String url;
 	private String imageUrl;
-	private String description;
 	
 	//private ArrayList<String> criterias;
 	//private HashMap<String, Criteria> criterias = new HashMap<String, Criteria>(); 
@@ -25,8 +24,6 @@ public class Result {
 		this.url = row.get("url").toString();
 		this.imageUrl = row.get("imageUrl").toString();
 		
-		// Recipe specific
-		this.description = row.get("description").toString();
 		addCriteria(row);
 		
 	}
@@ -49,7 +46,6 @@ public class Result {
 	public String getName() { return this.name; }
 	public String getImageUrl(){return this.imageUrl;}
 	public String getUrl() { return this.url; }
-    public String getDescription() { return this.description; }
     public ArrayList<String> getCriterias(){
     	// Get all criterias names
     	ArrayList<String> allCrits=new ArrayList<String>();
