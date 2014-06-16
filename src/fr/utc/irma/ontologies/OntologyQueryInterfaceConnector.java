@@ -24,7 +24,7 @@ public class OntologyQueryInterfaceConnector {
 
 	private Model model = ModelFactory.createDefaultModel();
 
-	public OntologyQueryInterfaceConnector(AssetManager assetManager) throws IOException {
+	private OntologyQueryInterfaceConnector(AssetManager assetManager) throws IOException {
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_GENERIC), null, "TURTLE");
 		Log.d("OKLoad", "generic");
 		model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_SPECIFIC), null, "TURTLE");
@@ -33,6 +33,17 @@ public class OntologyQueryInterfaceConnector {
 		Log.d("OKLoad", "criterias");
         model.read(assetManager.open(UNIQUE_ONTOLOGIES_DIRECTORY_NAME + IRMA_DATA2), null, "TURTLE");
 		Log.d("OKLoad", "recipes");
+	}
+	
+	private static OntologyQueryInterfaceConnector singleton=null;
+	public static OntologyQueryInterfaceConnector getOQIC(AssetManager AM){
+		if(singleton==null)
+			try {
+				singleton=new OntologyQueryInterfaceConnector(AM);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		return singleton;
 	}
 
 	public ResultSet executeSparql(String stringQuery) {

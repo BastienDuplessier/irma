@@ -93,17 +93,10 @@ public class HomeActivity extends Activity {
     }
     
     private void loadList(){
-    	try {
-    	    OntologyQueryInterfaceConnector OQIC = new OntologyQueryInterfaceConnector(getAssets());
-    	    CriteriasManager ingMng = new CriteriasManager(OQIC);
-    	    all = ingMng.getAll();
-    	    ingList = (RelativeLayout)findViewById(R.id.ingList);
-    	    refreshList();
-    	    setupFiltering();
-    	} catch (IOException e) {
-    	    Log.d("IngredientsLoader","Haha, nobody cares");
-    	}
-    	//((DynamicTableView)findViewById(R.id.ingList)).updateDisplay();
+	    all = CriteriasManager.getCM(getAssets()).getAll();
+	    ingList = (RelativeLayout)findViewById(R.id.ingList);
+	    refreshList();
+	    setupFiltering();
     }
     
     public void setSearchFilter(String sf){

@@ -3,6 +3,8 @@ package fr.utc.irma.ontologies;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.res.AssetManager;
+
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 
@@ -16,7 +18,14 @@ public class CriteriasManager {
 	// Keep loaded criterias here for faster later queries on same manager instance
 	private HashMap<String, Criteria> ramCachedCriterias = new HashMap<String, Criteria>();
 	
-	public CriteriasManager(OntologyQueryInterfaceConnector connector) {
+	private static CriteriasManager singleton = null; 
+	public static CriteriasManager getCM(AssetManager AM){
+		if (singleton==null)
+			singleton=new CriteriasManager(OntologyQueryInterfaceConnector.getOQIC(AM));
+		return singleton;
+	}
+	
+	private CriteriasManager(OntologyQueryInterfaceConnector connector) {
 		this.connector = connector;
 	}
 

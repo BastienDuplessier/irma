@@ -60,13 +60,8 @@ public class GraphView extends View {
 		container.clickOn(rel_x, rel_y, this);
 		
 		if(framesSinceLastClick<10){
-			ArrayList<Criteria> toget=new ArrayList<Criteria>();
-			
 			for(GraphCriteriaAgent GCA : container.getAllClicked(rel_x, rel_y))
-				toget.add(GCA.criteria);
-				//container.makeCriteriaGlobal(GCA);
-			
-			container.getMoreOfThis(toget);
+				container.makeCriteriaGlobal(GCA);
 			
 			framesSinceLastClick=100;
 		}else{

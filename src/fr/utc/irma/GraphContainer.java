@@ -44,19 +44,18 @@ public class GraphContainer {
 			criterias.get(2).setPosition(0.5, 0.75);
 			break;
 		}
-		isLoading=0;
+		
 	}
+	
 	
 	
 	// 2 modes : load precise stuffs, or just global criterias
 	
-	
+	/*
 	
 	public int isLoading = 0;
 	public int notTooOften=0;
 	private void makeSureThereAreEnoughRecipeNodes(){
-		if(notTooOften--<=0){
-			notTooOften=30;
 			if(visibleRecipes.size()<40){
 				ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
 				for(GraphCriteriaAgent GCA : criterias){
@@ -92,14 +91,14 @@ public class GraphContainer {
 			}, this.globalCriterias, heyThatWouldBeNice, noneed.toArray());
 		
 	}
-	
+	*/
 
 	public void addRecipe(Result r) {
 		boolean notthere=true;
 		for(GraphResultAgent gra:visibleRecipes)
 			if(gra.result.getId().equals(r.getId()))
 				notthere=false;
-		if(visibleRecipes.size()<40){
+		if(visibleRecipes.size()<40 && notthere){
 			visibleRecipes.add(new GraphResultAgent(r, this));
 		}
 	}
@@ -157,61 +156,40 @@ public class GraphContainer {
 	}
 
 	public void tick() {
-		// TODO : Criteria vs recipes
-		for (GraphCriteriaAgent CA : criterias) {
-			for (GraphResultAgent RA : visibleRecipes) {
-				// Attract if there is a match
-				Force Fe = CA.elasticForce(RA);
-				Force Fg = CA.gravitationalForce(RA);
-				
-				if (RA.result.matchCriteria(CA.criteria)) {
-					RA.accelerate(-700 * Fe.Fx, -700 * Fe.Fy);
-				}else{
-					RA.accelerate(-10 * Fg.Fx, -10 * Fg.Fy);
-				}
-				// Avoid collision
-				RA.accelerate(-1 * Fg.Fx, -1 * Fg.Fy);
-			}
-		}
-
-		// Recipe vs recipe
-		for (int i = 0; i < visibleRecipes.size() - 1; i++) {
-			for (int j = i + 1; j < visibleRecipes.size(); j++) {
-				GraphResultAgent r1 = visibleRecipes.get(i);
-				GraphResultAgent r2 = visibleRecipes.get(j);
-				Force F = r1.gravitationalForce(r2);
-				r1.accelerate(F.Fx, F.Fy);
-				r2.accelerate(-F.Fx, -F.Fy);
-
-			}
-		}
+		
+		for(GraphCriteriaAgent GCA:criterias)
+			if(GCA.needMoreRecipes(visibleRecipes))
+				GCA.askForMoreResults(this, activity.getRM());
+		
+		for (GraphCriteriaAgent GCA : criterias) 
+			GCA.attractOrRevulseResults(this.visibleRecipes);
+		
+		for (int i = 0; i < visibleRecipes.size() - 1; i++) 
+			for (int j = i + 1; j < visibleRecipes.size(); j++) 
+				visibleRecipes.get(j).avoidCollistionWithResult(visibleRecipes.get(i));
 
 		// Global Criterias
-		for (Criteria crit : globalCriterias) {
-			for (GraphResultAgent RA : visibleRecipes) {
-			    if (!RA.result.matchCriteria(crit)) {
+		for (Criteria crit : globalCriterias) 
+			for (GraphResultAgent RA : visibleRecipes) 
+			    if (!RA.result.matchCriteria(crit)) 
 					RA.accelerate((RA.x - 0.5) / 100, (RA.y - 0.5) / 100);
 
-				}
-			}
-		}
-
 		// Recipes move
-		for (GraphResultAgent RA : visibleRecipes) {
+		for (GraphResultAgent RA : visibleRecipes) 
 			RA.tick();
-		}
-
+		
+		ArrayList<GraphResultAgent> toKill= new ArrayList<GraphResultAgent>();
 		// CLear out of bound recipes
-		for (int i = 0; i < visibleRecipes.size(); i++) {
-			GraphResultAgent RA = visibleRecipes.get(i);
-			if (RA.x < -0.5 || RA.x > 1.5 || RA.y < -0.5 || RA.y > 1.5) {
-				killResult(RA);
-				
-			}
-		}
+		for (GraphResultAgent GRA : visibleRecipes) 
+			if(GRA.isOutOfBounds())
+				toKill.add(GRA);
+		
+		for(GraphResultAgent GRA:toKill)
+			killResult(GRA);
+			
 		
 		//Check if we need new recipes
-		makeSureThereAreEnoughRecipeNodes();
+		//makeSureThereAreEnoughRecipeNodes();
 
 	}
 
@@ -231,11 +209,7 @@ public class GraphContainer {
 	}
 
 	public void clickOn(float clickedX, float clickedY, GraphView GV) {
-		// When the graph is clicked, we look for Graph Criteria Agents with the
-		// click inside there bounds;
-
 		GV.descCriteria(getAllClicked(clickedX, clickedY));
-
 	}
 
 }

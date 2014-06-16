@@ -1,6 +1,12 @@
 package fr.utc.irma;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import fr.utc.irma.GraphAgent.Force;
 import fr.utc.irma.ontologies.Criteria;
+import fr.utc.irma.ontologies.Result;
+import fr.utc.irma.ontologies.ResultManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -41,6 +47,23 @@ public class GraphCriteriaAgent extends GraphAgent {
 		return RA.result.matchCriteria(this.criteria);
 	}
 	
+	
+	public void attractOrRevulseResults(ArrayList<GraphResultAgent> visibleRecipes){
+		for (GraphResultAgent RA : visibleRecipes) {
+			// Attract if there is a match
+			Force Fe = this.elasticForce(RA);
+			Force Fg = this.gravitationalForce(RA);
+			
+			if (RA.result.matchCriteria(this.criteria)) {
+				RA.accelerate(-700 * Fe.Fx, -700 * Fe.Fy);
+			}else{
+				RA.accelerate(-10 * Fg.Fx, -10 * Fg.Fy);
+			}
+			// Avoid collision
+			RA.accelerate(-1 * Fg.Fx, -1 * Fg.Fy);
+		}
+	}
+	
 	// Background computing and drawing
 	@Override
 	public void customDrawBefore(Canvas canvas) {
@@ -74,9 +97,43 @@ public class GraphCriteriaAgent extends GraphAgent {
 		}else{
 			circleSize=null;
 		}
-			
-
+		
 	}
+	
+	private HashSet<String> lastKnownMatchingRecipes = new HashSet<String>();
+	private boolean loadingNewRecipes=false;
+	
+	public boolean needMoreRecipes(ArrayList<GraphResultAgent> visibleRecipes){
+		if(loadingNewRecipes)
+			return false;
+		lastKnownMatchingRecipes.clear();
+		for(GraphResultAgent GRA : visibleRecipes)
+			if(GRA.result.matchCriteria(this.criteria))
+				lastKnownMatchingRecipes.add(GRA.result.getId());
+		return lastKnownMatchingRecipes.size()<10;
+	}
+	
+	
+	public void askForMoreResults(GraphContainer GC, ResultManager RM){
+		loadingNewRecipes=true;
+		nodePaint.setStyle(Style.STROKE);
+		ArrayList<Criteria> me = new ArrayList<Criteria>();
+		me.add(this.criteria);
+		RM.asyncLoadWithCriterias(new ExecutableTask() {
+			
+			@Override
+			public void execute(ArrayList<Result> results) {
+				loadingNewRecipes = false;
+				nodePaint.setStyle(Style.FILL_AND_STROKE);
+				for(Result r:results)
+					gc.addRecipe(r);
+				
+			}
+		}, GC.globalCriterias, me, lastKnownMatchingRecipes.toArray());
+		
+	}
+	
+	
 	
 
 }

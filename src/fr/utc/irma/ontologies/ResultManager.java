@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import arq.query;
@@ -21,7 +22,14 @@ public class ResultManager {
 			+ "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>" ;
 	private OntologyQueryInterfaceConnector connector;
 
-	public ResultManager(OntologyQueryInterfaceConnector connector) {
+	private static ResultManager singleton = null; 
+	public static ResultManager getRM(AssetManager AM){
+		if (singleton==null)
+			singleton=new ResultManager(OntologyQueryInterfaceConnector.getOQIC(AM));
+		return singleton;
+	}
+	
+	private  ResultManager(OntologyQueryInterfaceConnector connector) {
 		this.connector = connector;
 	}
 

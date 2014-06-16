@@ -49,10 +49,6 @@ public class GraphActivity extends Activity {
 
 		setContentView(R.layout.activity_graph);
 
-		if(CM==null){
-			initKBConnection();
-		}
-		
 		try {
 			((GraphActivity) this).globalCriterias = (LinearLayout)  findViewById(R.id.criterias);
 			((GraphActivity) this).gV = ( GraphView) findViewById(R.id.graphDisplay);
@@ -70,32 +66,13 @@ public class GraphActivity extends Activity {
 
 	public GraphView gV;
 
-	ResultManager RM;
-	CriteriasManager CM;
-	OntologyQueryInterfaceConnector OQIC;
-	
-	private void initKBConnection(){
-		try {
-			if(OQIC==null || RM==null || CM==null){
-				OQIC = new OntologyQueryInterfaceConnector(getAssets());
-				RM = new ResultManager(OQIC);
-				CM = new CriteriasManager(OQIC);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public ResultManager getRM(){
-		if(RM==null)
-			initKBConnection();
-		return RM;
+		return ResultManager.getRM(getAssets());
 	}
 	
 	public CriteriasManager getCM(){
-		if(CM==null)
-			initKBConnection();
-		return CM;
+		return CriteriasManager.getCM(getAssets());
 	}
 	
 	LinearLayout sideBar;
@@ -279,68 +256,6 @@ public class GraphActivity extends Activity {
 		
 		
 		
-		// Load corresponding recipes in sidebar
-		if (RM == null) {
-			initKBConnection();
-		}		
-		
-		ArrayList<Criteria> weArePrettyStrictThere = (ArrayList<Criteria>)gV.container.globalCriterias.clone();
-		for(GraphCriteriaAgent GCA : clickedCriterias)
-			weArePrettyStrictThere.add(GCA.criteria);
-		
-		// Corresponding recipes 
-		TextView legende = new TextView(this);
-		ArrayList<String> critsName = new ArrayList<String>();
-		for(Criteria cforname:weArePrettyStrictThere)
-			critsName.add(cforname.getName());
-		if(critsName.isEmpty())
-			legende.setText("Toutes les recettes ");
-		else
-			legende.setText("Recettes correspondant a "+StringUtils.join("&", critsName));
-		sideBar.addView(legende);
-		
-			
-		// Load recipe list
-		RM.asyncLoadWithCriterias(new ExecutableTask() {
-			@Override
-			public void execute(ArrayList<Result> results) {
-				// Fill recipe list
-				int maxToShow=20;
-				for (Result r : results) {
-					if(maxToShow-->0){
-						try{
-						LinearLayout listItemView=new LinearLayout(GraphActivity.this);
-						listItemView.setLayoutParams(
-								new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-						listItemView.setOrientation(LinearLayout.HORIZONTAL);
-						
-						ImageView pict = new ImageView(GraphActivity.this);
-						pict.setLayoutParams(new LayoutParams(70,  70));
-						UrlImageViewHelper.setUrlDrawable(pict, r.getImageUrl());
-						listItemView.addView(pict);
-						
-						TextView recipeName=new TextView(GraphActivity.this);
-						recipeName.setText(r.getName());
-						recipeName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-						listItemView.addView(recipeName);
-						
-						listItemView.setTag(r);
-	
-						listItemView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								setSideBarToResultDescription((Result) v.getTag());
-							}
-						});
-						
-						sideBar.addView(listItemView);
-						}catch(Exception e){
-							
-						}
-					}
-				}
-			}
-		},weArePrettyStrictThere, new ArrayList<Criteria>(), new String[0]);
 	}
 
 	public LinearLayout globalCriterias;
