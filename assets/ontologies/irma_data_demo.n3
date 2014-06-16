@@ -4,6 +4,7 @@
 irma:poulet a irma:Ingredient ; irma:name "Poulet" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/DB/4F/242B_560247_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/poulet" .
 irma:noisette a irma:Ingredient ; irma:name "Noisette" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/94/9D/NOIX_E%2BOMBRE_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/noisette" .
 irma:cacao a irma:Ingredient ; irma:name "Cacao" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/E2/B3/120B_560247_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/cacao" .
+irma:menthe a irma:Ingredient ; irma:name "Menthe" ; irma:image_url "http://img.s.cuisine.larousse.fr/lcfilestorage/A4/F7/PROD077DETOUREE%20OMBRE_215x142.jpg" ; irma:url "http://cuisine.larousse.fr/lecon-experts/ingredients/detail/menthe" .
 
 irma:1person a irma:HowMany ; irma:name "Pour 1 personne" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 
 irma:2person a irma:HowMany ; irma:name "Pour 2 personnes" ; irma:image_url "http://s24.postimg.org/y2376w5vp/nombreconvives.jpg" . 

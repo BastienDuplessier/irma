@@ -94,15 +94,16 @@ public class GraphContainer {
 	}
 	
 
-	private HashSet<String> recipesInGraph=new HashSet<String>();
 	public void addRecipe(Result r) {
-		if(!recipesInGraph.contains(r.getId())){
-			recipesInGraph.add(r.getId());
+		boolean notthere=true;
+		for(GraphResultAgent gra:visibleRecipes)
+			if(gra.result.getId().equals(r.getId()))
+				notthere=false;
+		if(notthere){
 			visibleRecipes.add(new GraphResultAgent(r, this));
 		}
 	}
 	public void killResult(GraphResultAgent r){
-		recipesInGraph.remove(r.result.getId());
 		visibleRecipes.remove(r);
 	}
 	
