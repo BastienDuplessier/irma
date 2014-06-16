@@ -57,7 +57,7 @@ public class GraphContainer {
 	private void makeSureThereAreEnoughRecipeNodes(){
 		if(notTooOften--<=0){
 			notTooOften=30;
-			if(visibleRecipes.size()<80){
+			if(visibleRecipes.size()<40){
 				ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
 				for(GraphCriteriaAgent GCA : criterias){
 					ArrayList<Criteria> justThisOne=new ArrayList<Criteria>();
@@ -99,7 +99,7 @@ public class GraphContainer {
 		for(GraphResultAgent gra:visibleRecipes)
 			if(gra.result.getId().equals(r.getId()))
 				notthere=false;
-		if(notthere){
+		if(visibleRecipes.size()<40){
 			visibleRecipes.add(new GraphResultAgent(r, this));
 		}
 	}
