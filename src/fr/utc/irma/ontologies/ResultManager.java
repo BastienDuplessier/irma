@@ -61,21 +61,46 @@ public class ResultManager {
 
 	// Build Recipes from ResultSet
 	private ArrayList<Result> fromResultSet(ResultSet inData) {
-		Hashtable<String, Result> results = new Hashtable<String, Result>();
+	    ArrayList<Result> results = new ArrayList<Result>();
 
 		while(inData.hasNext()) {
-			QuerySolution row = inData.next();
-			Result result = results.get(row.get("id").toString());
-			if(result == null)
-			    results.put(row.get("id").toString(), new Result(row));
-			else
-			    result.addCriteria(row);
+			Result result = new Result(inData.next()); 
+		    results.add(result);
+			asyncLoadCriterias(result);
 		}
 
-		return new ArrayList<Result>(results.values());
+		return results;
 	}
 
-	private void asyncLoad(final ExecutableTask executableTask,
+	private void asyncLoadCriterias(final Result result) {
+        new AsyncTask<Void, Integer, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                ResultSet solution = loadResultCriteria(result);
+                while(solution.hasNext())
+                    result.addCriteria(solution.next());
+                return null;
+            }
+            
+        }.execute();
+    }
+	
+	private ResultSet loadResultCriteria(Result result) {
+	    return connector.executeSparql(buildQuery(result));
+	}
+
+    private String buildQuery(Result result) {
+        StringBuffer queryBuffer = new StringBuffer();
+        queryBuffer.append(PREFIX);
+        queryBuffer.append("SELECT ?criteria WHERE { <");
+        queryBuffer.append(result.getId());
+        queryBuffer.append("> irma:linked_to ?criteria . }");
+        
+        return queryBuffer.toString();
+    }
+
+    private void asyncLoad(final ExecutableTask executableTask,
 			final String hardSparql,
 			final String easySparql) {
 		new AsyncTask<Void, Integer, ArrayList<Result>>() {
