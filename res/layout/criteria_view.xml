@@ -10,7 +10,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" 
 			android:text="Ingredient" 
-			android:textColor="#33b6ea" 
+        	android:textColor="@android:color/black"
 			android:textSize="40sp"
 			android:gravity="center" 
 			pixlui:typeface="bello.ttf" />
@@ -18,5 +18,6 @@
     		    android:layout_width="match_parent" 
     		    android:layout_height="wrap_content" 
     		    android:id="@+id/ingDescImg"/>
+    		
 
 </LinearLayout>

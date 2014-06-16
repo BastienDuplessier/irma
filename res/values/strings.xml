@@ -10,5 +10,9 @@ Selectionnez vos critéres de recherche a gauche en les clickant.
 Pressez le bouton GO ci dessous quand vous etes prets.
 Vous pouvez filtrer les criteres par nom avec le champ de recherche texte ci dessous. 
     </string>
-	<string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In at scelerisque felis, quis faucibus felis. Mauris at mauris ac nisl porta porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sagittis in dui scelerisque tincidunt. Vivamus vehicula libero eget imperdiet aliquam. Praesent ut justo est. Suspendisse purus massa, mattis posuere dui sed, cursus ultrices sem. Sed mollis lectus sit amet nisl suscipit, et luctus sapien adipiscing. Donec consequat viverra sem, eget consectetur nunc adipiscing in. Nullam sodales arcu dolor, vitae laoreet dolor consectetur pretium.</string>
+    <string name="graphInstruction">
+        Cliquez sur une zone du graph pour obtenir les recettes qui y correspondent.  Voyez les options qui s\'offrent a vous en ajoutant de nouveaux criteres.
+        Si vous avez plus de 3 critéres, le premier d\'entre eux deviendra global. Précisez votre recherche en rendant certains criteres globaux. Vous pouvez cliquer dessus pour le rendre local a nouveau.
+    </string>
+	
 </resources>

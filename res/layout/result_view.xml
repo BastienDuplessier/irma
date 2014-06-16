@@ -16,15 +16,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text=""
-        android:textColor="#33b6ea"
+        android:textColor="@android:color/black"
         android:textSize="25sp"
         pixlui:typeface="bello.ttf" />
 
 
     <Button
         android:id="@+id/resultLink"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voir en ligne" />
+        android:text="Voir en ligne"
+        android:layout_gravity="right" 
+        android:background="@android:color/black"
+        android:textColor="@android:color/white"
+        android:padding="5dip"/>
 
 </LinearLayout>

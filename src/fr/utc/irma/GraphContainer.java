@@ -25,7 +25,6 @@ public class GraphContainer {
 
 	public GraphContainer(GraphActivity a) {
 		this.activity = a;
-
 	}
 
 	public void updateCriteriaPosition() {
@@ -45,6 +44,7 @@ public class GraphContainer {
 			criterias.get(2).setPosition(0.5, 0.75);
 			break;
 		}
+		isLoading=0;
 	}
 	
 	
@@ -53,33 +53,43 @@ public class GraphContainer {
 	
 	
 	public int isLoading = 0;
+	public int notTooOften=0;
 	private void makeSureThereAreEnoughRecipeNodes(){
-		if(visibleRecipes.size()<80 && isLoading<=0){
-			ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
-			for(GraphCriteriaAgent GCA : criterias){
-				ArrayList<Criteria> justThisOne=new ArrayList<Criteria>();
-				justThisOne.add(GCA.criteria);
-				getMoreOfThis(justThisOne);
-				heyThatWouldBeNice.add(GCA.criteria);
+		if(notTooOften--<=0){
+			notTooOften=30;
+			if(visibleRecipes.size()<80){
+				ArrayList<Criteria> heyThatWouldBeNice = new ArrayList<Criteria>();
+				for(GraphCriteriaAgent GCA : criterias){
+					ArrayList<Criteria> justThisOne=new ArrayList<Criteria>();
+					justThisOne.add(GCA.criteria);
+					getMoreOfThis(justThisOne);
+					heyThatWouldBeNice.add(GCA.criteria);
+				}
+				getMoreOfThis(heyThatWouldBeNice);
 			}
-			getMoreOfThis(heyThatWouldBeNice);
 		}
 	}
 	
 	public void getMoreOfThis(ArrayList<Criteria>  heyThatWouldBeNice){
 		
 			isLoading++;
+			ArrayList<String> noneed=new ArrayList<String>();
+			for(GraphResultAgent gra : visibleRecipes)
+				noneed.add(gra.result.getId());
+			
 			activity.getRM().asyncLoadWithCriterias(new ExecutableTask() {
 				
 				@Override
 				public void execute(ArrayList<Result> results) {
-					GraphContainer.this.isLoading--;
+					if(GraphContainer.this.isLoading>0)
+						GraphContainer.this.isLoading--;
+					
 					int tenMax=10;
 					for(Result r : results)
 						if(tenMax-->0)
 							GraphContainer.this.addRecipe(r);
 				}
-			}, this.globalCriterias, heyThatWouldBeNice, recipesInGraph.toArray());
+			}, this.globalCriterias, heyThatWouldBeNice, noneed.toArray());
 		
 	}
 	
@@ -97,12 +107,17 @@ public class GraphContainer {
 	}
 	
 	public void addCriteria(Criteria c) {
-		criterias.add(new GraphCriteriaAgent(c, this));
+		GraphCriteriaAgent ngca=new GraphCriteriaAgent(c, this);
+		criterias.add(ngca);
 
 		if (criterias.size() > 3)
 			makeCriteriaGlobal(criterias.get(0));
 
 		updateCriteriaPosition();
+		
+		ArrayList<GraphCriteriaAgent> justThisOne=new ArrayList<GraphCriteriaAgent>();
+		justThisOne.add(ngca);
+		this.activity.gV.descCriteria(justThisOne);
 	}
 
 	public void makeCriteriaGlobal(GraphCriteriaAgent a) {

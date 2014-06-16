@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.crypto.spec.GCMParameterSpec;
+
+import com.hp.hpl.jena.sparql.util.StringUtils;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import fr.utc.irma.R.id;
@@ -15,11 +18,13 @@ import fr.utc.irma.ontologies.ResultManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout.Alignment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -133,15 +138,22 @@ public class GraphActivity extends Activity {
 			if(fullCritDesc!=null){
 				LinearLayout addC = new LinearLayout(this);
 				addC.setOrientation(LinearLayout.HORIZONTAL);
-				addC.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-							
+				addC.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				addC.setGravity(Gravity.LEFT);
+				addC.setBackgroundColor(Color.rgb(237, 0, 140));
+				addC.setPadding(5, 5, 5, 5);
+				
 				ImageView Cimage=new ImageView(this);
 				Cimage.setLayoutParams(new LayoutParams(50, 50));
 				UrlImageViewHelper.setUrlDrawable(Cimage, fullCritDesc.getImageUrl());
+				Cimage.setPadding(0, 0, 5, 0);
 				addC.addView(Cimage);
+				
 				
 				TextView Cname = new TextView(this);
 				Cname.setText(fullCritDesc.getName());
+				Cname.setTextColor(Color.WHITE);
+				Cname.setGravity(Gravity.CENTER_VERTICAL);
 				addC.addView(Cname);
 				
 				addC.setTag(fullCritDesc);
@@ -155,9 +167,6 @@ public class GraphActivity extends Activity {
 				
 				sideBar.addView(addC);
 			}else{
-				TextView bug = new TextView(this);
-				bug.setText(critID);
-				sideBar.addView(bug);
 			}
 		}
 		
@@ -177,6 +186,8 @@ public class GraphActivity extends Activity {
 				names += gca.criteria.getName();
 			else
 				names += " & " + gca.criteria.getName();
+		if(names.isEmpty())
+			names="Toutes les recettes";
 		((TextView) descFrag.findViewById(R.id.ingDescNameField))
 				.setText(names);
 
@@ -221,17 +232,74 @@ public class GraphActivity extends Activity {
 			});
 			sideBar.addView(deleteGCA);
 		}
+		
 
+		// Direct display
+		for(GraphResultAgent gra:gV.container.visibleRecipes){
+			Result r=gra.result;
+			boolean match=true;
+			for(GraphCriteriaAgent gca:clickedCriterias)
+				if(!r.matchCriteria(gca.criteria))
+					match=false;
+			
+			if(match){
+				try{
+					LinearLayout listItemView=new LinearLayout(GraphActivity.this);
+					listItemView.setLayoutParams(
+							new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+					listItemView.setOrientation(LinearLayout.HORIZONTAL);
+					
+					ImageView pict = new ImageView(GraphActivity.this);
+					pict.setLayoutParams(new LayoutParams(70,  70));
+					UrlImageViewHelper.setUrlDrawable(pict, r.getImageUrl());
+					listItemView.addView(pict);
+					
+					TextView recipeName=new TextView(GraphActivity.this);
+					recipeName.setText(r.getName());
+					recipeName.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+					listItemView.addView(recipeName);
+					
+					listItemView.setTag(r);
+
+					listItemView.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							setSideBarToResultDescription((Result) v.getTag());
+						}
+					});
+					
+					sideBar.addView(listItemView);
+					}catch(Exception e){
+						
+					}
+				
+			}
+		}
+			
+		
+		
+		
 		// Load corresponding recipes in sidebar
 		if (RM == null) {
 			initKBConnection();
-		}
-		
+		}		
 		
 		ArrayList<Criteria> weArePrettyStrictThere = (ArrayList<Criteria>)gV.container.globalCriterias.clone();
 		for(GraphCriteriaAgent GCA : clickedCriterias)
 			weArePrettyStrictThere.add(GCA.criteria);
 		
+		// Corresponding recipes 
+		TextView legende = new TextView(this);
+		ArrayList<String> critsName = new ArrayList<String>();
+		for(Criteria cforname:weArePrettyStrictThere)
+			critsName.add(cforname.getName());
+		if(critsName.isEmpty())
+			legende.setText("Toutes les recettes ");
+		else
+			legende.setText("Recettes correspondant a "+StringUtils.join("&", critsName));
+		sideBar.addView(legende);
+		
+			
 		// Load recipe list
 		RM.asyncLoadWithCriterias(new ExecutableTask() {
 			@Override

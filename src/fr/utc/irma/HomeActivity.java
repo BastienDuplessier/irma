@@ -128,7 +128,7 @@ public class HomeActivity extends Activity {
     	
     	ingList.removeAllViews();
     	
-    	int max=100; 
+    	int max=30; 
 	    for(Criteria toBeShown:all)
 	    	if(searchFilter==""|| toBeShown.getName().toUpperCase(Locale.FRANCE).indexOf(searchFilter)!=-1 
 		    	|| chosen.contains(toBeShown))

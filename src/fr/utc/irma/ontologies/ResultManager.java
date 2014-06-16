@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import arq.query;
 
 import com.hp.hpl.jena.query.QuerySolution;
@@ -60,6 +61,8 @@ public class ResultManager {
             protected ArrayList<Result> doInBackground(Void... params) {
             	
             	ArrayList<Result> trial = fromSPARQL(hardSparql);
+
+        	    Log.d("hardRequest", hardSparql+" we got "+trial.size()+" results ");
             	if(trial.size()>0)
             		return trial;
             	else
@@ -117,7 +120,7 @@ public class ResultManager {
         	queryBuffer.append("xsd:true)");
         }
         
-        queryBuffer.append(" } limit 200");
+        queryBuffer.append(" } ORDER BY DESC(?id) limit 200");
         return queryBuffer.toString();
     }
 

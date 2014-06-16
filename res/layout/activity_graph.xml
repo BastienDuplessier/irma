@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|fill_horizontal"
                 android:padding="5dp"
-                android:text="@string/lorem" />
+                android:text="@string/graphInstruction" />
         </LinearLayout>
     </ScrollView>
 
