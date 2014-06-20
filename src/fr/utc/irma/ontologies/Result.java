@@ -24,13 +24,16 @@ public class Result {
 		this.url = row.get("url").toString();
 		this.imageUrl = row.get("imageUrl").toString();
 		
-		addCriteria(row);
 		
 	}
 	
 	// Used to add criteria 
 	public void addCriteria(QuerySolution row) {
 	    this.criterias.add(row.get("criteria").toString());
+	}
+	
+	public void addCriteriaString(String crit) {
+	    this.criterias.add(crit);
 	}
 	
 	public String toString() {

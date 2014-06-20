@@ -23,11 +23,17 @@ public class ResultManager {
 		return singleton;
 	}
 	
-	public void asyncLoadWithCriterias(
+	static boolean currentlyworking=false;
+	public boolean asyncLoadWithCriterias(
 			ExecutableTask executableTask,
 			ArrayList<Criteria> iNeedDat,
 			ArrayList<Criteria> wouldBeNice,
 			Object[] noNoIds) {
+		if(currentlyworking)
+			return false;
+		else
+			currentlyworking=true;
+		
 		ArrayList<Criteria> toSearch=(ArrayList<Criteria>)iNeedDat.clone();
 		
 		ArrayList<String> nono = new ArrayList<String>();
@@ -40,6 +46,8 @@ public class ResultManager {
 		}
 	    String hard = buildQuery(toSearch, nono);
 	    asyncLoad(executableTask, hard, easy);
+	    
+	    return true;
 	}
 
 	private static final String PREFIX = "PREFIX irma: <http://www.w3.org/2014/06/irma#>"
@@ -66,6 +74,8 @@ public class ResultManager {
 		while(inData.hasNext()) {
 			Result result = new Result(inData.next()); 
 		    results.add(result);
+		    for(String critMatch:lastAsked)
+		    	result.addCriteriaString("<"+critMatch+">");
 			asyncLoadCriterias(result);
 		}
 
@@ -111,46 +121,45 @@ public class ResultManager {
             	ArrayList<Result> trial = fromSPARQL(hardSparql);
 
         	    Log.d("hardRequest", hardSparql+" we got "+trial.size()+" results ");
-            	if(trial.size()>0)
-            		return trial;
-            	else
-            		return fromSPARQL(easySparql);
+            	if(trial.size()==0)
+            		trial=fromSPARQL(easySparql);
+            	
+        		return trial;
             }
             @Override
             protected void onPostExecute(ArrayList<Result> result) {
             	executableTask.execute(result);
+            	currentlyworking=false;
 			}
 		}.execute();
 	}
 	
 	
 	
-	
+	private static ArrayList<String> lastAsked=new ArrayList<String>();
     private String buildQuery(ArrayList<Criteria> criterias, ArrayList<String> nonos) {
         StringBuffer queryBuffer = new StringBuffer();
         queryBuffer.append(PREFIX);
-        queryBuffer.append("SELECT ?id ?name ?url ?imageUrl  ?criteria WHERE { "
+        queryBuffer.append("SELECT ?id ?name ?url ?imageUrl  WHERE { "
                 + "?id a irma:Result . "
                 + "?id irma:name ?name . "
                 + "?id irma:url ?url . "
-                + "?id irma:image_url ?imageUrl . "
-                + "?id irma:linked_to ?criteria . ");
-        
-        
-        for(Criteria criteria:criterias)
+                + "?id irma:image_url ?imageUrl . ");
+        lastAsked=new ArrayList<String>();
+        for(Criteria criteria:criterias){
             queryBuffer.append("?id irma:linked_to <"+criteria.getId()+">.");
-        /*
-        if(!nonos.isEmpty()){
+            lastAsked.add(criteria.getId());
+        }
+
+        /*if(!nonos.isEmpty()){
         	queryBuffer.append("FILTER(");
         	
         	for(String no : nonos)
         		queryBuffer.append("?id != <"+no+"> && ");
         	
         	queryBuffer.append("xsd:true)");
-        }
-        */
-        //queryBuffer.append(" } ORDER BY DESC(?id) limit 200");
-        queryBuffer.append(" } limit 200");
+        }*/
+        queryBuffer.append(" } limit 10");
         return queryBuffer.toString();
     }
 

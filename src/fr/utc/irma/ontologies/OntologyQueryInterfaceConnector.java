@@ -19,8 +19,8 @@ public class OntologyQueryInterfaceConnector {
 	// UNIQUE FILENAMES FOR ONTOLOGIES
 	private static final String IRMA_GENERIC = "irma_generic.n3";
 	private static final String IRMA_SPECIFIC = "irma_cooking.n3";
-    private static final String IRMA_DATA = "irma_data.n3";
-    private static final String IRMA_DATA2 = "irma_data2.n3";
+    private static final String IRMA_DATA = "irma_data_full.n3";
+    private static final String IRMA_DATA2 = "irma_data2_full.n3";
 
 	private Model model = ModelFactory.createDefaultModel();
 

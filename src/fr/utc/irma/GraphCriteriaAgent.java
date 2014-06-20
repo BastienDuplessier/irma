@@ -67,6 +67,8 @@ public class GraphCriteriaAgent extends GraphAgent {
 	// Background computing and drawing
 	@Override
 	public void customDrawBefore(Canvas canvas) {
+		updateLoadingFeedback();
+		
 		// Compute dist
 		Double closestWrong=null, furthestRight = null;
 		for(GraphResultAgent RA : this.gc.visibleRecipes){
@@ -113,18 +115,21 @@ public class GraphCriteriaAgent extends GraphAgent {
 		return lastKnownMatchingRecipes.size()<10;
 	}
 	
-	
+	private void updateLoadingFeedback(){
+		if(loadingNewRecipes)
+			nodePaint.setStyle(Style.STROKE);
+		else
+			nodePaint.setStyle(Style.FILL_AND_STROKE);
+	}
 	public void askForMoreResults(GraphContainer GC, ResultManager RM){
-		loadingNewRecipes=true;
-		nodePaint.setStyle(Style.STROKE);
+		
 		ArrayList<Criteria> me = new ArrayList<Criteria>();
 		me.add(this.criteria);
-		RM.asyncLoadWithCriterias(new ExecutableTask() {
+		loadingNewRecipes=RM.asyncLoadWithCriterias(new ExecutableTask() {
 			
 			@Override
 			public void execute(ArrayList<Result> results) {
 				loadingNewRecipes = false;
-				nodePaint.setStyle(Style.FILL_AND_STROKE);
 				for(Result r:results)
 					gc.addRecipe(r);
 				
