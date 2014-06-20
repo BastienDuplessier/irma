@@ -76,25 +76,15 @@ public class ResultManager {
 		    results.add(result);
 		    for(String critMatch:lastAsked)
 		    	result.addCriteriaString("<"+critMatch+">");
-			asyncLoadCriterias(result);
+		    
+		    ResultSet solution = loadResultCriteria(result);
+            while(solution.hasNext())
+                result.addCriteria(solution.next());
 		}
 
 		return results;
 	}
 
-	private void asyncLoadCriterias(final Result result) {
-        new AsyncTask<Void, Integer, Void>() {
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                ResultSet solution = loadResultCriteria(result);
-                while(solution.hasNext())
-                    result.addCriteria(solution.next());
-                return null;
-            }
-            
-        }.execute();
-    }
 	
 	private ResultSet loadResultCriteria(Result result) {
 	    return connector.executeSparql(buildQuery(result));
